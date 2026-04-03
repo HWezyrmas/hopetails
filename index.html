@@ -385,18 +385,19 @@
     #stats {
       background: var(--ember);
       padding: 0;
+      border-top: 3px solid rgba(255,255,255,0.18);
     }
     .stats-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      height: 160px;
     }
     .stat-item {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 6px;
+      gap: 7px;
+      padding: 52px 20px;
       position: relative;
     }
     .stat-item + .stat-item::before {
@@ -404,12 +405,12 @@
       position: absolute;
       left: 0; top: 20%; height: 60%;
       width: 1px;
-      background: rgba(255,255,255,0.25);
+      background: rgba(255,255,255,0.22);
     }
     .stat-num {
       font-family: 'Playfair Display', serif;
       font-weight: 700;
-      font-size: clamp(36px, 4vw, 56px);
+      font-size: clamp(40px, 4.5vw, 64px);
       color: var(--paper);
       line-height: 1;
     }
@@ -418,7 +419,14 @@
       font-size: 11px;
       letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: rgba(255,255,255,0.75);
+      color: rgba(255,255,255,0.85);
+    }
+    .stat-context {
+      font-weight: 300;
+      font-size: 12px;
+      color: rgba(255,255,255,0.5);
+      font-style: italic;
+      margin-top: 2px;
     }
 
     /* ================================
@@ -1177,22 +1185,40 @@
        9. DOWNLOAD CTA
     ================================ */
     #cta {
-      background: var(--paper);
+      background: var(--ink);
       padding: 160px 0;
+      position: relative;
+      overflow: hidden;
+    }
+    /* Ghost large quotation mark */
+    #cta::before {
+      content: '\201C';
+      position: absolute;
+      top: -60px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Playfair Display', serif;
+      font-size: 480px;
+      line-height: 1;
+      color: rgba(255,255,255,0.03);
+      pointer-events: none;
+      user-select: none;
     }
     .cta-inner {
       max-width: 700px;
       margin: 0 auto;
       text-align: center;
+      position: relative;
+      z-index: 1;
     }
-    .cta-inner .eyebrow { margin-bottom: 20px; }
+    .cta-inner .eyebrow { margin-bottom: 20px; color: var(--sand); }
 
     .cta-headline {
       font-family: 'Playfair Display', serif;
       font-weight: 900;
       font-size: clamp(44px, 6vw, 72px);
       line-height: 1.0;
-      color: var(--ink);
+      color: var(--paper);
       margin-bottom: 24px;
     }
     .cta-headline em { color: var(--ember); }
@@ -1201,7 +1227,7 @@
       font-weight: 300;
       font-size: 18px;
       line-height: 1.65;
-      color: var(--text-secondary);
+      color: var(--sand);
     }
 
     .cta-form {
@@ -1218,21 +1244,21 @@
       font-family: 'Instrument Sans', sans-serif;
       font-weight: 300;
       font-size: 15px;
-      color: var(--ink);
+      color: var(--paper);
       background: transparent;
       border: none;
-      border-bottom: 2px solid var(--ink);
+      border-bottom: 2px solid rgba(255,255,255,0.25);
       padding: 12px 0;
       outline: none;
       transition: border-color 0.2s;
     }
-    .cta-form input::placeholder { color: var(--text-muted); }
+    .cta-form input::placeholder { color: rgba(255,255,255,0.3); }
     .cta-form input:focus { border-color: var(--ember); }
     .cta-fine {
       margin-top: 16px;
       font-weight: 300;
       font-size: 12px;
-      color: var(--text-muted);
+      color: rgba(255,255,255,0.28);
       font-style: italic;
     }
 
@@ -1241,13 +1267,27 @@
     ================================ */
     #footer {
       background: var(--ink);
-      padding: 80px 0 0;
+      padding: 0 0 0;
+    }
+    .footer-tagline-row {
+      padding: 80px 0 72px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      text-align: center;
+    }
+    .footer-tagline-row p {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-weight: 700;
+      font-size: clamp(28px, 4vw, 52px);
+      color: rgba(255,255,255,0.1);
+      line-height: 1.2;
+      letter-spacing: -0.01em;
     }
     .footer-top {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding-bottom: 48px;
+      padding: 48px 0;
       border-bottom: 1px solid rgba(255,255,255,0.08);
     }
 
@@ -1365,9 +1405,10 @@
       .hero-proof { font-size: 12px; }
 
       /* Stats */
-      .stats-grid { grid-template-columns: repeat(2, 1fr); height: auto; }
-      .stat-item { padding: 28px 16px; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .stat-item { padding: 32px 16px; }
       .stat-item:nth-child(2)::before { display: none; }
+      .stat-context { display: none; }
 
       /* Manifesto */
       #manifesto { padding: 72px 0; }
@@ -1449,6 +1490,8 @@
       .cta-form .btn { justify-content: center; }
 
       /* Footer */
+      .footer-tagline-row { padding: 52px 0 48px; }
+      .footer-tagline-row p { font-size: 26px; }
       .footer-top { flex-direction: column; gap: 24px; align-items: flex-start; }
       .footer-mid { grid-template-columns: 1fr 1fr; }
       .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
@@ -1560,18 +1603,22 @@
         <div class="stat-item reveal">
           <span class="stat-num" data-target="2400">0</span>
           <span class="stat-label">Rescuers worldwide</span>
+          <span class="stat-context">and growing</span>
         </div>
         <div class="stat-item">
           <span class="stat-num" data-target="850">0</span>
           <span class="stat-label">Cats rehomed</span>
+          <span class="stat-context">found forever homes</span>
         </div>
         <div class="stat-item">
           <span class="stat-num" data-target="38">0</span>
           <span class="stat-label">Countries reached</span>
+          <span class="stat-context">across 6 continents</span>
         </div>
         <div class="stat-item">
           <span class="stat-num">100%</span>
           <span class="stat-label">Volunteer powered</span>
+          <span class="stat-context">always free to rescue</span>
         </div>
       </div>
     </div>
@@ -1969,6 +2016,10 @@
   ================================ -->
   <footer id="footer">
     <div class="container">
+
+      <div class="footer-tagline-row">
+        <p>Saving lives, one flight at a time.</p>
+      </div>
 
       <div class="footer-top">
         <div class="footer-logo">
