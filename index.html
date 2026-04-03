@@ -471,25 +471,95 @@
       color: var(--ink);
     }
 
-    /* ── Boarding pass grid ── */
-    .stages-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 20px;
+    /* ── Carousel ── */
+    .carousel {
+      position: relative;
+    }
+
+    .carousel-viewport {
+      overflow: hidden;
+      padding: 48px 0;
+      margin: 0 -40px;
+    }
+
+    .carousel-track {
+      display: flex;
+      gap: 24px;
+      will-change: transform;
+      transition: transform 0.52s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    /* Nav buttons */
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 10;
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      background: var(--pure);
+      border: 1px solid rgba(0,0,0,0.1);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      color: var(--ink);
+      transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+    }
+    .carousel-btn:hover {
+      background: var(--ember);
+      color: var(--pure);
+      border-color: var(--ember);
+      box-shadow: 0 8px 28px rgba(232,98,42,0.3);
+    }
+    .carousel-btn:disabled { opacity: 0.3; pointer-events: none; }
+    .carousel-btn-prev { left: -8px; }
+    .carousel-btn-next { right: -8px; }
+
+    /* Stage dots */
+    .carousel-dots {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .c-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.15);
+      cursor: pointer;
+      transition: all 0.35s ease;
+      border: none;
+      padding: 0;
+    }
+    .c-dot.active {
+      width: 28px;
+      border-radius: 4px;
+      background: var(--ember);
     }
 
     /* Each ticket */
     .pass {
+      flex: 0 0 520px;
       display: flex;
       border-radius: 12px;
       overflow: visible;
       box-shadow: 0 6px 28px rgba(0,0,0,0.09);
       position: relative;
-      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      opacity: 0.4;
+      transform: scale(0.88);
+      transition: opacity 0.45s ease, transform 0.45s ease, box-shadow 0.45s ease;
+      pointer-events: none;
     }
-    .pass:hover {
-      transform: translateY(-5px) rotate(-0.4deg);
-      box-shadow: 0 18px 48px rgba(0,0,0,0.14);
+    .pass.is-active {
+      opacity: 1;
+      transform: scale(1);
+      box-shadow: 0 16px 56px rgba(0,0,0,0.14);
+      pointer-events: auto;
+    }
+    .pass.is-adjacent {
+      opacity: 0.65;
+      transform: scale(0.93);
     }
 
     /* Colored stub (left) */
@@ -1229,7 +1299,10 @@
 
       /* Process */
       #process { padding: 72px 0; }
-      .stages-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+      .carousel-viewport { margin: 0 -20px; padding: 32px 0; }
+      .carousel-btn-prev { left: 0; }
+      .carousel-btn-next { right: 0; }
+      .pass { flex: 0 0 min(440px, 80vw); }
       .pass-title { font-size: 15px; }
       .pass-desc { font-size: 12px; }
 
@@ -1295,7 +1368,6 @@
     @media (max-width: 480px) {
       .hero-content { padding: 96px 20px 72px; }
       .hero-headline { font-size: 34px; }
-      .stages-grid { grid-template-columns: 1fr; }
       .stats-grid { grid-template-columns: repeat(2, 1fr); }
       .gallery-grid { grid-template-columns: 1fr; }
       .gallery-card:nth-child(n+4) { display: none; }
@@ -1400,15 +1472,15 @@
           <span class="stat-num" data-target="2400">0</span>
           <span class="stat-label">Rescuers worldwide</span>
         </div>
-        <div class="stat-item reveal" style="transition-delay:.08s">
+        <div class="stat-item">
           <span class="stat-num" data-target="850">0</span>
           <span class="stat-label">Cats rehomed</span>
         </div>
-        <div class="stat-item reveal" style="transition-delay:.16s">
+        <div class="stat-item">
           <span class="stat-num" data-target="38">0</span>
           <span class="stat-label">Countries reached</span>
         </div>
-        <div class="stat-item reveal" style="transition-delay:.24s">
+        <div class="stat-item">
           <span class="stat-num">100%</span>
           <span class="stat-label">Volunteer powered</span>
         </div>
@@ -1423,10 +1495,10 @@
     <div class="container">
       <div class="manifesto-inner">
         <p class="eyebrow reveal">Why HopeTails Exists</p>
-        <h2 class="manifesto-headline reveal" style="transition-delay:.1s">
+        <h2 class="manifesto-headline">
           "There are thousands of cats waiting. The flights already exist. The problem is connection."
         </h2>
-        <div class="manifesto-body reveal" style="transition-delay:.2s">
+        <div class="manifesto-body">
           <p>Every day, rescuers around the world find animals that need a home — often in countries where adoption is near-impossible. And every day, hundreds of flights take off with empty cabin space.</p>
           <p>HopeTails exists in that gap. We built the infrastructure to match a cat in Amman with a family in Toronto, through a traveler on that exact flight — handling every document, every milestone, every moment of the journey.</p>
           <p>We call them Flight Parents. And they change everything.</p>
@@ -1445,9 +1517,18 @@
         <h2 class="reveal" style="transition-delay:.1s">Six stages. One new life.</h2>
       </div>
 
-      <div class="stages-grid">
+      <div class="carousel" id="stageCarousel">
+        <button class="carousel-btn carousel-btn-prev" id="stagePrev" aria-label="Previous stage">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <button class="carousel-btn carousel-btn-next" id="stageNext" aria-label="Next stage">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
 
-        <div class="pass pass-s1 reveal">
+        <div class="carousel-viewport">
+          <div class="carousel-track" id="stageTrack">
+
+        <div class="pass pass-s1">
           <div class="pass-stub">
             <span class="pass-emoji">🐱</span>
             <span class="pass-num">01</span>
@@ -1465,7 +1546,7 @@
           </div>
         </div>
 
-        <div class="pass pass-s2 reveal" style="transition-delay:.07s">
+        <div class="pass pass-s2">
           <div class="pass-stub">
             <span class="pass-emoji">📋</span>
             <span class="pass-num">02</span>
@@ -1483,7 +1564,7 @@
           </div>
         </div>
 
-        <div class="pass pass-s3 reveal" style="transition-delay:.14s">
+        <div class="pass pass-s3">
           <div class="pass-stub">
             <span class="pass-emoji">💛</span>
             <span class="pass-num">03</span>
@@ -1501,7 +1582,7 @@
           </div>
         </div>
 
-        <div class="pass pass-s4 reveal" style="transition-delay:.21s">
+        <div class="pass pass-s4">
           <div class="pass-stub">
             <span class="pass-emoji">✈️</span>
             <span class="pass-num">04</span>
@@ -1519,7 +1600,7 @@
           </div>
         </div>
 
-        <div class="pass pass-s5 reveal" style="transition-delay:.28s">
+        <div class="pass pass-s5">
           <div class="pass-stub">
             <span class="pass-emoji">📍</span>
             <span class="pass-num">05</span>
@@ -1533,7 +1614,7 @@
           </div>
         </div>
 
-        <div class="pass pass-s6 reveal" style="transition-delay:.35s">
+        <div class="pass pass-s6">
           <div class="pass-stub">
             <span class="pass-emoji">🌟</span>
             <span class="pass-num">06</span>
@@ -1551,7 +1632,18 @@
           </div>
         </div>
 
-      </div>
+          </div><!-- /carousel-track -->
+        </div><!-- /carousel-viewport -->
+
+        <div class="carousel-dots" id="stageDots">
+          <button class="c-dot" data-idx="0"></button>
+          <button class="c-dot" data-idx="1"></button>
+          <button class="c-dot" data-idx="2"></button>
+          <button class="c-dot" data-idx="3"></button>
+          <button class="c-dot" data-idx="4"></button>
+          <button class="c-dot" data-idx="5"></button>
+        </div>
+      </div><!-- /carousel -->
 
       <p class="stages-note reveal">
         <em>Flights cannot be arranged until documents and funding are fully verified. This is enforced by the app.</em>
@@ -1599,19 +1691,19 @@
 
     <div class="winter-right">
       <p class="eyebrow reveal">Winter's Story</p>
-      <h2 class="winter-headline reveal" style="transition-delay:.1s">
+      <h2 class="winter-headline">
         "He appeared on a windowsill in November. Wounded. Deaf. Purring."
       </h2>
-      <div class="winter-body reveal" style="transition-delay:.2s">
+      <div class="winter-body">
         <p>On a cold November morning, he appeared — perched silently on a windowsill like he'd been waiting to be found. His name became <strong>Winter</strong>, and it suited him perfectly: quiet, striking, and carrying something heavy beneath the surface.</p>
         <p>Winter arrived with deep wounds across his back, almost certainly from a surprise attack by another stray — a cruel fate for a deaf cat who never heard it coming. Despite the pain, he purred. Despite the fear, he leaned in for cuddles. His wounds had turned severely infected by the time he was found, requiring weeks of treatment, careful medication, and delicate sutures.</p>
         <p>But Winter fought. And Winter won.</p>
         <p>Today, at around six months old, this silky, soulful boy has made a full recovery. He loves nothing more than curling into someone's lap — though he's equally happy charming other cats in the room before quietly slipping away to reclaim his throne on the sofa. Gentle. Loving. Entirely unaware of how extraordinary he is.</p>
       </div>
-      <p class="winter-closing reveal" style="transition-delay:.28s">
+      <p class="winter-closing">
         "Winter is ready for his flight home. Is that home yours?"
       </p>
-      <a href="#cta" class="btn btn-ember reveal" style="transition-delay:.34s">Apply to Adopt Winter</a>
+      <a href="#cta" class="btn btn-ember">Apply to Adopt Winter</a>
     </div>
 
   </section>
@@ -1635,7 +1727,7 @@
           </div>
         </div>
 
-        <div class="role-card reveal" style="transition-delay:.1s">
+        <div class="role-card">
           <div class="role-stripe" style="background: var(--sage)"></div>
           <div class="role-body">
             <h3 class="role-title">Adopters</h3>
@@ -1644,7 +1736,7 @@
           </div>
         </div>
 
-        <div class="role-card reveal" style="transition-delay:.2s">
+        <div class="role-card">
           <div class="role-stripe" style="background: var(--sky-mist)"></div>
           <div class="role-body">
             <h3 class="role-title">Flight Parents</h3>
@@ -1685,7 +1777,7 @@
         </div>
 
         <!-- Card 2: Luna — stray on rock → cozy on bed -->
-        <div class="gallery-card reveal" style="transition-delay:.06s">
+        <div class="gallery-card">
           <div class="ba-before"><img src="https://images.unsplash.com/photo-1533743983669-94fa5c4338ec?auto=format&fit=crop&w=600&q=80" alt="Stray cat" /></div>
           <div class="ba-after"><img src="https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?auto=format&fit=crop&w=600&q=80" alt="Cat at home" /></div>
           <div class="ba-divider"></div>
@@ -1697,7 +1789,7 @@
         </div>
 
         <!-- Card 3: Mochi — cat behind bars → portrait -->
-        <div class="gallery-card reveal" style="transition-delay:.12s">
+        <div class="gallery-card">
           <div class="ba-before"><img src="https://images.unsplash.com/photo-1548247416-ec66f4900b2e?auto=format&fit=crop&w=600&q=80" alt="Stray cat" /></div>
           <div class="ba-after"><img src="https://images.unsplash.com/photo-1596854407944-bf87f6fdd49e?auto=format&fit=crop&w=600&q=80" alt="Cat at home" /></div>
           <div class="ba-divider"></div>
@@ -1709,7 +1801,7 @@
         </div>
 
         <!-- Card 4: Saffron — cat in bush → kitten portrait -->
-        <div class="gallery-card reveal" style="transition-delay:.18s">
+        <div class="gallery-card">
           <div class="ba-before"><img src="https://images.unsplash.com/photo-1513360371669-4adf46c40558?auto=format&fit=crop&w=600&q=80" alt="Stray cat" /></div>
           <div class="ba-after"><img src="https://images.unsplash.com/photo-1555685812-4b943f1cb0eb?auto=format&fit=crop&w=600&q=80" alt="Cat at home" /></div>
           <div class="ba-divider"></div>
@@ -1722,7 +1814,7 @@
 
         <!-- Cards 5–8 hidden on mobile -->
         <!-- Card 5: Nala — cat on ground → relaxing -->
-        <div class="gallery-card reveal" style="transition-delay:.22s">
+        <div class="gallery-card">
           <div class="ba-before"><img src="https://images.unsplash.com/photo-1518791841217-8f162f1912da?auto=format&fit=crop&w=600&q=80" alt="Stray cat" /></div>
           <div class="ba-after"><img src="https://images.unsplash.com/photo-1526336024174-e58f5cdd8e13?auto=format&fit=crop&w=600&q=80" alt="Cat at home" /></div>
           <div class="ba-divider"></div>
@@ -1734,7 +1826,7 @@
         </div>
 
         <!-- Card 6: Olive — cat in nest → black cat -->
-        <div class="gallery-card reveal" style="transition-delay:.26s">
+        <div class="gallery-card">
           <div class="ba-before"><img src="https://images.unsplash.com/photo-1561948955-570b270e7c36?auto=format&fit=crop&w=600&q=80" alt="Stray cat" /></div>
           <div class="ba-after"><img src="https://images.unsplash.com/photo-1478098711619-5ab0b478d6e6?auto=format&fit=crop&w=600&q=80" alt="Cat at home" /></div>
           <div class="ba-divider"></div>
@@ -1746,7 +1838,7 @@
         </div>
 
         <!-- Card 7: Kiko -->
-        <div class="gallery-card reveal" style="transition-delay:.28s">
+        <div class="gallery-card">
           <div class="ba-before"><img src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=600&q=80" alt="Stray cat" /></div>
           <div class="ba-after"><img src="https://images.unsplash.com/photo-1511275539165-cc46b1ee89bf?auto=format&fit=crop&w=600&q=80" alt="Cat at home" /></div>
           <div class="ba-divider"></div>
@@ -1758,7 +1850,7 @@
         </div>
 
         <!-- Card 8: Rumi -->
-        <div class="gallery-card reveal" style="transition-delay:.3s">
+        <div class="gallery-card">
           <div class="ba-before"><img src="https://images.unsplash.com/photo-1529778873920-4da4926a72c2?auto=format&fit=crop&w=600&q=80" alt="Stray cat" /></div>
           <div class="ba-after"><img src="https://images.unsplash.com/photo-1494256997604-768d1f608cac?auto=format&fit=crop&w=600&q=80" alt="Cat at home" /></div>
           <div class="ba-divider"></div>
@@ -1784,17 +1876,17 @@
     <div class="container">
       <div class="cta-inner">
         <p class="eyebrow reveal">Coming Soon</p>
-        <h2 class="cta-headline reveal" style="transition-delay:.1s">
+        <h2 class="cta-headline">
           Every rescue<br>needs a<br><em>Flight Parent.</em>
         </h2>
-        <p class="cta-sub reveal" style="transition-delay:.2s">
+        <p class="cta-sub">
           Join our early access list. Be the first to know when HopeTails launches.
         </p>
-        <form class="cta-form reveal" style="transition-delay:.3s" id="ctaForm">
+        <form class="cta-form" id="ctaForm">
           <input type="email" placeholder="your@email.com" required autocomplete="email" />
           <button type="submit" class="btn btn-ember">Notify Me</button>
         </form>
-        <p class="cta-fine reveal" style="transition-delay:.38s">
+        <p class="cta-fine">
           No spam. No noise. Just the moment we go live.
         </p>
       </div>
@@ -1934,6 +2026,63 @@
     }, { threshold: 0.5 });
 
     document.querySelectorAll('.stat-num[data-target]').forEach(el => countObserver.observe(el));
+
+    // ================================
+    // STAGE CAROUSEL
+    // ================================
+    (function () {
+      const track   = document.getElementById('stageTrack');
+      const passes  = [...track.querySelectorAll('.pass')];
+      const dots    = [...document.querySelectorAll('#stageDots .c-dot')];
+      const btnPrev = document.getElementById('stagePrev');
+      const btnNext = document.getElementById('stageNext');
+      let current   = 0;
+
+      function goTo(idx) {
+        current = Math.max(0, Math.min(idx, passes.length - 1));
+
+        // Active / adjacent classes
+        passes.forEach((p, i) => {
+          p.classList.remove('is-active', 'is-adjacent');
+          if (i === current)                    p.classList.add('is-active');
+          else if (Math.abs(i - current) === 1) p.classList.add('is-adjacent');
+        });
+        dots.forEach((d, i) => d.classList.toggle('active', i === current));
+
+        btnPrev.disabled = current === 0;
+        btnNext.disabled = current === passes.length - 1;
+
+        // Center the active card in the viewport
+        const vw  = track.parentElement.offsetWidth;
+        const cw  = passes[0].offsetWidth;
+        const gap = 24;
+        const tx  = -( current * (cw + gap) - (vw - cw) / 2 );
+        track.style.transform = `translateX(${tx}px)`;
+      }
+
+      btnPrev.addEventListener('click', () => goTo(current - 1));
+      btnNext.addEventListener('click', () => goTo(current + 1));
+      dots.forEach((d, i) => d.addEventListener('click', () => goTo(i)));
+
+      // Swipe support
+      let touchStartX = 0;
+      track.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+      track.addEventListener('touchend',   e => {
+        const diff = touchStartX - e.changedTouches[0].clientX;
+        if (Math.abs(diff) > 40) goTo(current + (diff > 0 ? 1 : -1));
+      });
+
+      // Keyboard support
+      document.addEventListener('keydown', e => {
+        if (e.key === 'ArrowRight') goTo(current + 1);
+        if (e.key === 'ArrowLeft')  goTo(current - 1);
+      });
+
+      // Recalculate on resize
+      window.addEventListener('resize', () => goTo(current), { passive: true });
+
+      goTo(0);
+    })();
 
     // ================================
     // FORM: submission
