@@ -2034,12 +2034,14 @@
     (function () {
       const row = document.querySelector('.phones-row');
       if (!row) return;
+      let levelTimer = null;
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
-            // Small delay so user sees the asymmetric start first
-            setTimeout(() => row.classList.add('phones-leveled'), 300);
-            observer.unobserve(row);
+            levelTimer = setTimeout(() => row.classList.add('phones-leveled'), 300);
+          } else {
+            clearTimeout(levelTimer);
+            row.classList.remove('phones-leveled');
           }
         });
       }, { threshold: 0.25 });
