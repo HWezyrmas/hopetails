@@ -918,7 +918,14 @@
       gap: 28px;
     }
     .showcase-phone:first-child,
-    .showcase-phone:last-child { transform: translateY(44px); }
+    .showcase-phone:last-child {
+      transform: translateY(44px);
+      transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .phones-row.phones-leveled .showcase-phone:first-child,
+    .phones-row.phones-leveled .showcase-phone:last-child {
+      transform: translateY(0);
+    }
     .iphone-frame {
       position: relative;
       background: #1c1c1e;
@@ -1321,11 +1328,27 @@
 
 
       /* App Showcase */
-      #roles { padding: 72px 0 48px; }
-      .phones-row { flex-direction: column; align-items: center; gap: 40px; padding-bottom: 24px; }
+      #roles { padding: 64px 0 0; overflow: hidden; }
+      .phones-row {
+        flex-direction: row;
+        gap: 12px;
+        padding-bottom: 0;
+        justify-content: center;
+        overflow: visible;
+      }
+      .showcase-phone { flex-shrink: 0; }
       .showcase-phone:first-child,
-      .showcase-phone:last-child { transform: none; }
-      .iphone-frame { width: 200px; }
+      .showcase-phone:last-child {
+        transform: translateY(44px);
+        transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      }
+      .phones-row.phones-leveled .showcase-phone:first-child,
+      .phones-row.phones-leveled .showcase-phone:last-child { transform: translateY(0); }
+      .iphone-frame { width: 58vw; border-radius: 40px; }
+      .iphone-frame::before { width: 72px; height: 22px; }
+      .iphone-screen { border-radius: 32px; }
+      .phone-label { display: none; }
+      .roles-header { margin-bottom: 52px; padding: 0 24px; }
 
       /* Gallery */
       #gallery { padding: 72px 0; }
@@ -2006,6 +2029,22 @@
     }, { threshold: 0.12 });
 
     document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+    // ── PHONES: level outer phones when row enters viewport ──
+    (function () {
+      const row = document.querySelector('.phones-row');
+      if (!row) return;
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            // Small delay so user sees the asymmetric start first
+            setTimeout(() => row.classList.add('phones-leveled'), 300);
+            observer.unobserve(row);
+          }
+        });
+      }, { threshold: 0.25 });
+      observer.observe(row);
+    })();
 
     // ================================
     // STATS: count-up
