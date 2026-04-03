@@ -917,31 +917,30 @@
       --ph-w: 286px;
       --ph-h: 578px;
       --ph-offset: 60px;
-      gap: 24px;
+      gap: 33px;      /* Apple's exact gap */
       padding-bottom: 96px;
     }
 
-    /* Each phone — Apple's .device: flex center so screen is centered behind frame */
+    /* Each phone (Apple's .hero-iphone-lockup + .device) */
     .phone-device {
       position: relative;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: var(--ph-w);
+      width: var(--ph-w);   /* phone body only — PNG shadow overflows naturally */
       height: var(--ph-h);
     }
 
     /* Apple W-pattern: odd phones sit lower */
     .phone-device:nth-child(odd) { margin-top: var(--ph-offset); }
 
-    /* Screen content — sits behind the frame (Apple's .device-screen) */
+    /* Screen content (Apple's .device-screen) — z:1, behind the PNG */
     .phone-screen {
-      position: relative;
-      z-index: 1;
-      width: calc(var(--ph-w) - 24px);
-      height: calc(var(--ph-h) - 32px);
-      border-radius: 34px;
+      position: absolute;
+      /* iphone-mockup.png (566×802) scaled to 501×710 (device width=286px)
+         screen opening at x=19–308, y=20–639 in original → ×0.885 scale */
+      top: 18px; left: 17px;
+      width: 256px; height: 548px;
+      border-radius: 20px;
       overflow: hidden;
+      z-index: 1;
     }
     .phone-screen img {
       width: 100%; height: 100%;
@@ -949,34 +948,15 @@
       display: block;
     }
 
-    /* Phone frame overlay — transparent center, dark border = bezel (Apple's .device-hardware) */
+    /* Hardware PNG (Apple's .device-hardware) — z:2, positioned top-left, overflows right */
+    /* PNG 566×802 → scaled 501×710 at device width 286px (phone body=323px, scale=0.885) */
     .phone-hw {
       position: absolute;
-      inset: 0;
+      top: 0; left: 0;
+      width: 501px; height: 710px;
+      background: url('iphone-mockup.png') no-repeat 0 0 / 501px 710px;
       z-index: 2;
-      border-radius: 44px;
-      border: 12px solid #1C1C1E;
-      border-bottom-width: 20px;
-      box-sizing: border-box;
-      background: transparent;
-      box-shadow:
-        0 50px 80px -10px rgba(0,0,0,0.40),
-        0  4px 20px  -4px rgba(0,0,0,0.28),
-        0  0   0     1px rgba(255,255,255,0.07);
       pointer-events: none;
-    }
-
-    /* Dynamic Island */
-    .phone-island {
-      position: absolute;
-      top: 14px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 72px;
-      height: 26px;
-      background: #000;
-      border-radius: 20px;
-      z-index: 3;
     }
 
     /* ================================
@@ -1358,10 +1338,10 @@
 
       /* App Showcase */
       #roles { padding: 64px 0 0; overflow: hidden; }
-      .phone-showcase { --ph-w: 140px; --ph-h: 283px; --ph-offset: 30px; gap: 12px; padding-bottom: 64px; }
-      .phone-hw { border-width: 6px; border-bottom-width: 10px; border-radius: 22px; }
-      .phone-screen { border-radius: 17px; }
-      .phone-island { width: 36px; height: 13px; top: 7px; border-radius: 10px; }
+      /* Mobile: scale device to ~143px wide (×0.5 from desktop 286px) */
+      .phone-showcase { --ph-w: 143px; --ph-h: 289px; --ph-offset: 30px; gap: 16px; padding-bottom: 64px; }
+      .phone-screen { top: 9px; left: 8px; width: 128px; height: 274px; border-radius: 10px; }
+      .phone-hw { width: 250px; height: 355px; background-size: 250px 355px; }
       .roles-header { margin-bottom: 52px; padding: 0 24px; }
       .roles-header h2 { font-size: 40px; line-height: 1.025; letter-spacing: 0; }
 
@@ -1783,31 +1763,26 @@
       <figure class="phone-device">
         <div class="phone-screen"><img src="app1.jpeg" alt="Flights" /></div>
         <div class="phone-hw"></div>
-        <div class="phone-island"></div>
       </figure>
 
       <figure class="phone-device">
         <div class="phone-screen"><img src="app3.jpeg" alt="Journeys" /></div>
         <div class="phone-hw"></div>
-        <div class="phone-island"></div>
       </figure>
 
       <figure class="phone-device">
         <div class="phone-screen"><img src="app2.jpeg" alt="Discover" /></div>
         <div class="phone-hw"></div>
-        <div class="phone-island"></div>
       </figure>
 
       <figure class="phone-device">
         <div class="phone-screen"><img src="app3.jpeg" alt="Journeys" /></div>
         <div class="phone-hw"></div>
-        <div class="phone-island"></div>
       </figure>
 
       <figure class="phone-device">
         <div class="phone-screen"><img src="app1.jpeg" alt="Flights" /></div>
         <div class="phone-hw"></div>
-        <div class="phone-island"></div>
       </figure>
 
     </div>
