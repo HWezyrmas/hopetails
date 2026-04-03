@@ -893,102 +893,56 @@
     }
 
     /* ================================
-       7. THREE ROLES
+       7. APP SHOWCASE — Apple style
     ================================ */
     #roles {
-      background: var(--ink);
-      padding: 128px 0;
-    }
-
-    .roles-header {
-      text-align: center;
-      margin-bottom: 72px;
-    }
-    .roles-header h2 { color: var(--paper); }
-    .roles-header p  { color: var(--sand); max-width: 480px; margin: 16px auto 0; font-weight: 300; }
-
-    .roles-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-    }
-
-    .role-card {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.07);
-      border-radius: 16px;
+      background: #f5f5f7;
+      padding: 120px 0 80px;
       overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      transition: border-color 0.3s, transform 0.3s;
     }
-    .role-card:hover {
-      border-color: rgba(255,255,255,0.16);
-      transform: translateY(-4px);
-    }
-
-    .role-phone-zone {
-      background: rgba(255,255,255,0.02);
-      padding: 36px 36px 0;
+    .roles-header { text-align: center; margin-bottom: 80px; }
+    .roles-header h2 { color: var(--ink); }
+    .roles-header p  { color: #6e6e73; max-width: 480px; margin: 14px auto 0; font-size: 17px; font-weight: 300; }
+    .phones-row {
       display: flex;
       justify-content: center;
       align-items: flex-end;
-      min-height: 280px;
+      gap: 24px;
+      padding-bottom: 64px;
     }
-    .role-phone-zone .phone-frame {
-      width: 160px;
-      animation: none;
-      box-shadow:
-        0 0 0 1px rgba(255,255,255,0.10),
-        0 24px 48px rgba(0,0,0,0.5);
-    }
-    .role-phone-zone .phone-frame img {
-      border-radius: 24px;
-    }
-
-    .role-info {
-      padding: 28px 28px 32px;
-      flex: 1;
+    .showcase-phone {
+      flex-shrink: 0;
       display: flex;
       flex-direction: column;
-    }
-    .role-num {
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: var(--ember);
-      margin-bottom: 10px;
-    }
-    .role-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 24px;
-      font-weight: 700;
-      color: var(--paper);
-      line-height: 1.2;
-      margin-bottom: 12px;
-    }
-    .role-desc {
-      font-size: 14px;
-      font-weight: 300;
-      line-height: 1.7;
-      color: var(--sand);
-      flex: 1;
-      margin-bottom: 20px;
-    }
-    .role-cta {
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--ember);
-      text-decoration: none;
-      display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 28px;
     }
-    .role-cta::after { content: '→'; transition: transform 0.2s; }
-    .role-cta:hover::after { transform: translateX(4px); }
+    .showcase-phone:first-child,
+    .showcase-phone:last-child { transform: translateY(44px); }
+    .iphone-frame {
+      position: relative;
+      background: #1c1c1e;
+      border-radius: 50px;
+      padding: 14px 11px;
+      box-shadow: 0 0 0 1.5px #3a3a3c, 0 50px 100px rgba(0,0,0,0.22), 0 16px 40px rgba(0,0,0,0.12);
+      width: 240px;
+    }
+    .iphone-frame::before {
+      content: '';
+      position: absolute;
+      top: 20px; left: 50%;
+      transform: translateX(-50%);
+      width: 88px; height: 26px;
+      background: #1c1c1e;
+      border-radius: 13px;
+      z-index: 3;
+    }
+    .iphone-screen { border-radius: 38px; overflow: hidden; display: block; background: #fff; }
+    .iphone-screen img { width: 100%; display: block; }
+    .phone-label { text-align: center; }
+    .phone-label-role { font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ember); margin-bottom: 6px; }
+    .phone-label-name { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
+    .phone-label-desc { font-size: 13px; font-weight: 300; color: #6e6e73; max-width: 220px; line-height: 1.5; }
 
     /* ================================
        8. GALLERY — Polaroid Scatter
@@ -1366,11 +1320,12 @@
       .w-footer-text { padding: 40px 0 72px; }
 
 
-      /* Roles */
-      #roles { padding: 72px 0; }
-      .roles-grid { grid-template-columns: 1fr; gap: 16px; }
-      .role-phone-zone { min-height: 220px; padding: 28px 28px 0; }
-      .role-phone-zone .phone-frame { width: 140px; }
+      /* App Showcase */
+      #roles { padding: 72px 0 48px; }
+      .phones-row { flex-direction: column; align-items: center; gap: 40px; padding-bottom: 24px; }
+      .showcase-phone:first-child,
+      .showcase-phone:last-child { transform: none; }
+      .iphone-frame { width: 200px; }
 
       /* Gallery */
       #gallery { padding: 72px 0; }
@@ -1775,61 +1730,47 @@
   </section>
 
   <!-- ================================
-       7. THREE ROLES
+       7. APP SHOWCASE
   ================================ -->
   <section id="roles">
     <div class="container">
-
       <div class="roles-header reveal">
-        <p class="eyebrow">Everyone has a role</p>
-        <h2>Find yours.</h2>
-        <p>Rescuers, adopters, and travelers — three people who have never met, united by one cat.</p>
+        <p class="eyebrow">The App</p>
+        <h2>Built for every hero in the story.</h2>
+        <p>One platform for rescuers, travelers, and adopters — every step tracked, every cat accounted for.</p>
       </div>
+      <div class="phones-row">
 
-      <div class="roles-grid">
-
-        <!-- Rescuers -->
-        <div class="role-card reveal">
-          <div class="role-phone-zone">
-            <div class="phone-frame">
-              <img src="app2.jpeg" alt="HopeTails Discover screen" />
-            </div>
+        <div class="showcase-phone reveal">
+          <div class="iphone-frame">
+            <div class="iphone-screen"><img src="app1.jpeg" alt="HopeTails Flights screen" /></div>
           </div>
-          <div class="role-info">
-            <span class="role-num">01</span>
-            <h3 class="role-title">Rescuers &amp; Volunteers</h3>
-            <p class="role-desc">You found them in the cold. Now give them a future — create profiles, coordinate documents, and manage every stage of the journey.</p>
-            <a href="#cta" class="role-cta">Start rescuing</a>
+          <div class="phone-label">
+            <p class="phone-label-role">02 — Travelers</p>
+            <p class="phone-label-name">Flight Parents</p>
+            <p class="phone-label-desc">Browse open routes and offer your seat to a rescue in need.</p>
           </div>
         </div>
 
-        <!-- Flight Parents -->
-        <div class="role-card reveal" style="transition-delay:.08s">
-          <div class="role-phone-zone">
-            <div class="phone-frame">
-              <img src="app1.jpeg" alt="HopeTails Flights screen" />
-            </div>
+        <div class="showcase-phone reveal" style="transition-delay:.08s">
+          <div class="iphone-frame">
+            <div class="iphone-screen"><img src="app2.jpeg" alt="HopeTails Discover screen" /></div>
           </div>
-          <div class="role-info">
-            <span class="role-num">02</span>
-            <h3 class="role-title">Flight Parents</h3>
-            <p class="role-desc">You're already boarding. Post your itinerary, get matched with a rescue cat that needs a seat, and land as someone's hero.</p>
-            <a href="#cta" class="role-cta">Post a flight</a>
+          <div class="phone-label">
+            <p class="phone-label-role">01 — Volunteers</p>
+            <p class="phone-label-name">Rescuers</p>
+            <p class="phone-label-desc">Create profiles, manage logistics, and coordinate every stage.</p>
           </div>
         </div>
 
-        <!-- Adopters -->
-        <div class="role-card reveal" style="transition-delay:.16s">
-          <div class="role-phone-zone">
-            <div class="phone-frame">
-              <img src="app3.jpeg" alt="HopeTails Journeys screen" />
-            </div>
+        <div class="showcase-phone reveal" style="transition-delay:.16s">
+          <div class="iphone-frame">
+            <div class="iphone-screen"><img src="app3.jpeg" alt="HopeTails Journeys screen" /></div>
           </div>
-          <div class="role-info">
-            <span class="role-num">03</span>
-            <h3 class="role-title">Adopters</h3>
-            <p class="role-desc">Your family is waiting on the other side of the world. Apply, follow the live journey, and open the door to the one meant to be yours.</p>
-            <a href="#cta" class="role-cta">Find your cat</a>
+          <div class="phone-label">
+            <p class="phone-label-role">03 — Families</p>
+            <p class="phone-label-name">Adopters</p>
+            <p class="phone-label-desc">Track your cat's journey in real-time from rescue to your door.</p>
           </div>
         </div>
 
