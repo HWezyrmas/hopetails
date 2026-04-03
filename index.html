@@ -175,53 +175,7 @@
       transform-origin: center bottom;
     }
 
-    /* Pen-writing wordmark */
-    .nav-wordmark-wrap {
-      position: relative;
-      display: inline-block;
-    }
-
-    /* The moving pen nib */
-    .nav-wordmark-wrap::after {
-      content: '';
-      position: absolute;
-      top: 12%; bottom: 8%;
-      left: 0;
-      width: 1.5px;
-      background: var(--ember);
-      border-radius: 1px;
-      animation: pen-nib 5s ease-in-out infinite;
-    }
-
-    .nav-wordmark {
-      display: inline-block;
-      clip-path: inset(0 100% 0 0);
-      animation: pen-write 5s ease-in-out infinite;
-      white-space: nowrap;
-    }
-
-    /* Write in over ~1.8s, hold, instant vanish, pause */
-    @keyframes pen-write {
-      0%    { clip-path: inset(0 100% 0 0); }
-      36%   { clip-path: inset(0 0% 0 0); }
-      72%   { clip-path: inset(0 0% 0 0); }
-      73%   { clip-path: inset(0 100% 0 0); }
-      100%  { clip-path: inset(0 100% 0 0); }
-    }
-
-    /* Cursor tracks the right edge of the revealed text, then lifts */
-    @keyframes pen-nib {
-      0%    { left: 0%;    opacity: 1; }
-      36%   { left: 100%;  opacity: 1; }
-      37%   { left: 100%;  opacity: 0; }
-      72%   { left: 100%;  opacity: 0; }
-      73%   { left: 0%;    opacity: 0; }
-      88%   { left: 0%;    opacity: 0; }
-      89%   { left: 0%;    opacity: 1; }
-      100%  { left: 0%;    opacity: 1; }
-    }
-
-    @keyframes paw-jump {
+@keyframes paw-jump {
       /* Long rest, then a quick double-bounce */
       0%, 65%       { transform: translateY(0) scaleX(1) scaleY(1); }
       72%           { transform: translateY(-7px) scaleX(0.92) scaleY(1.08); }
@@ -1282,7 +1236,7 @@
             <ellipse cx="23.5" cy="14" rx="2.5" ry="3.5" fill="#E8622A"/>
             <path d="M14 11c-5 0-8.5 3.5-8.5 7.5C5.5 23.5 8.5 27 14 27s8.5-3.5 8.5-8.5C22.5 14.5 19 11 14 11z" fill="#C9B99A"/>
           </svg>
-          <span class="nav-wordmark-wrap"><span class="nav-wordmark">HopeTails</span></span>
+          HopeTails
         </a>
 
         <ul class="nav-links">
