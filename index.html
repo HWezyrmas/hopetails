@@ -911,22 +911,37 @@
     .roles-header p  { color: #6e6e73; max-width: 480px; margin: 14px auto 0; font-size: 17px; font-weight: 300; }
     .phones-row {
       display: flex;
-      justify-content: center;
       align-items: flex-start;
       padding-bottom: 96px;
+      /* Centering fix: shrink to content width then center — avoids flex overflow shifting right */
+      width: max-content;
+      position: relative;
+      left: 50%;
+      transform: translateX(-50%);
     }
     .showcase-phone {
       flex-shrink: 0;
       position: relative;
       margin-right: -160px;
+      /* Fan-in start state */
+      opacity: 0;
+      transition: opacity 0.8s cubic-bezier(0.645, 0.045, 0.355, 1),
+                  transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
     }
     .showcase-phone:last-child { margin-right: 0; }
     /* Apple W-pattern: phones 1,3,5 DOWN — phones 2,4 UP */
-    .showcase-phone:nth-child(1) { margin-top: 60px; z-index: 1; }
-    .showcase-phone:nth-child(2) { margin-top: 0;    z-index: 2; }
-    .showcase-phone:nth-child(3) { margin-top: 60px; z-index: 3; }
-    .showcase-phone:nth-child(4) { margin-top: 0;    z-index: 4; }
-    .showcase-phone:nth-child(5) { margin-top: 60px; z-index: 5; }
+    .showcase-phone:nth-child(1) { margin-top: 60px; z-index: 1; transform: translateY(100px) translateX(-300px); }
+    .showcase-phone:nth-child(2) { margin-top: 0;    z-index: 2; transform: translateY(60px)  translateX(-150px); }
+    .showcase-phone:nth-child(3) { margin-top: 60px; z-index: 3; transform: translateY(100px) translateX(0);      }
+    .showcase-phone:nth-child(4) { margin-top: 0;    z-index: 4; transform: translateY(60px)  translateX(150px);  }
+    .showcase-phone:nth-child(5) { margin-top: 60px; z-index: 5; transform: translateY(100px) translateX(300px);  }
+    /* Fan-in end state — stagger from center outward like Apple */
+    .phones-row.phones-visible .showcase-phone { opacity: 1; transform: none; }
+    .phones-row.phones-visible .showcase-phone:nth-child(3) { transition-delay: 0s;     }
+    .phones-row.phones-visible .showcase-phone:nth-child(2) { transition-delay: 0.08s;  }
+    .phones-row.phones-visible .showcase-phone:nth-child(4) { transition-delay: 0.08s;  }
+    .phones-row.phones-visible .showcase-phone:nth-child(1) { transition-delay: 0.16s;  }
+    .phones-row.phones-visible .showcase-phone:nth-child(5) { transition-delay: 0.16s;  }
     .iphone-frame {
       position: relative;
       width: 440px;
@@ -1344,9 +1359,11 @@
       /* App Showcase */
       #roles { padding: 64px 0 0; overflow: hidden; }
       .phones-row { padding-bottom: 64px; }
-      .showcase-phone:nth-child(1) { margin-top: 30px; }
-      .showcase-phone:nth-child(3) { margin-top: 30px; }
-      .showcase-phone:nth-child(5) { margin-top: 30px; }
+      .showcase-phone:nth-child(1) { margin-top: 30px; transform: translateY(80px) translateX(-100px); }
+      .showcase-phone:nth-child(2) { transform: translateY(50px) translateX(-50px); }
+      .showcase-phone:nth-child(3) { margin-top: 30px; transform: translateY(80px) translateX(0); }
+      .showcase-phone:nth-child(4) { transform: translateY(50px) translateX(50px); }
+      .showcase-phone:nth-child(5) { margin-top: 30px; transform: translateY(80px) translateX(100px); }
       .iphone-frame { width: 80vw; }
       .showcase-phone { margin-right: -28vw; }
       .showcase-phone:last-child { margin-right: 0; }
@@ -2035,6 +2052,21 @@
     }, { threshold: 0.12 });
 
     document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+    // ── PHONES: fan-in from spread X positions (Apple-style) ──
+    (function () {
+      const row = document.querySelector('.phones-row');
+      if (!row) return;
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            row.classList.add('phones-visible');
+            observer.unobserve(row); // one-way, like Apple
+          }
+        });
+      }, { threshold: 0.15 });
+      observer.observe(row);
+    })();
 
     // ================================
     // STATS: count-up
