@@ -277,33 +277,50 @@
     }
 
     /* Right photo zone */
-    .hero-phone {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 80px 40px 60px;
+    /* Right photo zone */
+    .hero-photo {
       position: relative;
+      overflow: hidden;
     }
+    .hero-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
+    .hero-photo::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(105deg, var(--ink) 0%, rgba(13,13,11,0.4) 50%, rgba(13,13,11,0.15) 100%);
+    }
+    .hero-photo::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(232,98,42,0.08);
+      z-index: 1;
+      animation: pulse-shape 6s ease-in-out infinite;
+    }
+    @keyframes pulse-shape {
+      0%, 100% { opacity: 0.6; }
+      50%       { opacity: 1; }
+    }
+    /* Phone frame — used in roles section */
     .phone-frame {
       position: relative;
-      width: 248px;
       background: #111110;
       border-radius: 42px;
       padding: 10px;
       box-shadow:
         0 0 0 1px rgba(255,255,255,0.10),
-        0 48px 96px rgba(0,0,0,0.7),
-        0 0 80px rgba(232,98,42,0.07);
-      animation: float 4s ease-in-out infinite;
+        0 24px 48px rgba(0,0,0,0.6);
     }
     .phone-frame img {
       width: 100%;
       border-radius: 34px;
       display: block;
-    }
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50%       { transform: translateY(-12px); }
     }
     .hero-headline {
       font-family: 'Playfair Display', serif;
@@ -1294,19 +1311,28 @@
       /* Hero — photo becomes full-bleed background, text overlaid */
       #hero { min-height: 100svh; }
       .hero-inner {
-        grid-template-columns: 1fr;
-        min-height: auto;
+        display: block;
+        position: relative;
+        min-height: 100svh;
+      }
+      .hero-photo {
+        display: block;
+        position: absolute;
+        inset: 0;
+      }
+      .hero-photo::after {
+        background: linear-gradient(180deg, rgba(13,13,11,0.72) 0%, rgba(13,13,11,0.55) 100%);
       }
       .hero-content {
-        padding: 100px 24px 60px;
+        position: relative;
+        z-index: 2;
+        padding: 110px 24px 80px;
       }
       .hero-headline { font-size: 64px; }
       .hero-sub { font-size: 16px; max-width: 100%; }
       .hero-ctas { flex-direction: column; gap: 12px; }
       .hero-ctas .btn { width: 100%; justify-content: center; }
       .hero-proof { font-size: 12px; }
-      .hero-phone { padding: 40px 24px 60px; }
-      .phone-frame { width: 200px; }
 
       /* Stats */
       .stats-grid { grid-template-columns: repeat(2, 1fr); }
@@ -1446,11 +1472,12 @@
         </p>
       </div>
 
-      <!-- Right: app screenshot in phone frame -->
-      <div class="hero-phone">
-        <div class="phone-frame">
-          <img src="app2.jpeg" alt="HopeTails app — Discover screen" />
-        </div>
+      <!-- Right: cat photo -->
+      <div class="hero-photo">
+        <img
+          src="https://images.unsplash.com/photo-1574158622682-e40e69881006?auto=format&fit=crop&w=900&q=85"
+          alt="Cat portrait"
+        />
       </div>
 
     </div><!-- /hero-inner -->
