@@ -892,177 +892,148 @@
     .winter-right .btn { margin-top: 32px; }
 
     /* ================================
-       7. THREE ROLES
+       7. THREE ROLES — Cinematic Hover Menu
     ================================ */
     #roles {
       background: var(--ink);
       padding: 128px 0;
     }
-    .roles-header {
-      text-align: center;
-      margin-bottom: 64px;
-    }
-    .roles-header .eyebrow {
-      color: var(--sand);
-      margin-bottom: 20px;
-    }
-    .roles-header h2 {
-      font-family: 'Playfair Display', serif;
-      font-style: italic;
-      font-weight: 700;
-      font-size: clamp(36px, 5vw, 64px);
-      color: var(--paper);
-      margin-bottom: 16px;
-    }
-    .roles-header p {
-      font-weight: 300;
-      font-size: 17px;
-      color: var(--sand);
-    }
 
-    .roles-pick {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-    }
-
-    .role-persona {
-      perspective: 900px;
-      cursor: pointer;
-    }
-
-    .role-persona-inner {
+    .roles-cinema {
       position: relative;
-      border-radius: 4px;
+      min-height: 580px;
       overflow: hidden;
-      height: 440px;
-      transition: box-shadow 0.3s ease;
-      transform-style: preserve-3d;
-      will-change: transform;
     }
 
-    /* Front face — always visible, fades out on hover */
-    .rp-face {
+    /* Stacked photo layers — crossfade on activation */
+    .rc-photos {
       position: absolute;
       inset: 0;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding: 40px 32px;
-      transition: opacity 0.3s ease, transform 0.3s ease;
     }
-    .role-persona:hover .rp-face {
-      opacity: 0;
-      transform: translateY(-10px);
-    }
-
-    .rp-emoji {
-      font-size: 56px;
-      display: block;
-      line-height: 1;
-      margin-bottom: 20px;
-    }
-    .rp-tagline {
-      font-family: 'Playfair Display', serif;
-      font-style: italic;
-      font-size: clamp(30px, 2.8vw, 42px);
-      font-weight: 700;
-      line-height: 1.1;
-      margin-bottom: 8px;
-    }
-    .rp-name {
-      font-size: 12px;
-      font-weight: 500;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      opacity: 0.65;
-    }
-
-    /* Reveal — hidden by default, slides up on hover */
-    .rp-reveal {
+    .rc-photo {
       position: absolute;
       inset: 0;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding: 40px 32px;
       opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.35s ease, transform 0.35s ease;
+      transition: opacity 0.75s ease;
     }
-    .role-persona:hover .rp-reveal {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .rp-reveal-emoji {
-      font-size: 40px;
+    .rc-photo.is-active { opacity: 1; }
+    .rc-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
       display: block;
-      margin-bottom: 16px;
     }
-    .rp-reveal-desc {
-      font-size: 15px;
-      font-weight: 300;
-      line-height: 1.75;
-      margin-bottom: 28px;
-    }
-    .rp-reveal-cta {
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 11px 22px;
-      border: 1.5px solid currentColor;
-      border-radius: 2px;
-      align-self: flex-start;
-      transition: background 0.2s ease;
-    }
-
-    /* Card color themes — photo bg + color gradient overlay */
-    .role-persona-inner::before {
+    /* Gradient veil over photos — keeps text always readable */
+    .rc-photos::after {
       content: '';
       position: absolute;
       inset: 0;
+      background: linear-gradient(100deg, rgba(13,13,11,0.93) 0%, rgba(13,13,11,0.72) 55%, rgba(13,13,11,0.38) 100%);
       z-index: 1;
     }
-    .rp-face, .rp-reveal { z-index: 2; }
 
-    .role-persona:nth-child(1) .role-persona-inner {
-      background-image: url('https://images.unsplash.com/photo-1685464258330-d2ba70d8e06e?w=800&q=80');
-      background-size: cover;
-      background-position: center;
-    }
-    .role-persona:nth-child(1) .role-persona-inner::before {
-      background: linear-gradient(to top, rgba(232,98,42,0.88) 40%, rgba(232,98,42,0.45) 100%);
-    }
-
-    .role-persona:nth-child(2) .role-persona-inner {
-      background-image: url('https://images.unsplash.com/photo-1719752585472-ddc1cc7edbf6?w=800&q=80');
-      background-size: cover;
-      background-position: center;
-    }
-    .role-persona:nth-child(2) .role-persona-inner::before {
-      background: linear-gradient(to top, rgba(122,158,135,0.90) 40%, rgba(122,158,135,0.50) 100%);
-    }
-
-    .role-persona:nth-child(3) .role-persona-inner {
-      background-image: url('https://images.unsplash.com/photo-1476157808914-828d68f0f401?w=800&q=80');
-      background-size: cover;
-      background-position: center;
-    }
-    .role-persona:nth-child(3) .role-persona-inner::before {
-      background: linear-gradient(to top, rgba(30,60,90,0.88) 40%, rgba(30,60,90,0.45) 100%);
+    /* Ghost number watermark */
+    .rc-number {
+      position: absolute;
+      right: 64px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-family: 'Playfair Display', serif;
+      font-size: 220px;
+      font-weight: 900;
+      line-height: 1;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(255,255,255,0.06);
+      pointer-events: none;
+      user-select: none;
+      z-index: 2;
+      transition: opacity 0.4s ease;
     }
 
-    /* All text white now that photos provide contrast */
-    .role-persona .rp-tagline,
-    .role-persona .rp-name,
-    .role-persona .rp-reveal-desc { color: #fff; }
-    .role-persona .rp-reveal-cta { color: #fff; border-color: rgba(255,255,255,0.55); }
-    .role-persona .rp-reveal-cta:hover { background: rgba(255,255,255,0.15); }
+    /* Role list */
+    .rc-list {
+      position: relative;
+      z-index: 3;
+      padding: 72px 80px;
+      min-height: 580px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .rc-item {
+      cursor: pointer;
+      padding: 22px 0;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      transition: border-color 0.35s ease;
+    }
+    .rc-item:last-child { border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .rc-item.is-active { border-color: rgba(255,255,255,0.2); }
+
+    .rc-name {
+      display: block;
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: clamp(44px, 6.5vw, 92px);
+      line-height: 1.0;
+      color: var(--paper);
+      opacity: 0.18;
+      transform: translateX(0);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+    .rc-item:hover .rc-name { opacity: 0.45; }
+    .rc-item.is-active .rc-name {
+      opacity: 1;
+      transform: translateX(16px);
+    }
+
+    /* Description row — slides open on active */
+    .rc-meta {
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 8px 20px;
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transition: max-height 0.45s ease, opacity 0.45s ease, margin-top 0.45s ease;
+      margin-top: 0;
+    }
+    .rc-item.is-active .rc-meta {
+      max-height: 80px;
+      opacity: 1;
+      margin-top: 14px;
+    }
+
+    .rc-meta-tag {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ember);
+      white-space: nowrap;
+    }
+    .rc-meta-desc {
+      font-size: 14px;
+      font-weight: 300;
+      color: rgba(250,247,242,0.65);
+      line-height: 1.55;
+      flex: 1;
+      min-width: 200px;
+    }
+    .rc-meta-cta {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--paper);
+      white-space: nowrap;
+      border-bottom: 1px solid rgba(255,255,255,0.35);
+      padding-bottom: 1px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .rc-meta-cta:hover { color: var(--ember); border-color: var(--ember); }
 
     /* ================================
        8. GALLERY — Polaroid Scatter
@@ -1435,9 +1406,13 @@
 
       /* Roles */
       #roles { padding: 72px 0; }
-      .roles-pick { grid-template-columns: 1fr; gap: 16px; }
-      .role-persona-inner { height: 340px; }
-      .rp-tagline { font-size: 30px; }
+      .roles-cinema { min-height: auto; }
+      .rc-list { padding: 40px 28px; min-height: auto; }
+      .rc-name { font-size: 40px; }
+      .rc-number { display: none; }
+      .rc-item.is-active .rc-meta { max-height: 140px; }
+      .rc-meta { flex-direction: column; gap: 6px; }
+      .rc-meta-cta { align-self: flex-start; }
 
       /* Gallery */
       #gallery { padding: 72px 0; }
@@ -1805,59 +1780,59 @@
   ================================ -->
   <section id="roles">
     <div class="container">
-      <div class="roles-header reveal">
-        <p class="eyebrow">Find your role</p>
-        <h2>Which one are you?</h2>
-        <p>Every rescue needs three kinds of people. Most of us are more than one.</p>
+
+      <div class="roles-cinema reveal">
+
+        <!-- Photo layers -->
+        <div class="rc-photos">
+          <div class="rc-photo">
+            <img src="https://images.unsplash.com/photo-1685464258330-d2ba70d8e06e?w=1400&q=80" alt="Rescuer" />
+          </div>
+          <div class="rc-photo">
+            <img src="https://images.unsplash.com/photo-1719752585472-ddc1cc7edbf6?w=1400&q=80" alt="Adopter" />
+          </div>
+          <div class="rc-photo">
+            <img src="https://images.unsplash.com/photo-1476157808914-828d68f0f401?w=1400&q=80" alt="Flight Parent" />
+          </div>
+        </div>
+
+        <!-- Ghost number -->
+        <div class="rc-number" id="rcNumber">01</div>
+
+        <!-- Role list -->
+        <div class="rc-list">
+
+          <div class="rc-item">
+            <span class="rc-name">Rescuers</span>
+            <div class="rc-meta">
+              <span class="rc-meta-tag">&amp; Volunteers</span>
+              <span class="rc-meta-desc">You found them. Now give them a future — create profiles, manage logistics, coordinate every stage.</span>
+              <a href="#cta" class="rc-meta-cta">Start rescuing →</a>
+            </div>
+          </div>
+
+          <div class="rc-item">
+            <span class="rc-name">Adopters</span>
+            <div class="rc-meta">
+              <span class="rc-meta-tag">Forever Families</span>
+              <span class="rc-meta-desc">Your family is waiting on the other side of the world. Apply, follow the journey, open the door.</span>
+              <a href="#cta" class="rc-meta-cta">Find your cat →</a>
+            </div>
+          </div>
+
+          <div class="rc-item">
+            <span class="rc-name">Flight Parents</span>
+            <div class="rc-meta">
+              <span class="rc-meta-tag">Travelers</span>
+              <span class="rc-meta-desc">You're already boarding. Post your itinerary, get matched, and land as someone's hero.</span>
+              <a href="#cta" class="rc-meta-cta">Post a flight →</a>
+            </div>
+          </div>
+
+        </div>
+
       </div>
-      <div class="roles-pick">
 
-        <div class="role-persona reveal">
-          <div class="role-persona-inner">
-            <div class="rp-face">
-              <span class="rp-emoji">🐾</span>
-              <div class="rp-tagline">I find them.</div>
-              <div class="rp-name">Rescuer &amp; Volunteer</div>
-            </div>
-            <div class="rp-reveal">
-              <span class="rp-reveal-emoji">🐾</span>
-              <p class="rp-reveal-desc">You spotted them in the cold. Now give them a future. Create profiles, manage logistics, and coordinate every stage of the journey to their forever home.</p>
-              <a href="#cta" class="rp-reveal-cta">Start rescuing →</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="role-persona reveal" style="transition-delay:.1s">
-          <div class="role-persona-inner">
-            <div class="rp-face">
-              <span class="rp-emoji">🏠</span>
-              <div class="rp-tagline">I love them.</div>
-              <div class="rp-name">Adopter</div>
-            </div>
-            <div class="rp-reveal">
-              <span class="rp-reveal-emoji">🏠</span>
-              <p class="rp-reveal-desc">Your forever family is waiting on the other side of the world. Apply, follow the live journey, and open the door to the one who was always meant to be yours.</p>
-              <a href="#cta" class="rp-reveal-cta">Find your cat →</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="role-persona reveal" style="transition-delay:.2s">
-          <div class="role-persona-inner">
-            <div class="rp-face">
-              <span class="rp-emoji">✈️</span>
-              <div class="rp-tagline">I fly them.</div>
-              <div class="rp-name">Flight Parent</div>
-            </div>
-            <div class="rp-reveal">
-              <span class="rp-reveal-emoji">✈️</span>
-              <p class="rp-reveal-desc">You're already boarding. Post your itinerary, get matched with a rescue cat that needs a seat, and land as someone's hero. Your trip. Their miracle.</p>
-              <a href="#cta" class="rp-reveal-cta">Post a flight →</a>
-            </div>
-          </div>
-        </div>
-
-      </div>
     </div>
   </section>
 
@@ -2170,22 +2145,29 @@
     })();
 
     // ================================
-    // ROLE CARDS: 3D tilt on mousemove
+    // ROLES CINEMA: hover / tap
     // ================================
-    document.querySelectorAll('.role-persona').forEach(card => {
-      const inner = card.querySelector('.role-persona-inner');
-      card.addEventListener('mousemove', e => {
-        const rect = card.getBoundingClientRect();
-        const dx = (e.clientX - (rect.left + rect.width  / 2)) / (rect.width  / 2);
-        const dy = (e.clientY - (rect.top  + rect.height / 2)) / (rect.height / 2);
-        inner.style.transform = `rotateY(${dx * 9}deg) rotateX(${-dy * 7}deg) scale(1.025)`;
-        inner.style.boxShadow = `${-dx * 24}px ${dy * 16}px 56px rgba(0,0,0,0.35)`;
+    (function () {
+      const items  = document.querySelectorAll('.rc-item');
+      const photos = document.querySelectorAll('.rc-photo');
+      const numEl  = document.getElementById('rcNumber');
+      const labels = ['01', '02', '03'];
+
+      function activate(i) {
+        items.forEach(el  => el.classList.remove('is-active'));
+        photos.forEach(el => el.classList.remove('is-active'));
+        items[i].classList.add('is-active');
+        photos[i].classList.add('is-active');
+        if (numEl) numEl.textContent = labels[i];
+      }
+
+      items.forEach((item, i) => {
+        item.addEventListener('mouseenter', () => activate(i));
+        item.addEventListener('click',      () => activate(i));
       });
-      card.addEventListener('mouseleave', () => {
-        inner.style.transform = '';
-        inner.style.boxShadow = '';
-      });
-    });
+
+      activate(0);
+    })();
 
     // ================================
     // FORM: submission
