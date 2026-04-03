@@ -1065,7 +1065,7 @@
     .role-persona .rp-reveal-cta:hover { background: rgba(255,255,255,0.15); }
 
     /* ================================
-       8. GALLERY
+       8. GALLERY — Polaroid Scatter
     ================================ */
     #gallery {
       background: var(--ink);
@@ -1073,7 +1073,7 @@
     }
 
     .gallery-header {
-      margin-bottom: 56px;
+      margin-bottom: 72px;
     }
     .gallery-header .eyebrow { margin-bottom: 16px; }
     .gallery-header h2 {
@@ -1090,113 +1090,89 @@
       max-width: 560px;
     }
 
-    .gallery-grid {
+    .polaroid-wall {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 2px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px 32px;
+      padding: 16px 0 48px;
     }
 
-    .gallery-card {
+    .polaroid {
       position: relative;
-      overflow: hidden;
+      background: #fff;
+      padding: 12px 12px 56px;
+      box-shadow: 0 6px 28px rgba(0,0,0,0.32), 0 2px 6px rgba(0,0,0,0.14);
       cursor: pointer;
+      transition: transform 0.4s cubic-bezier(0.34, 1.4, 0.64, 1), box-shadow 0.35s ease;
+      z-index: 1;
     }
 
-    .gallery-card:nth-child(1) { height: 340px; }
-    .gallery-card:nth-child(2) { height: 200px; align-self: end; }
-    .gallery-card:nth-child(3) { height: 280px; }
-    .gallery-card:nth-child(4) { height: 340px; }
-    .gallery-card:nth-child(5) { height: 280px; }
-    .gallery-card:nth-child(6) { height: 340px; }
-    .gallery-card:nth-child(7) { height: 200px; }
-    .gallery-card:nth-child(8) { height: 280px; }
+    /* Scatter rotations */
+    .polaroid:nth-child(1) { transform: rotate(-3.2deg) translateY(10px); }
+    .polaroid:nth-child(2) { transform: rotate(2.1deg)  translateY(-8px); }
+    .polaroid:nth-child(3) { transform: rotate(-1.5deg) translateY(16px); }
+    .polaroid:nth-child(4) { transform: rotate(2.8deg)  translateY(-12px); }
+    .polaroid:nth-child(5) { transform: rotate(-2.3deg) translateY(6px); }
+    .polaroid:nth-child(6) { transform: rotate(1.7deg)  translateY(-16px); }
 
-    /* Re-span some cards */
-    .gallery-card:nth-child(1) { grid-column: span 1; }
-
-    .ba-before, .ba-after {
-      position: absolute;
-      top: 0; bottom: 0;
-      transition: width 0.5s ease;
-    }
-    .ba-before {
-      left: 0;
-      width: 50%;
-      filter: grayscale(80%) brightness(0.65);
-    }
-    .ba-after {
-      right: 0;
-      width: 50%;
+    .polaroid:hover {
+      transform: rotate(0deg) translateY(-16px) scale(1.05) !important;
+      box-shadow: 0 36px 80px rgba(0,0,0,0.5), 0 8px 20px rgba(0,0,0,0.2);
+      z-index: 10;
     }
 
-    .gallery-card:hover .ba-before { width: 35%; }
-    .gallery-card:hover .ba-after  { width: 65%; }
+    .polaroid-photo {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      background: var(--sand);
+    }
 
-    .ba-before img, .ba-after img {
+    .p-after {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      position: absolute;
-    }
-    .ba-before img { right: 0; }
-    .ba-after  img { left: 0; }
-
-    /* Gradient placeholder for cards without real photos */
-    .ba-placeholder {
-      width: 100%; height: 100%;
-      position: absolute;
+      display: block;
     }
 
-    .ba-divider {
+    /* Before thumbnail tucked into corner */
+    .p-before {
       position: absolute;
-      top: 0; bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 1px;
-      background: var(--ember);
-      z-index: 2;
-      transition: left 0.5s ease;
+      bottom: 10px;
+      left: 10px;
+      width: 33%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      border: 3px solid #fff;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.35);
+      transform: rotate(-5deg);
+      filter: grayscale(80%) brightness(0.72);
     }
-    .gallery-card:hover .ba-divider { left: 35%; }
 
-    .ba-paw {
-      position: absolute;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      width: 28px; height: 28px;
-      background: var(--ink);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 12px;
-      z-index: 3;
-      transition: left 0.5s ease;
+    .polaroid-caption {
+      padding-top: 14px;
+      text-align: center;
     }
-    .gallery-card:hover .ba-paw { left: 35%; }
 
-    .gallery-card-info {
-      position: absolute;
-      bottom: 0; left: 0; right: 0;
-      padding: 20px 16px 14px;
-      background: linear-gradient(transparent, rgba(13,13,11,0.8));
-      z-index: 4;
-    }
-    .gallery-cat-name {
+    .polaroid-name {
       font-family: 'Playfair Display', serif;
       font-style: italic;
-      font-size: 16px;
-      color: var(--paper);
+      font-size: 20px;
+      color: #1a1a1a;
+      margin-bottom: 4px;
+      line-height: 1.2;
     }
-    .gallery-route {
-      font-weight: 300;
+
+    .polaroid-route {
       font-size: 11px;
-      color: var(--sand);
-      margin-top: 2px;
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      color: #888;
     }
 
     .gallery-footer {
-      margin-top: 48px;
+      margin-top: 56px;
       text-align: center;
     }
     .gallery-footer a {
@@ -1465,8 +1441,9 @@
 
       /* Gallery */
       #gallery { padding: 72px 0; }
-      .gallery-grid { grid-template-columns: 1fr 1fr; gap: 2px; }
-      .gallery-card { height: 200px !important; }
+      .polaroid-wall { grid-template-columns: 1fr 1fr; gap: 28px 16px; padding: 8px 0 24px; }
+      .polaroid { padding: 8px 8px 44px; }
+      .polaroid-name { font-size: 17px; }
 
       /* CTA */
       #cta { padding: 88px 0; }
@@ -1894,105 +1871,78 @@
         <h2 class="reveal" style="transition-delay:.08s">The wall of second chances.</h2>
         <p class="reveal" style="transition-delay:.16s">Every face here has a story. Every story started with someone who chose to act.</p>
       </div>
-    </div>
 
-    <div class="container">
-      <div class="gallery-grid">
+      <div class="polaroid-wall">
 
-        <!-- Card 1: Winter (real photos) -->
-        <div class="gallery-card reveal">
-          <div class="ba-before"><img src="winter-rescue-2.jpg" alt="Winter before" /></div>
-          <div class="ba-after"><img src="winter-recovery-2.jpg" alt="Winter after" /></div>
-          <div class="ba-divider"></div>
-          <div class="ba-paw">🐾</div>
-          <div class="gallery-card-info">
-            <div class="gallery-cat-name">Winter</div>
-            <div class="gallery-route">Amman 🇯🇴 → Forever Home 🏠</div>
+        <!-- Winter -->
+        <div class="polaroid reveal">
+          <div class="polaroid-photo">
+            <img class="p-after"  src="winter-recovery-2.jpg" alt="Winter, recovered and happy" />
+            <img class="p-before" src="winter-rescue-2.jpg"   alt="Winter, rescued" />
+          </div>
+          <div class="polaroid-caption">
+            <div class="polaroid-name">Winter</div>
+            <div class="polaroid-route">Amman 🇯🇴 → Forever Home 🏠</div>
           </div>
         </div>
 
-        <!-- Card 2: Luna — stray on rock → cozy on bed -->
-        <div class="gallery-card">
-          <div class="ba-before"><img src="https://images.unsplash.com/photo-1533743983669-94fa5c4338ec?auto=format&fit=crop&w=600&q=80" alt="Stray cat" /></div>
-          <div class="ba-after"><img src="https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?auto=format&fit=crop&w=600&q=80" alt="Cat at home" /></div>
-          <div class="ba-divider"></div>
-          <div class="ba-paw">🐾</div>
-          <div class="gallery-card-info">
-            <div class="gallery-cat-name">Luna</div>
-            <div class="gallery-route">Istanbul 🇹🇷 → Amsterdam 🇳🇱</div>
+        <!-- Luna -->
+        <div class="polaroid reveal" style="transition-delay:.07s">
+          <div class="polaroid-photo">
+            <img class="p-after"  src="https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?auto=format&fit=crop&w=600&q=80" alt="Luna, at home" />
+            <img class="p-before" src="https://images.unsplash.com/photo-1533743983669-94fa5c4338ec?auto=format&fit=crop&w=600&q=80" alt="Luna, stray" />
+          </div>
+          <div class="polaroid-caption">
+            <div class="polaroid-name">Luna</div>
+            <div class="polaroid-route">Istanbul 🇹🇷 → Amsterdam 🇳🇱</div>
           </div>
         </div>
 
-        <!-- Card 3: Mochi — cat behind bars → portrait -->
-        <div class="gallery-card">
-          <div class="ba-before"><img src="https://images.unsplash.com/photo-1548247416-ec66f4900b2e?auto=format&fit=crop&w=600&q=80" alt="Stray cat" /></div>
-          <div class="ba-after"><img src="https://images.unsplash.com/photo-1596854407944-bf87f6fdd49e?auto=format&fit=crop&w=600&q=80" alt="Cat at home" /></div>
-          <div class="ba-divider"></div>
-          <div class="ba-paw">🐾</div>
-          <div class="gallery-card-info">
-            <div class="gallery-cat-name">Mochi</div>
-            <div class="gallery-route">Beirut 🇱🇧 → London 🇬🇧</div>
+        <!-- Mochi -->
+        <div class="polaroid reveal" style="transition-delay:.14s">
+          <div class="polaroid-photo">
+            <img class="p-after"  src="https://images.unsplash.com/photo-1596854407944-bf87f6fdd49e?auto=format&fit=crop&w=600&q=80" alt="Mochi, at home" />
+            <img class="p-before" src="https://images.unsplash.com/photo-1548247416-ec66f4900b2e?auto=format&fit=crop&w=600&q=80" alt="Mochi, stray" />
+          </div>
+          <div class="polaroid-caption">
+            <div class="polaroid-name">Mochi</div>
+            <div class="polaroid-route">Beirut 🇱🇧 → London 🇬🇧</div>
           </div>
         </div>
 
-        <!-- Card 4: Saffron — cat in bush → kitten portrait -->
-        <div class="gallery-card">
-          <div class="ba-before"><img src="https://images.unsplash.com/photo-1513360371669-4adf46c40558?auto=format&fit=crop&w=600&q=80" alt="Stray cat" /></div>
-          <div class="ba-after"><img src="https://images.unsplash.com/photo-1555685812-4b943f1cb0eb?auto=format&fit=crop&w=600&q=80" alt="Cat at home" /></div>
-          <div class="ba-divider"></div>
-          <div class="ba-paw">🐾</div>
-          <div class="gallery-card-info">
-            <div class="gallery-cat-name">Saffron</div>
-            <div class="gallery-route">Cairo 🇪🇬 → Berlin 🇩🇪</div>
+        <!-- Saffron -->
+        <div class="polaroid reveal" style="transition-delay:.05s">
+          <div class="polaroid-photo">
+            <img class="p-after"  src="https://images.unsplash.com/photo-1555685812-4b943f1cb0eb?auto=format&fit=crop&w=600&q=80" alt="Saffron, at home" />
+            <img class="p-before" src="https://images.unsplash.com/photo-1513360371669-4adf46c40558?auto=format&fit=crop&w=600&q=80" alt="Saffron, stray" />
+          </div>
+          <div class="polaroid-caption">
+            <div class="polaroid-name">Saffron</div>
+            <div class="polaroid-route">Cairo 🇪🇬 → Berlin 🇩🇪</div>
           </div>
         </div>
 
-        <!-- Cards 5–8 hidden on mobile -->
-        <!-- Card 5: Nala — cat on ground → relaxing -->
-        <div class="gallery-card">
-          <div class="ba-before"><img src="https://images.unsplash.com/photo-1518791841217-8f162f1912da?auto=format&fit=crop&w=600&q=80" alt="Stray cat" /></div>
-          <div class="ba-after"><img src="https://images.unsplash.com/photo-1526336024174-e58f5cdd8e13?auto=format&fit=crop&w=600&q=80" alt="Cat at home" /></div>
-          <div class="ba-divider"></div>
-          <div class="ba-paw">🐾</div>
-          <div class="gallery-card-info">
-            <div class="gallery-cat-name">Nala</div>
-            <div class="gallery-route">Dubai 🇦🇪 → Melbourne 🇦🇺</div>
+        <!-- Nala -->
+        <div class="polaroid reveal" style="transition-delay:.12s">
+          <div class="polaroid-photo">
+            <img class="p-after"  src="https://images.unsplash.com/photo-1526336024174-e58f5cdd8e13?auto=format&fit=crop&w=600&q=80" alt="Nala, at home" />
+            <img class="p-before" src="https://images.unsplash.com/photo-1518791841217-8f162f1912da?auto=format&fit=crop&w=600&q=80" alt="Nala, stray" />
+          </div>
+          <div class="polaroid-caption">
+            <div class="polaroid-name">Nala</div>
+            <div class="polaroid-route">Dubai 🇦🇪 → Melbourne 🇦🇺</div>
           </div>
         </div>
 
-        <!-- Card 6: Olive — cat in nest → black cat -->
-        <div class="gallery-card">
-          <div class="ba-before"><img src="https://images.unsplash.com/photo-1561948955-570b270e7c36?auto=format&fit=crop&w=600&q=80" alt="Stray cat" /></div>
-          <div class="ba-after"><img src="https://images.unsplash.com/photo-1478098711619-5ab0b478d6e6?auto=format&fit=crop&w=600&q=80" alt="Cat at home" /></div>
-          <div class="ba-divider"></div>
-          <div class="ba-paw">🐾</div>
-          <div class="gallery-card-info">
-            <div class="gallery-cat-name">Olive</div>
-            <div class="gallery-route">Athens 🇬🇷 → New York 🇺🇸</div>
+        <!-- Olive -->
+        <div class="polaroid reveal" style="transition-delay:.19s">
+          <div class="polaroid-photo">
+            <img class="p-after"  src="https://images.unsplash.com/photo-1478098711619-5ab0b478d6e6?auto=format&fit=crop&w=600&q=80" alt="Olive, at home" />
+            <img class="p-before" src="https://images.unsplash.com/photo-1561948955-570b270e7c36?auto=format&fit=crop&w=600&q=80" alt="Olive, stray" />
           </div>
-        </div>
-
-        <!-- Card 7: Kiko -->
-        <div class="gallery-card">
-          <div class="ba-before"><img src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=600&q=80" alt="Stray cat" /></div>
-          <div class="ba-after"><img src="https://images.unsplash.com/photo-1511275539165-cc46b1ee89bf?auto=format&fit=crop&w=600&q=80" alt="Cat at home" /></div>
-          <div class="ba-divider"></div>
-          <div class="ba-paw">🐾</div>
-          <div class="gallery-card-info">
-            <div class="gallery-cat-name">Kiko</div>
-            <div class="gallery-route">Seoul 🇰🇷 → Toronto 🇨🇦</div>
-          </div>
-        </div>
-
-        <!-- Card 8: Rumi -->
-        <div class="gallery-card">
-          <div class="ba-before"><img src="https://images.unsplash.com/photo-1529778873920-4da4926a72c2?auto=format&fit=crop&w=600&q=80" alt="Stray cat" /></div>
-          <div class="ba-after"><img src="https://images.unsplash.com/photo-1494256997604-768d1f608cac?auto=format&fit=crop&w=600&q=80" alt="Cat at home" /></div>
-          <div class="ba-divider"></div>
-          <div class="ba-paw">🐾</div>
-          <div class="gallery-card-info">
-            <div class="gallery-cat-name">Rumi</div>
-            <div class="gallery-route">Tehran 🇮🇷 → Paris 🇫🇷</div>
+          <div class="polaroid-caption">
+            <div class="polaroid-name">Olive</div>
+            <div class="polaroid-route">Athens 🇬🇷 → New York 🇺🇸</div>
           </div>
         </div>
 
