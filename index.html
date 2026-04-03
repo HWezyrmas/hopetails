@@ -892,148 +892,164 @@
     .winter-right .btn { margin-top: 32px; }
 
     /* ================================
-       7. THREE ROLES — Cinematic Hover Menu
+       7. THREE ROLES — Magazine Spread
     ================================ */
     #roles {
       background: var(--ink);
       padding: 128px 0;
     }
 
-    .roles-cinema {
+    .roles-magazine {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      height: 600px;
+      gap: 4px;
+    }
+
+    /* Feature card — left column, full height */
+    .rm-feature {
+      grid-column: 1;
+      grid-row: 1 / 3;
       position: relative;
-      min-height: 580px;
       overflow: hidden;
     }
 
-    /* Stacked photo layers — crossfade on activation */
-    .rc-photos {
-      position: absolute;
-      inset: 0;
+    /* Sidebar cards — right column */
+    .rm-sidebar {
+      grid-column: 2;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
     }
-    .rc-photo {
-      position: absolute;
-      inset: 0;
-      opacity: 0;
-      transition: opacity 0.75s ease;
-    }
-    .rc-photo.is-active { opacity: 1; }
-    .rc-photo img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center;
-      display: block;
-    }
-    /* Gradient veil over photos — keeps text always readable */
-    .rc-photos::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(100deg, rgba(13,13,11,0.93) 0%, rgba(13,13,11,0.72) 55%, rgba(13,13,11,0.38) 100%);
-      z-index: 1;
-    }
+    .rm-sidebar:first-of-type  { grid-row: 1; }
+    .rm-sidebar:last-of-type   { grid-row: 2; }
 
-    /* Ghost number watermark */
-    .rc-number {
+    /* Shared: photo background */
+    .rm-photo {
       position: absolute;
-      right: 64px;
-      top: 50%;
-      transform: translateY(-50%);
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      transition: transform 0.65s ease;
+    }
+    .rm-feature .rm-photo { transform: scale(1.02); }
+    .rm-sidebar:hover .rm-photo { transform: scale(1.05); }
+
+    /* Overlays */
+    .rm-overlay {
+      position: absolute;
+      inset: 0;
+      transition: background 0.35s ease;
+    }
+    .rm-feature .rm-overlay {
+      background: linear-gradient(135deg, rgba(13,13,11,0.88) 0%, rgba(13,13,11,0.35) 100%);
+    }
+    .rm-sidebar .rm-overlay {
+      background: rgba(13,13,11,0.62);
+    }
+    .rm-sidebar:hover .rm-overlay { background: rgba(13,13,11,0.42); }
+
+    /* Ghost number on feature */
+    .rm-ghost-num {
+      position: absolute;
+      bottom: -24px;
+      right: 20px;
       font-family: 'Playfair Display', serif;
-      font-size: 220px;
+      font-size: 200px;
       font-weight: 900;
       line-height: 1;
       color: transparent;
-      -webkit-text-stroke: 1px rgba(255,255,255,0.06);
+      -webkit-text-stroke: 1px rgba(255,255,255,0.07);
       pointer-events: none;
       user-select: none;
-      z-index: 2;
-      transition: opacity 0.4s ease;
+      z-index: 1;
     }
 
-    /* Role list */
-    .rc-list {
-      position: relative;
-      z-index: 3;
-      padding: 72px 80px;
-      min-height: 580px;
+    /* Content layers */
+    .rm-content {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      justify-content: flex-end;
+      transition: opacity 0.22s ease;
     }
+    .rm-feature .rm-content { padding: 52px 48px; }
+    .rm-sidebar .rm-content { padding: 24px 24px; }
 
-    .rc-item {
-      cursor: pointer;
-      padding: 22px 0;
-      border-top: 1px solid rgba(255,255,255,0.08);
-      transition: border-color 0.35s ease;
-    }
-    .rc-item:last-child { border-bottom: 1px solid rgba(255,255,255,0.08); }
-    .rc-item.is-active { border-color: rgba(255,255,255,0.2); }
+    .rm-content.is-swapping { opacity: 0; }
 
-    .rc-name {
-      display: block;
-      font-family: 'Playfair Display', serif;
-      font-weight: 700;
-      font-size: clamp(44px, 6.5vw, 92px);
-      line-height: 1.0;
-      color: var(--paper);
-      opacity: 0.18;
-      transform: translateX(0);
-      transition: opacity 0.4s ease, transform 0.4s ease;
-    }
-    .rc-item:hover .rc-name { opacity: 0.45; }
-    .rc-item.is-active .rc-name {
-      opacity: 1;
-      transform: translateX(16px);
-    }
-
-    /* Description row — slides open on active */
-    .rc-meta {
-      display: flex;
-      align-items: baseline;
-      flex-wrap: wrap;
-      gap: 8px 20px;
-      max-height: 0;
-      opacity: 0;
-      overflow: hidden;
-      transition: max-height 0.45s ease, opacity 0.45s ease, margin-top 0.45s ease;
-      margin-top: 0;
-    }
-    .rc-item.is-active .rc-meta {
-      max-height: 80px;
-      opacity: 1;
-      margin-top: 14px;
-    }
-
-    .rc-meta-tag {
+    .rm-eyebrow {
       font-size: 11px;
       font-weight: 500;
       letter-spacing: 0.14em;
       text-transform: uppercase;
       color: var(--ember);
-      white-space: nowrap;
+      margin-bottom: 12px;
     }
-    .rc-meta-desc {
-      font-size: 14px;
+    .rm-name {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      color: var(--paper);
+      line-height: 1.0;
+    }
+    .rm-feature .rm-name { font-size: clamp(44px, 4.5vw, 68px); margin-bottom: 18px; }
+    .rm-sidebar .rm-name  { font-size: clamp(20px, 2vw, 26px);  margin-bottom: 0; }
+
+    .rm-desc {
       font-weight: 300;
-      color: rgba(250,247,242,0.65);
-      line-height: 1.55;
-      flex: 1;
-      min-width: 200px;
+      font-size: 15px;
+      line-height: 1.7;
+      color: rgba(250,247,242,0.72);
+      max-width: 400px;
+      margin-bottom: 28px;
     }
-    .rc-meta-cta {
-      font-size: 11px;
+    .rm-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
       font-weight: 500;
       letter-spacing: 0.1em;
       text-transform: uppercase;
       color: var(--paper);
-      white-space: nowrap;
       border-bottom: 1px solid rgba(255,255,255,0.35);
-      padding-bottom: 1px;
+      padding-bottom: 2px;
+      align-self: flex-start;
       transition: color 0.2s, border-color 0.2s;
     }
-    .rc-meta-cta:hover { color: var(--ember); border-color: var(--ember); }
+    .rm-cta:hover { color: var(--ember); border-color: var(--ember); }
+
+    /* Sidebar subtle tag */
+    .rm-tag {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      color: rgba(250,247,242,0.45);
+      margin-bottom: 6px;
+    }
+
+    /* Promote arrow — appears on sidebar hover */
+    .rm-arrow {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      z-index: 3;
+      width: 30px;
+      height: 30px;
+      border: 1px solid rgba(255,255,255,0.22);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transform: scale(0.85);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+    .rm-sidebar:hover .rm-arrow { opacity: 1; transform: scale(1); }
 
     /* ================================
        8. GALLERY — Polaroid Scatter
@@ -1406,13 +1422,19 @@
 
       /* Roles */
       #roles { padding: 72px 0; }
-      .roles-cinema { min-height: auto; }
-      .rc-list { padding: 40px 28px; min-height: auto; }
-      .rc-name { font-size: 40px; }
-      .rc-number { display: none; }
-      .rc-item.is-active .rc-meta { max-height: 140px; }
-      .rc-meta { flex-direction: column; gap: 6px; }
-      .rc-meta-cta { align-self: flex-start; }
+      .roles-magazine {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 300px 150px;
+        height: auto;
+      }
+      .rm-feature { grid-column: 1 / 3; grid-row: 1; }
+      .rm-sidebar:first-of-type { grid-column: 1; grid-row: 2; }
+      .rm-sidebar:last-of-type  { grid-column: 2; grid-row: 2; }
+      .rm-feature .rm-name { font-size: 36px; }
+      .rm-feature .rm-content { padding: 28px 24px; }
+      .rm-ghost-num { font-size: 110px; }
+      .rm-desc { font-size: 13px; margin-bottom: 16px; }
+      .rm-sidebar .rm-content { padding: 16px; }
 
       /* Gallery */
       #gallery { padding: 72px 0; }
@@ -1780,59 +1802,48 @@
   ================================ -->
   <section id="roles">
     <div class="container">
+      <div class="roles-magazine reveal">
 
-      <div class="roles-cinema reveal">
-
-        <!-- Photo layers -->
-        <div class="rc-photos">
-          <div class="rc-photo">
-            <img src="https://images.unsplash.com/photo-1685464258330-d2ba70d8e06e?w=1400&q=80" alt="Rescuer" />
-          </div>
-          <div class="rc-photo">
-            <img src="https://images.unsplash.com/photo-1719752585472-ddc1cc7edbf6?w=1400&q=80" alt="Adopter" />
-          </div>
-          <div class="rc-photo">
-            <img src="https://images.unsplash.com/photo-1476157808914-828d68f0f401?w=1400&q=80" alt="Flight Parent" />
+        <!-- Feature card (left, full height) -->
+        <div class="rm-feature" id="rmFeature">
+          <div class="rm-photo"></div>
+          <div class="rm-overlay"></div>
+          <div class="rm-ghost-num" id="rmGhost"></div>
+          <div class="rm-content" id="rmFeatureContent">
+            <p class="rm-eyebrow" id="rmEyebrow"></p>
+            <h3 class="rm-name"  id="rmFName"></h3>
+            <p class="rm-desc"   id="rmDesc"></p>
+            <a href="#cta" class="rm-cta" id="rmCta"></a>
           </div>
         </div>
 
-        <!-- Ghost number -->
-        <div class="rc-number" id="rcNumber">01</div>
-
-        <!-- Role list -->
-        <div class="rc-list">
-
-          <div class="rc-item">
-            <span class="rc-name">Rescuers</span>
-            <div class="rc-meta">
-              <span class="rc-meta-tag">&amp; Volunteers</span>
-              <span class="rc-meta-desc">You found them. Now give them a future — create profiles, manage logistics, coordinate every stage.</span>
-              <a href="#cta" class="rc-meta-cta">Start rescuing →</a>
-            </div>
+        <!-- Sidebar top -->
+        <div class="rm-sidebar" id="rmSidebarA">
+          <div class="rm-photo"></div>
+          <div class="rm-overlay"></div>
+          <div class="rm-arrow">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.8)" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </div>
-
-          <div class="rc-item">
-            <span class="rc-name">Adopters</span>
-            <div class="rc-meta">
-              <span class="rc-meta-tag">Forever Families</span>
-              <span class="rc-meta-desc">Your family is waiting on the other side of the world. Apply, follow the journey, open the door.</span>
-              <a href="#cta" class="rc-meta-cta">Find your cat →</a>
-            </div>
+          <div class="rm-content" id="rmSidebarAContent">
+            <p class="rm-tag"  id="rmATag"></p>
+            <h3 class="rm-name" id="rmAName"></h3>
           </div>
+        </div>
 
-          <div class="rc-item">
-            <span class="rc-name">Flight Parents</span>
-            <div class="rc-meta">
-              <span class="rc-meta-tag">Travelers</span>
-              <span class="rc-meta-desc">You're already boarding. Post your itinerary, get matched, and land as someone's hero.</span>
-              <a href="#cta" class="rc-meta-cta">Post a flight →</a>
-            </div>
+        <!-- Sidebar bottom -->
+        <div class="rm-sidebar" id="rmSidebarB">
+          <div class="rm-photo"></div>
+          <div class="rm-overlay"></div>
+          <div class="rm-arrow">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.8)" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </div>
-
+          <div class="rm-content" id="rmSidebarBContent">
+            <p class="rm-tag"  id="rmBTag"></p>
+            <h3 class="rm-name" id="rmBName"></h3>
+          </div>
         </div>
 
       </div>
-
     </div>
   </section>
 
@@ -2145,28 +2156,72 @@
     })();
 
     // ================================
-    // ROLES CINEMA: hover / tap
+    // ROLES MAGAZINE: click to promote
     // ================================
     (function () {
-      const items  = document.querySelectorAll('.rc-item');
-      const photos = document.querySelectorAll('.rc-photo');
-      const numEl  = document.getElementById('rcNumber');
-      const labels = ['01', '02', '03'];
+      const roles = [
+        {
+          num: '01', name: 'Rescuers', tag: '& Volunteers',
+          desc: 'You found them in the cold. Now give them a future — create profiles, coordinate documents, and manage every stage of the journey.',
+          cta: 'Start rescuing →',
+          photo: 'https://images.unsplash.com/photo-1685464258330-d2ba70d8e06e?w=1400&q=80',
+        },
+        {
+          num: '02', name: 'Adopters', tag: 'Forever Families',
+          desc: 'Your family is waiting on the other side of the world. Apply, follow the live journey, and open the door to the one meant to be yours.',
+          cta: 'Find your cat →',
+          photo: 'https://images.unsplash.com/photo-1719752585472-ddc1cc7edbf6?w=1400&q=80',
+        },
+        {
+          num: '03', name: 'Flight Parents', tag: 'Travelers',
+          desc: "You're already boarding. Post your itinerary, get matched with a rescue cat that needs a seat, and land as someone's hero.",
+          cta: 'Post a flight →',
+          photo: 'https://images.unsplash.com/photo-1476157808914-828d68f0f401?w=1400&q=80',
+        },
+      ];
 
-      function activate(i) {
-        items.forEach(el  => el.classList.remove('is-active'));
-        photos.forEach(el => el.classList.remove('is-active'));
-        items[i].classList.add('is-active');
-        photos[i].classList.add('is-active');
-        if (numEl) numEl.textContent = labels[i];
+      // slots[0]=feature, slots[1]=sidebar-top, slots[2]=sidebar-bottom
+      let slots = [0, 1, 2];
+
+      const featurePhoto  = document.querySelector('#rmFeature .rm-photo');
+      const sidebarAPhoto = document.querySelector('#rmSidebarA .rm-photo');
+      const sidebarBPhoto = document.querySelector('#rmSidebarB .rm-photo');
+      const featureContent = document.getElementById('rmFeatureContent');
+
+      function render() {
+        const f = roles[slots[0]], a = roles[slots[1]], b = roles[slots[2]];
+
+        // Feature
+        featurePhoto.style.backgroundImage = `url('${f.photo}')`;
+        document.getElementById('rmGhost').textContent  = f.num;
+        document.getElementById('rmEyebrow').textContent = f.tag;
+        document.getElementById('rmFName').textContent   = f.name;
+        document.getElementById('rmDesc').textContent    = f.desc;
+        document.getElementById('rmCta').textContent     = f.cta;
+
+        // Sidebars
+        sidebarAPhoto.style.backgroundImage = `url('${a.photo}')`;
+        document.getElementById('rmATag').textContent  = a.tag;
+        document.getElementById('rmAName').textContent = a.name;
+
+        sidebarBPhoto.style.backgroundImage = `url('${b.photo}')`;
+        document.getElementById('rmBTag').textContent  = b.tag;
+        document.getElementById('rmBName').textContent = b.name;
       }
 
-      items.forEach((item, i) => {
-        item.addEventListener('mouseenter', () => activate(i));
-        item.addEventListener('click',      () => activate(i));
-      });
+      function promote(slotIdx) {
+        [slots[0], slots[slotIdx]] = [slots[slotIdx], slots[0]];
+        featureContent.classList.add('is-swapping');
+        setTimeout(() => {
+          render();
+          featureContent.classList.remove('is-swapping');
+        }, 230);
+      }
 
-      activate(0);
+      document.getElementById('rmSidebarA').addEventListener('click', () => promote(1));
+      document.getElementById('rmSidebarB').addEventListener('click', () => promote(2));
+
+      render();
     })();
 
     // ================================
