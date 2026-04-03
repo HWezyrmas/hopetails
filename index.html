@@ -707,57 +707,158 @@
     }
 
     /* ================================
-       6. WINTER'S STORY
+       6. WINTER'S STORY — Three-Act Arc
     ================================ */
-    #winter {
+    #winter { /* acts handle their own backgrounds */ }
+
+    /* ── Act 1: The Rescue ── */
+    .w-act1 {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      min-height: 80vh;
+      min-height: 640px;
     }
 
-    .winter-left {
-      background: var(--ink);
+    .w-rescue-photos {
       position: relative;
-      overflow: hidden;
-      min-height: 600px;
-    }
-
-    .winter-photos-bg {
-      position: absolute;
-      inset: 0;
       display: grid;
-      grid-template-columns: 1fr 1fr;
       grid-template-rows: 1fr 1fr;
       gap: 2px;
+      background: #0a0a0a;
+      overflow: hidden;
     }
-    .winter-photos-bg img {
+    .w-rescue-photos img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-    }
-    .winter-photos-bg img:first-child {
-      grid-row: span 2;
-    }
-    .winter-photos-bg::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: rgba(13,13,11,0.55);
+      filter: grayscale(100%) brightness(0.58);
     }
 
-    .winter-badge {
+    .w-rescue-badge {
       position: absolute;
-      top: 32px; left: 32px;
+      top: 28px; left: 28px;
       z-index: 2;
-      font-family: 'Instrument Sans', sans-serif;
       font-weight: 500;
       font-size: 10px;
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: var(--ember);
-      border: 1px solid var(--ember);
-      border-radius: 4px;
+      color: rgba(255,255,255,0.6);
+      border: 1px solid rgba(255,255,255,0.2);
       padding: 6px 12px;
+    }
+
+    .w-story-open {
+      background: var(--paper);
+      padding: 96px 72px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .w-story-open .eyebrow { margin-bottom: 20px; }
+
+    .w-headline {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-style: italic;
+      font-size: clamp(26px, 3vw, 44px);
+      line-height: 1.15;
+      color: var(--ink);
+      margin-bottom: 32px;
+    }
+
+    .w-body {
+      font-weight: 300;
+      font-size: 16px;
+      line-height: 1.85;
+      color: var(--text-secondary);
+    }
+    .w-body p + p { margin-top: 18px; }
+
+    /* ── Act 2: The Turn ── */
+    .w-act2 {
+      background: var(--ink);
+      padding: 100px 40px;
+      text-align: center;
+      position: relative;
+    }
+    .w-act2::before,
+    .w-act2::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 1px;
+      height: 56px;
+      background: rgba(255,255,255,0.1);
+    }
+    .w-act2::before { top: 0; }
+    .w-act2::after  { bottom: 0; }
+
+    .w-turn-line {
+      display: block;
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      font-style: italic;
+      font-size: clamp(52px, 9vw, 128px);
+      line-height: 1.0;
+      color: var(--paper);
+    }
+    .w-turn-line:last-child { color: var(--ember); }
+
+    /* ── Act 3: The Recovery ── */
+    .w-act3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 640px;
+    }
+
+    .w-story-close {
+      background: var(--paper);
+      padding: 96px 72px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .w-closing {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-style: italic;
+      font-size: 20px;
+      color: var(--ember);
+      margin-top: 24px;
+      margin-bottom: 32px;
+    }
+
+    .w-recovery-photos {
+      position: relative;
+      display: grid;
+      grid-template-rows: 1fr 1fr;
+      gap: 2px;
+      background: var(--ink);
+      overflow: hidden;
+    }
+    .w-recovery-photos img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    /* Subtle warm ember tint */
+    .w-recovery-photos::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(232,98,42,0.07);
+      pointer-events: none;
+    }
+
+    /* Adoption card override — flow element in Act 3 */
+    .w-story-close .adoption-card {
+      position: relative;
+      bottom: auto; left: auto;
+      transform: none;
+      width: 100%;
+      max-width: 300px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.1);
     }
 
     /* Adoption Card */
@@ -860,44 +961,7 @@
     }
     .ac-btn:hover { background: var(--ember-soft); }
 
-    .winter-right {
-      background: var(--paper);
-      padding: 96px 72px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-
-    .winter-right .eyebrow { margin-bottom: 20px; }
-
-    .winter-headline {
-      font-family: 'Playfair Display', serif;
-      font-weight: 700;
-      font-style: italic;
-      font-size: clamp(26px, 3vw, 42px);
-      line-height: 1.15;
-      color: var(--ink);
-      margin-bottom: 28px;
-    }
-
-    .winter-body {
-      font-weight: 300;
-      font-size: 16px;
-      line-height: 1.85;
-      color: var(--text-secondary);
-    }
-    .winter-body p + p { margin-top: 18px; }
-
-    .winter-closing {
-      font-family: 'Playfair Display', serif;
-      font-weight: 700;
-      font-style: italic;
-      font-size: 20px;
-      color: var(--ember);
-      margin-top: 24px;
-    }
-
-    .winter-right .btn { margin-top: 32px; }
+    .w-story-close .btn { margin-top: 8px; }
 
     /* ================================
        7. THREE ROLES — Magazine Spread
@@ -1423,20 +1487,26 @@
       .pass-title { font-size: 15px; }
       .pass-desc { font-size: 12px; }
 
-      /* Winter */
-      #winter { grid-template-columns: 1fr; }
+      /* Winter — three-act arc */
+      .w-act1,
+      .w-act3 { grid-template-columns: 1fr; }
 
-      /* Tall enough to see all 3 photos clearly */
-      .winter-left { height: 65vw; min-height: 340px; max-height: 520px; }
-
-      /* Lighten the overlay so photos are visible */
-      .winter-photos-bg::after {
-        background: rgba(13,13,11,0.28);
+      .w-rescue-photos,
+      .w-recovery-photos {
+        height: 56vw;
+        min-height: 260px;
+        max-height: 400px;
       }
 
-      /* Compact adoption card pinned to bottom */
-      .adoption-card {
-        position: absolute;
+      .w-story-open,
+      .w-story-close { padding: 48px 20px 52px; }
+
+      .w-headline { font-size: 22px; }
+      .w-turn-line { font-size: clamp(38px, 11vw, 64px); }
+      .w-act2 { padding: 72px 24px; }
+
+      .w-story-close .adoption-card {
+        max-width: 100%;
         bottom: 16px;
         left: 16px;
         right: 16px;
@@ -1455,11 +1525,6 @@
       /* Hide checklist on mobile — keep it clean */
       .ac-checks      { display: none; }
       .ac-btn         { grid-column: span 2; padding: 10px; font-size: 10px; }
-
-      .winter-right { padding: 40px 20px 52px; }
-      .winter-headline { font-size: 24px; }
-      .winter-body p { font-size: 15px; }
-      .winter-closing { font-size: 17px; }
 
       /* Roles */
       #roles { padding: 72px 0; }
@@ -1792,54 +1857,61 @@
   ================================ -->
   <section id="winter">
 
-    <div class="winter-left">
-      <!-- Real photos as background grid -->
-      <div class="winter-photos-bg">
+    <!-- ── ACT 1: The Rescue ── -->
+    <div class="w-act1">
+      <div class="w-rescue-photos">
         <img src="winter-rescue-1.jpg" alt="Winter recovering with cone" />
         <img src="winter-rescue-2.jpg" alt="Winter with cone, looking at camera" />
-        <img src="winter-recovery-2.jpg" alt="Winter curled up on sofa, recovered" />
+        <span class="w-rescue-badge">Featured Rescue</span>
       </div>
-
-      <span class="winter-badge">Featured Rescue</span>
-
-      <!-- Adoption Card -->
-      <div class="adoption-card">
-        <div class="ac-stage-row">
-          <span class="ac-stage-pill">Stage 4 of 6</span>
-          <div class="ac-progress-bar">
-            <div class="ac-progress-fill"></div>
-          </div>
+      <div class="w-story-open">
+        <p class="eyebrow reveal">Winter's Story</p>
+        <h2 class="w-headline reveal" style="transition-delay:.08s">
+          "He appeared on a windowsill in November. Wounded. Deaf. Purring."
+        </h2>
+        <div class="w-body reveal" style="transition-delay:.16s">
+          <p>On a cold November morning, he appeared — perched silently on a windowsill like he'd been waiting to be found. His name became <strong>Winter</strong>, and it suited him perfectly: quiet, striking, and carrying something heavy beneath the surface.</p>
+          <p>Winter arrived with deep wounds across his back, almost certainly from a surprise attack by another stray — a cruel fate for a deaf cat who never heard it coming. Despite the pain, he purred. Despite the fear, he leaned in for cuddles. His wounds had turned severely infected by the time he was found, requiring weeks of treatment, careful medication, and delicate sutures.</p>
         </div>
-        <div class="ac-name">Winter</div>
-        <div class="ac-meta">~6 months · Male · Deaf</div>
-        <div class="ac-route">
-          📍 Amman, Jordan<br>
-          ✈️ → Anywhere, World
-        </div>
-        <div class="ac-checks">
-          <span class="ac-check">Vaccinated</span>
-          <span class="ac-check">Health Cert Ready</span>
-          <span class="ac-check">Fully Funded</span>
-        </div>
-        <a href="#cta" class="ac-btn">Apply to Adopt</a>
       </div>
     </div>
 
-    <div class="winter-right">
-      <p class="eyebrow reveal">Winter's Story</p>
-      <h2 class="winter-headline">
-        "He appeared on a windowsill in November. Wounded. Deaf. Purring."
-      </h2>
-      <div class="winter-body">
-        <p>On a cold November morning, he appeared — perched silently on a windowsill like he'd been waiting to be found. His name became <strong>Winter</strong>, and it suited him perfectly: quiet, striking, and carrying something heavy beneath the surface.</p>
-        <p>Winter arrived with deep wounds across his back, almost certainly from a surprise attack by another stray — a cruel fate for a deaf cat who never heard it coming. Despite the pain, he purred. Despite the fear, he leaned in for cuddles. His wounds had turned severely infected by the time he was found, requiring weeks of treatment, careful medication, and delicate sutures.</p>
-        <p>But Winter fought. And Winter won.</p>
-        <p>Today, at around six months old, this silky, soulful boy has made a full recovery. He loves nothing more than curling into someone's lap — though he's equally happy charming other cats in the room before quietly slipping away to reclaim his throne on the sofa. Gentle. Loving. Entirely unaware of how extraordinary he is.</p>
+    <!-- ── ACT 2: The Turn ── -->
+    <div class="w-act2">
+      <span class="w-turn-line reveal">But Winter fought.</span>
+      <span class="w-turn-line reveal" style="transition-delay:.12s">And Winter won.</span>
+    </div>
+
+    <!-- ── ACT 3: The Recovery ── -->
+    <div class="w-act3">
+      <div class="w-story-close">
+        <div class="w-body reveal">
+          <p>Today, at around six months old, this silky, soulful boy has made a full recovery. He loves nothing more than curling into someone's lap — though he's equally happy charming other cats in the room before quietly slipping away to reclaim his throne on the sofa. Gentle. Loving. Entirely unaware of how extraordinary he is.</p>
+        </div>
+        <p class="w-closing reveal" style="transition-delay:.08s">
+          "Winter is ready for his flight home. Is that home yours?"
+        </p>
+        <div class="adoption-card reveal" style="transition-delay:.16s">
+          <div class="ac-stage-row">
+            <span class="ac-stage-pill">Stage 4 of 6</span>
+            <div class="ac-progress-bar"><div class="ac-progress-fill"></div></div>
+          </div>
+          <div class="ac-name">Winter</div>
+          <div class="ac-meta">~6 months · Male · Deaf</div>
+          <div class="ac-route">📍 Amman, Jordan<br>✈️ → Anywhere, World</div>
+          <div class="ac-checks">
+            <span class="ac-check">Vaccinated</span>
+            <span class="ac-check">Health Cert Ready</span>
+            <span class="ac-check">Fully Funded</span>
+          </div>
+          <a href="#cta" class="ac-btn">Apply to Adopt</a>
+        </div>
+        <a href="#cta" class="btn btn-ember reveal" style="transition-delay:.24s">Apply to Adopt Winter</a>
       </div>
-      <p class="winter-closing">
-        "Winter is ready for his flight home. Is that home yours?"
-      </p>
-      <a href="#cta" class="btn btn-ember">Apply to Adopt Winter</a>
+      <div class="w-recovery-photos">
+        <img src="winter-recovery-1.jpg" alt="Winter, recovered" />
+        <img src="winter-recovery-2.jpg" alt="Winter curled up on sofa, happy" />
+      </div>
     </div>
 
   </section>
