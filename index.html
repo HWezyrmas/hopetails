@@ -1021,27 +1021,48 @@
       transition: background 0.2s ease;
     }
 
-    /* Card color themes */
-    .role-persona:nth-child(1) .role-persona-inner { background: var(--ember); }
-    .role-persona:nth-child(1) .rp-tagline,
-    .role-persona:nth-child(1) .rp-name,
-    .role-persona:nth-child(1) .rp-reveal-desc { color: #fff; }
-    .role-persona:nth-child(1) .rp-reveal-cta { color: #fff; border-color: rgba(255,255,255,0.55); }
-    .role-persona:nth-child(1) .rp-reveal-cta:hover { background: rgba(255,255,255,0.15); }
+    /* Card color themes — photo bg + color gradient overlay */
+    .role-persona-inner::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+    }
+    .rp-face, .rp-reveal { z-index: 2; }
 
-    .role-persona:nth-child(2) .role-persona-inner { background: var(--sage); }
-    .role-persona:nth-child(2) .rp-tagline,
-    .role-persona:nth-child(2) .rp-name,
-    .role-persona:nth-child(2) .rp-reveal-desc { color: #fff; }
-    .role-persona:nth-child(2) .rp-reveal-cta { color: #fff; border-color: rgba(255,255,255,0.55); }
-    .role-persona:nth-child(2) .rp-reveal-cta:hover { background: rgba(255,255,255,0.15); }
+    .role-persona:nth-child(1) .role-persona-inner {
+      background-image: url('https://images.unsplash.com/photo-1685464258330-d2ba70d8e06e?w=800&q=80');
+      background-size: cover;
+      background-position: center;
+    }
+    .role-persona:nth-child(1) .role-persona-inner::before {
+      background: linear-gradient(to top, rgba(232,98,42,0.88) 40%, rgba(232,98,42,0.45) 100%);
+    }
 
-    .role-persona:nth-child(3) .role-persona-inner { background: var(--sky-mist); }
-    .role-persona:nth-child(3) .rp-tagline,
-    .role-persona:nth-child(3) .rp-name,
-    .role-persona:nth-child(3) .rp-reveal-desc { color: var(--ink); }
-    .role-persona:nth-child(3) .rp-reveal-cta { color: var(--ink); border-color: rgba(13,13,11,0.35); }
-    .role-persona:nth-child(3) .rp-reveal-cta:hover { background: rgba(13,13,11,0.08); }
+    .role-persona:nth-child(2) .role-persona-inner {
+      background-image: url('https://images.unsplash.com/photo-1719752585472-ddc1cc7edbf6?w=800&q=80');
+      background-size: cover;
+      background-position: center;
+    }
+    .role-persona:nth-child(2) .role-persona-inner::before {
+      background: linear-gradient(to top, rgba(122,158,135,0.90) 40%, rgba(122,158,135,0.50) 100%);
+    }
+
+    .role-persona:nth-child(3) .role-persona-inner {
+      background-image: url('https://images.unsplash.com/photo-1476157808914-828d68f0f401?w=800&q=80');
+      background-size: cover;
+      background-position: center;
+    }
+    .role-persona:nth-child(3) .role-persona-inner::before {
+      background: linear-gradient(to top, rgba(30,60,90,0.88) 40%, rgba(30,60,90,0.45) 100%);
+    }
+
+    /* All text white now that photos provide contrast */
+    .role-persona .rp-tagline,
+    .role-persona .rp-name,
+    .role-persona .rp-reveal-desc { color: #fff; }
+    .role-persona .rp-reveal-cta { color: #fff; border-color: rgba(255,255,255,0.55); }
+    .role-persona .rp-reveal-cta:hover { background: rgba(255,255,255,0.15); }
 
     /* ================================
        8. GALLERY
