@@ -1,0 +1,1758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HopeTails — Saving lives, one flight at a time.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Instrument+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    /* ================================
+       RESET
+    ================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    img { display: block; max-width: 100%; }
+    a { text-decoration: none; color: inherit; }
+    button { cursor: pointer; border: none; background: none; font: inherit; }
+
+    /* ================================
+       TOKENS
+    ================================ */
+    :root {
+      --ink:            #0D0D0B;
+      --paper:          #FAF7F2;
+      --pure:           #FFFFFF;
+      --ember:          #E8622A;
+      --ember-soft:     #F5936A;
+      --sand:           #C9B99A;
+      --sage:           #7A9E87;
+      --sky-mist:       #B8D0DC;
+      --text-primary:   #0D0D0B;
+      --text-secondary: #5A5550;
+      --text-on-dark:   #FAF7F2;
+      --text-muted:     #9A9188;
+    }
+
+    /* ================================
+       BASE
+    ================================ */
+    body {
+      font-family: 'Instrument Sans', sans-serif;
+      font-weight: 300;
+      background: var(--paper);
+      color: var(--text-primary);
+      overflow-x: hidden;
+    }
+
+    /* Film grain overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      pointer-events: none;
+      opacity: 0.035;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      background-size: 200px 200px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 40px;
+    }
+
+    /* ================================
+       TYPOGRAPHY HELPERS
+    ================================ */
+    .eyebrow {
+      font-family: 'Instrument Sans', sans-serif;
+      font-weight: 500;
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ember);
+    }
+
+    .display {
+      font-family: 'Playfair Display', serif;
+      line-height: 1.05;
+    }
+
+    em {
+      font-style: italic;
+    }
+
+    /* ================================
+       SCROLL ANIMATION
+    ================================ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* ================================
+       BUTTONS
+    ================================ */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Instrument Sans', sans-serif;
+      font-weight: 500;
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 14px 32px;
+      border-radius: 0;
+      transition: background 0.2s, color 0.2s, transform 0.15s;
+      cursor: pointer;
+      border: none;
+    }
+    .btn:active { transform: scale(0.98); }
+
+    .btn-ember { background: var(--ember); color: var(--paper); }
+    .btn-ember:hover { background: var(--ember-soft); }
+
+    .btn-outline-sand {
+      background: transparent;
+      color: var(--sand);
+      border: 1px solid var(--sand);
+    }
+    .btn-outline-sand:hover { background: rgba(201,185,154,0.1); }
+
+    .btn-outline-ink {
+      background: transparent;
+      color: var(--ink);
+      border: 1px solid var(--ink);
+    }
+    .btn-outline-ink:hover { background: rgba(13,13,11,0.06); }
+
+    /* ================================
+       1. NAVIGATION
+    ================================ */
+    #nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      padding: 20px 0;
+      transition: background 0.4s ease, backdrop-filter 0.4s ease, box-shadow 0.4s ease;
+    }
+    #nav.scrolled {
+      background: rgba(13,13,11,0.92);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      box-shadow: 0 1px 0 rgba(255,255,255,0.06);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 22px;
+      color: var(--paper);
+    }
+    .nav-logo svg { width: 28px; height: 28px; flex-shrink: 0; }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-family: 'Instrument Sans', sans-serif;
+      font-weight: 500;
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(250,247,242,0.7);
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--paper); }
+    .nav-links .btn { padding: 10px 22px; font-size: 11px; }
+
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      padding: 4px;
+    }
+    .nav-hamburger span {
+      display: block;
+      width: 22px;
+      height: 1.5px;
+      background: var(--paper);
+      transition: transform 0.3s, opacity 0.3s;
+    }
+
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: var(--ink);
+      z-index: 999;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 40px;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      font-family: 'Playfair Display', serif;
+      font-size: 32px;
+      color: var(--paper);
+      transition: color 0.2s;
+    }
+    .mobile-menu a:hover { color: var(--ember); }
+    .mobile-close {
+      position: absolute;
+      top: 24px; right: 40px;
+      font-size: 28px;
+      color: var(--paper);
+      cursor: pointer;
+      background: none;
+      border: none;
+    }
+
+    /* ================================
+       2. HERO
+    ================================ */
+    #hero {
+      min-height: 100vh;
+      background: var(--ink);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Hero layout */
+    .hero-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 100vh;
+      align-items: stretch;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      padding: 140px 64px 100px 40px;
+      max-width: calc(600px + 40px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    /* Right photo zone */
+    .hero-photo {
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
+    .hero-photo::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(105deg, var(--ink) 0%, rgba(13,13,11,0.4) 50%, rgba(13,13,11,0.15) 100%);
+    }
+    /* Subtle ember tint on photo */
+    .hero-photo::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(232,98,42,0.08);
+      z-index: 1;
+      animation: pulse-shape 6s ease-in-out infinite;
+    }
+    @keyframes pulse-shape {
+      0%, 100% { opacity: 0.6; }
+      50%       { opacity: 1; }
+    }
+
+    .hero-headline {
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      font-size: clamp(52px, 7vw, 96px);
+      line-height: 1.0;
+      color: var(--paper);
+    }
+    .hero-headline em { color: var(--ember); }
+
+    .hero-headline .line {
+      display: block;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: line-up 0.6s ease forwards;
+    }
+    .hero-headline .line:nth-child(1) { animation-delay: 0.1s; }
+    .hero-headline .line:nth-child(2) { animation-delay: 0.25s; }
+    .hero-headline .line:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes line-up {
+      to { opacity: 1; transform: none; }
+    }
+
+    .hero-sub {
+      font-weight: 300;
+      font-size: 18px;
+      line-height: 1.65;
+      color: var(--sand);
+      max-width: 420px;
+      margin-top: 28px;
+      opacity: 0;
+      animation: line-up 0.6s ease 0.55s forwards;
+    }
+
+    .hero-ctas {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-top: 48px;
+      opacity: 0;
+      animation: line-up 0.6s ease 0.7s forwards;
+    }
+
+    .hero-proof {
+      margin-top: 32px;
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--text-muted);
+      opacity: 0;
+      animation: line-up 0.6s ease 0.85s forwards;
+    }
+    .hero-proof .stars { color: var(--ember); margin-right: 8px; }
+
+    /* Scroll indicator */
+    .hero-bottom {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      justify-content: center;
+      padding: 20px 0;
+    }
+    .scroll-arrow {
+      animation: bob 2s ease-in-out infinite;
+      color: rgba(250,247,242,0.4);
+    }
+    @keyframes bob {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(8px); }
+    }
+
+    /* ================================
+       3. STATS BAR
+    ================================ */
+    #stats {
+      background: var(--ember);
+      padding: 0;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      height: 160px;
+    }
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      position: relative;
+    }
+    .stat-item + .stat-item::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 20%; height: 60%;
+      width: 1px;
+      background: rgba(255,255,255,0.25);
+    }
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: clamp(36px, 4vw, 56px);
+      color: var(--paper);
+      line-height: 1;
+    }
+    .stat-label {
+      font-weight: 500;
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.75);
+    }
+
+    /* ================================
+       4. MANIFESTO
+    ================================ */
+    #manifesto {
+      background: var(--paper);
+      padding: 128px 0;
+    }
+    .manifesto-inner {
+      max-width: 680px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .manifesto-inner .eyebrow { margin-bottom: 20px; }
+    .manifesto-headline {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-style: italic;
+      font-size: clamp(28px, 4vw, 52px);
+      line-height: 1.15;
+      color: var(--ink);
+      margin-bottom: 36px;
+    }
+    .manifesto-body {
+      font-weight: 300;
+      font-size: 17px;
+      line-height: 1.8;
+      color: var(--text-secondary);
+      text-align: left;
+    }
+    .manifesto-body p + p { margin-top: 20px; }
+
+    /* ================================
+       5. HOW IT WORKS
+    ================================ */
+    #process {
+      background: var(--ink);
+      padding: 128px 0;
+    }
+    .process-header {
+      margin-bottom: 64px;
+    }
+    .process-header .eyebrow { margin-bottom: 16px; }
+    .process-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: clamp(36px, 4vw, 52px);
+      color: var(--paper);
+    }
+
+    .stages-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .stage-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 4px;
+      padding: 32px;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.3s;
+    }
+    .stage-card:hover { background: rgba(255,255,255,0.07); }
+
+    .stage-ghost-num {
+      position: absolute;
+      top: -16px; right: 20px;
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      font-size: 96px;
+      color: rgba(255,255,255,0.05);
+      line-height: 1;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    .stage-badge {
+      display: inline-block;
+      background: var(--ember);
+      color: var(--paper);
+      font-family: 'Instrument Sans', sans-serif;
+      font-weight: 500;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 2px;
+      margin-bottom: 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .stage-title {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 22px;
+      color: var(--paper);
+      margin-bottom: 10px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .stage-desc {
+      font-weight: 300;
+      font-size: 14px;
+      color: var(--sand);
+      line-height: 1.65;
+      position: relative;
+      z-index: 1;
+    }
+
+    .stages-note {
+      margin-top: 40px;
+      padding-top: 28px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      font-weight: 300;
+      font-size: 13px;
+      font-style: italic;
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    /* ================================
+       6. WINTER'S STORY
+    ================================ */
+    #winter {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 80vh;
+    }
+
+    .winter-left {
+      background: var(--ink);
+      position: relative;
+      overflow: hidden;
+      min-height: 600px;
+    }
+
+    .winter-photos-bg {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 2px;
+    }
+    .winter-photos-bg img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .winter-photos-bg img:first-child {
+      grid-row: span 2;
+    }
+    .winter-photos-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(13,13,11,0.55);
+    }
+
+    .winter-badge {
+      position: absolute;
+      top: 32px; left: 32px;
+      z-index: 2;
+      font-family: 'Instrument Sans', sans-serif;
+      font-weight: 500;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ember);
+      border: 1px solid var(--ember);
+      border-radius: 4px;
+      padding: 6px 12px;
+    }
+
+    /* Adoption Card */
+    .adoption-card {
+      position: absolute;
+      bottom: 40px; left: 40px;
+      z-index: 3;
+      background: var(--paper);
+      border-radius: 4px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.45);
+      padding: 22px;
+      width: 270px;
+      transform: translateX(20px);
+    }
+
+    .ac-stage-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+    .ac-stage-pill {
+      background: var(--ember);
+      color: var(--paper);
+      font-family: 'Instrument Sans', sans-serif;
+      font-weight: 500;
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 2px;
+    }
+    .ac-progress-bar {
+      flex: 1;
+      height: 4px;
+      background: rgba(0,0,0,0.1);
+      border-radius: 2px;
+      margin-left: 10px;
+      overflow: hidden;
+    }
+    .ac-progress-fill {
+      width: 60%;
+      height: 100%;
+      background: var(--sage);
+      border-radius: 2px;
+    }
+
+    .ac-name {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 20px;
+      color: var(--ink);
+    }
+    .ac-meta {
+      font-weight: 300;
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 2px;
+      margin-bottom: 14px;
+    }
+
+    .ac-route {
+      font-weight: 300;
+      font-size: 12px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 14px;
+    }
+
+    .ac-checks {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      margin-bottom: 18px;
+    }
+    .ac-check {
+      font-weight: 400;
+      font-size: 12px;
+      color: var(--sage);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .ac-check::before { content: '✓'; font-weight: 600; }
+
+    .ac-btn {
+      display: block;
+      width: 100%;
+      text-align: center;
+      background: var(--ember);
+      color: var(--paper);
+      font-family: 'Instrument Sans', sans-serif;
+      font-weight: 500;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 11px;
+      border-radius: 0;
+      transition: background 0.2s;
+    }
+    .ac-btn:hover { background: var(--ember-soft); }
+
+    .winter-right {
+      background: var(--paper);
+      padding: 96px 72px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .winter-right .eyebrow { margin-bottom: 20px; }
+
+    .winter-headline {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-style: italic;
+      font-size: clamp(26px, 3vw, 42px);
+      line-height: 1.15;
+      color: var(--ink);
+      margin-bottom: 28px;
+    }
+
+    .winter-body {
+      font-weight: 300;
+      font-size: 16px;
+      line-height: 1.85;
+      color: var(--text-secondary);
+    }
+    .winter-body p + p { margin-top: 18px; }
+
+    .winter-closing {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-style: italic;
+      font-size: 20px;
+      color: var(--ember);
+      margin-top: 24px;
+    }
+
+    .winter-right .btn { margin-top: 32px; }
+
+    /* ================================
+       7. THREE ROLES
+    ================================ */
+    #roles {
+      background: var(--paper);
+      padding: 128px 0;
+    }
+    .roles-header {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+    .roles-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: clamp(32px, 4vw, 52px);
+      color: var(--ink);
+    }
+
+    .roles-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .role-card {
+      background: var(--pure);
+      border: 1px solid rgba(0,0,0,0.08);
+      border-radius: 4px;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .role-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.1);
+    }
+    .role-stripe { height: 8px; }
+    .role-body { padding: 36px 28px; }
+
+    .role-title {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 22px;
+      color: var(--ink);
+      margin-bottom: 14px;
+    }
+    .role-desc {
+      font-weight: 300;
+      font-size: 15px;
+      line-height: 1.75;
+      color: var(--text-secondary);
+      margin-bottom: 24px;
+    }
+    .role-link {
+      font-weight: 500;
+      font-size: 13px;
+      letter-spacing: 0.05em;
+      transition: opacity 0.2s;
+    }
+    .role-link:hover { opacity: 0.75; }
+
+    /* ================================
+       8. GALLERY
+    ================================ */
+    #gallery {
+      background: var(--ink);
+      padding: 128px 0;
+    }
+
+    .gallery-header {
+      margin-bottom: 56px;
+    }
+    .gallery-header .eyebrow { margin-bottom: 16px; }
+    .gallery-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: clamp(32px, 4vw, 52px);
+      color: var(--paper);
+      margin-bottom: 16px;
+    }
+    .gallery-header p {
+      font-weight: 300;
+      font-size: 18px;
+      color: var(--sand);
+      max-width: 560px;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2px;
+    }
+
+    .gallery-card {
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .gallery-card:nth-child(1) { height: 340px; }
+    .gallery-card:nth-child(2) { height: 200px; align-self: end; }
+    .gallery-card:nth-child(3) { height: 280px; }
+    .gallery-card:nth-child(4) { height: 340px; }
+    .gallery-card:nth-child(5) { height: 280px; }
+    .gallery-card:nth-child(6) { height: 340px; }
+    .gallery-card:nth-child(7) { height: 200px; }
+    .gallery-card:nth-child(8) { height: 280px; }
+
+    /* Re-span some cards */
+    .gallery-card:nth-child(1) { grid-column: span 1; }
+
+    .ba-before, .ba-after {
+      position: absolute;
+      top: 0; bottom: 0;
+      transition: width 0.5s ease;
+    }
+    .ba-before {
+      left: 0;
+      width: 50%;
+      filter: grayscale(80%) brightness(0.65);
+    }
+    .ba-after {
+      right: 0;
+      width: 50%;
+    }
+
+    .gallery-card:hover .ba-before { width: 35%; }
+    .gallery-card:hover .ba-after  { width: 65%; }
+
+    .ba-before img, .ba-after img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+    }
+    .ba-before img { right: 0; }
+    .ba-after  img { left: 0; }
+
+    /* Gradient placeholder for cards without real photos */
+    .ba-placeholder {
+      width: 100%; height: 100%;
+      position: absolute;
+    }
+
+    .ba-divider {
+      position: absolute;
+      top: 0; bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 1px;
+      background: var(--ember);
+      z-index: 2;
+      transition: left 0.5s ease;
+    }
+    .gallery-card:hover .ba-divider { left: 35%; }
+
+    .ba-paw {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 28px; height: 28px;
+      background: var(--ink);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      z-index: 3;
+      transition: left 0.5s ease;
+    }
+    .gallery-card:hover .ba-paw { left: 35%; }
+
+    .gallery-card-info {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 20px 16px 14px;
+      background: linear-gradient(transparent, rgba(13,13,11,0.8));
+      z-index: 4;
+    }
+    .gallery-cat-name {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 16px;
+      color: var(--paper);
+    }
+    .gallery-route {
+      font-weight: 300;
+      font-size: 11px;
+      color: var(--sand);
+      margin-top: 2px;
+    }
+
+    .gallery-footer {
+      margin-top: 48px;
+      text-align: center;
+    }
+    .gallery-footer a {
+      font-weight: 500;
+      font-size: 14px;
+      color: var(--ember);
+      letter-spacing: 0.05em;
+      border-bottom: 1px solid var(--ember);
+      padding-bottom: 2px;
+      transition: opacity 0.2s;
+    }
+    .gallery-footer a:hover { opacity: 0.7; }
+
+    /* ================================
+       9. DOWNLOAD CTA
+    ================================ */
+    #cta {
+      background: var(--paper);
+      padding: 160px 0;
+    }
+    .cta-inner {
+      max-width: 700px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .cta-inner .eyebrow { margin-bottom: 20px; }
+
+    .cta-headline {
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      font-size: clamp(44px, 6vw, 72px);
+      line-height: 1.0;
+      color: var(--ink);
+      margin-bottom: 24px;
+    }
+    .cta-headline em { color: var(--ember); }
+
+    .cta-sub {
+      font-weight: 300;
+      font-size: 18px;
+      line-height: 1.65;
+      color: var(--text-secondary);
+    }
+
+    .cta-form {
+      display: flex;
+      align-items: flex-end;
+      gap: 16px;
+      margin-top: 48px;
+      max-width: 520px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .cta-form input {
+      flex: 1;
+      font-family: 'Instrument Sans', sans-serif;
+      font-weight: 300;
+      font-size: 15px;
+      color: var(--ink);
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid var(--ink);
+      padding: 12px 0;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .cta-form input::placeholder { color: var(--text-muted); }
+    .cta-form input:focus { border-color: var(--ember); }
+    .cta-fine {
+      margin-top: 16px;
+      font-weight: 300;
+      font-size: 12px;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    /* ================================
+       10. FOOTER
+    ================================ */
+    #footer {
+      background: var(--ink);
+      padding: 80px 0 0;
+    }
+    .footer-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 48px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 20px;
+      color: var(--paper);
+    }
+
+    .footer-socials {
+      display: flex;
+      gap: 20px;
+    }
+    .footer-social {
+      width: 36px; height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--sand);
+      transition: color 0.2s;
+    }
+    .footer-social:hover { color: var(--paper); }
+
+    .footer-mid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 2fr;
+      gap: 40px;
+      padding: 56px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .footer-col h5 {
+      font-family: 'Instrument Sans', sans-serif;
+      font-weight: 500;
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+      margin-bottom: 20px;
+    }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+    .footer-col ul a {
+      font-weight: 300;
+      font-size: 14px;
+      color: rgba(250,247,242,0.6);
+      transition: color 0.2s;
+    }
+    .footer-col ul a:hover { color: var(--paper); }
+
+    .footer-text {
+      font-weight: 300;
+      font-size: 14px;
+      line-height: 1.75;
+      color: var(--sand);
+    }
+
+    .footer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px 0;
+    }
+    .footer-bottom span {
+      font-weight: 300;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    /* ================================
+       RESPONSIVE
+    ================================ */
+    @media (max-width: 1024px) {
+      .container { padding: 0 28px; }
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+      .gallery-card:nth-child(n+5) { display: none; }
+      .footer-mid { grid-template-columns: 1fr 1fr; gap: 32px; }
+    }
+
+    @media (max-width: 768px) {
+      .container { padding: 0 20px; }
+
+      /* Nav */
+      .nav-links { display: none; }
+      .nav-hamburger { display: flex; }
+
+      /* Hero — photo becomes full-bleed background, text overlaid */
+      #hero { min-height: 100svh; }
+      .hero-inner {
+        display: block;
+        position: relative;
+        min-height: 100svh;
+      }
+      .hero-photo {
+        display: block;
+        position: absolute;
+        inset: 0;
+      }
+      /* Stronger gradient so text is always readable on mobile */
+      .hero-photo::after {
+        background: linear-gradient(180deg, rgba(13,13,11,0.72) 0%, rgba(13,13,11,0.55) 100%);
+      }
+      .hero-content {
+        position: relative;
+        z-index: 2;
+        padding: 110px 24px 80px;
+      }
+      .hero-headline { font-size: 42px; }
+      .hero-sub { font-size: 16px; max-width: 100%; }
+      .hero-ctas { flex-direction: column; gap: 12px; }
+      .hero-ctas .btn { width: 100%; justify-content: center; }
+      .hero-proof { font-size: 12px; }
+
+      /* Stats */
+      .stats-grid { grid-template-columns: repeat(2, 1fr); height: auto; }
+      .stat-item { padding: 28px 16px; }
+      .stat-item:nth-child(2)::before { display: none; }
+
+      /* Manifesto */
+      #manifesto { padding: 72px 0; }
+      .manifesto-headline { font-size: 26px; }
+
+      /* Process */
+      #process { padding: 72px 0; }
+      .stages-grid { grid-template-columns: 1fr; gap: 12px; }
+      .stage-ghost-num { font-size: 72px; }
+
+      /* Winter */
+      #winter { grid-template-columns: 1fr; }
+      .winter-left { min-height: 420px; }
+      .adoption-card {
+        width: calc(100% - 48px);
+        transform: none;
+        bottom: 24px;
+        left: 24px;
+      }
+      .winter-right { padding: 52px 24px; }
+      .winter-headline { font-size: 26px; }
+
+      /* Roles */
+      #roles { padding: 72px 0; }
+      .roles-grid { grid-template-columns: 1fr; gap: 16px; }
+
+      /* Gallery */
+      #gallery { padding: 72px 0; }
+      .gallery-grid { grid-template-columns: 1fr 1fr; gap: 2px; }
+      .gallery-card { height: 200px !important; }
+
+      /* CTA */
+      #cta { padding: 88px 0; }
+      .cta-headline { font-size: 40px; }
+      .cta-form { flex-direction: column; align-items: stretch; }
+      .cta-form .btn { justify-content: center; }
+
+      /* Footer */
+      .footer-top { flex-direction: column; gap: 24px; align-items: flex-start; }
+      .footer-mid { grid-template-columns: 1fr 1fr; }
+      .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
+    }
+
+    @media (max-width: 480px) {
+      .hero-content { padding: 96px 20px 72px; }
+      .hero-headline { font-size: 34px; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .gallery-grid { grid-template-columns: 1fr; }
+      .gallery-card:nth-child(n+4) { display: none; }
+      .gallery-card { height: 240px !important; }
+      .footer-mid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ================================
+       1. NAVIGATION
+  ================================ -->
+  <nav id="nav">
+    <div class="container">
+      <div class="nav-inner">
+
+        <a href="#" class="nav-logo">
+          <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="9" cy="7" rx="3" ry="4" fill="#E8622A"/>
+            <ellipse cx="19" cy="7" rx="3" ry="4" fill="#E8622A"/>
+            <ellipse cx="4.5" cy="14" rx="2.5" ry="3.5" fill="#E8622A"/>
+            <ellipse cx="23.5" cy="14" rx="2.5" ry="3.5" fill="#E8622A"/>
+            <path d="M14 11c-5 0-8.5 3.5-8.5 7.5C5.5 23.5 8.5 27 14 27s8.5-3.5 8.5-8.5C22.5 14.5 19 11 14 11z" fill="#C9B99A"/>
+          </svg>
+          HopeTails
+        </a>
+
+        <ul class="nav-links">
+          <li><a href="#process">How It Works</a></li>
+          <li><a href="#winter">Winter's Story</a></li>
+          <li><a href="#gallery">Flight Board</a></li>
+          <li><a href="#cta" class="btn btn-ember">Download</a></li>
+        </ul>
+
+        <button class="nav-hamburger" id="hamburgerBtn" aria-label="Open menu">
+          <span></span><span></span><span></span>
+        </button>
+
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-close" id="mobileClose">✕</button>
+    <a href="#process"  class="mm-link">How It Works</a>
+    <a href="#winter"   class="mm-link">Winter's Story</a>
+    <a href="#gallery"  class="mm-link">Flight Board</a>
+    <a href="#cta"      class="mm-link">Download</a>
+  </div>
+
+  <!-- ================================
+       2. HERO
+  ================================ -->
+  <section id="hero">
+    <div class="hero-inner">
+      <div class="hero-content">
+        <h1 class="hero-headline">
+          <span class="line">Saving lives,</span>
+          <span class="line">one <em>flight</em></span>
+          <span class="line">at a time.</span>
+        </h1>
+        <p class="hero-sub">
+          HopeTails connects rescuers, travelers, and adopters
+          across the world — so no cat has to wait forever.
+        </p>
+        <div class="hero-ctas">
+          <a href="#cta" class="btn btn-ember">Get Early Access</a>
+          <a href="#process" class="btn btn-outline-sand">See How It Works</a>
+        </div>
+        <p class="hero-proof">
+          <span class="stars">★★★★★</span>
+          2,400+ rescuers across 38 countries
+        </p>
+      </div>
+
+      <!-- Right: cat photo -->
+      <div class="hero-photo">
+        <img
+          src="https://images.unsplash.com/photo-1574158622682-e40e69881006?auto=format&fit=crop&w=900&q=85"
+          alt="Cat portrait"
+        />
+      </div>
+
+    </div><!-- /hero-inner -->
+
+    <div class="hero-bottom">
+      <svg class="scroll-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M12 5v14M5 12l7 7 7-7"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ================================
+       3. STATS BAR
+  ================================ -->
+  <section id="stats">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-item reveal">
+          <span class="stat-num" data-target="2400">0</span>
+          <span class="stat-label">Rescuers worldwide</span>
+        </div>
+        <div class="stat-item reveal" style="transition-delay:.08s">
+          <span class="stat-num" data-target="850">0</span>
+          <span class="stat-label">Cats rehomed</span>
+        </div>
+        <div class="stat-item reveal" style="transition-delay:.16s">
+          <span class="stat-num" data-target="38">0</span>
+          <span class="stat-label">Countries reached</span>
+        </div>
+        <div class="stat-item reveal" style="transition-delay:.24s">
+          <span class="stat-num">100%</span>
+          <span class="stat-label">Volunteer powered</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================
+       4. MANIFESTO
+  ================================ -->
+  <section id="manifesto">
+    <div class="container">
+      <div class="manifesto-inner">
+        <p class="eyebrow reveal">Why HopeTails Exists</p>
+        <h2 class="manifesto-headline reveal" style="transition-delay:.1s">
+          "There are thousands of cats waiting. The flights already exist. The problem is connection."
+        </h2>
+        <div class="manifesto-body reveal" style="transition-delay:.2s">
+          <p>Every day, rescuers around the world find animals that need a home — often in countries where adoption is near-impossible. And every day, hundreds of flights take off with empty cabin space.</p>
+          <p>HopeTails exists in that gap. We built the infrastructure to match a cat in Amman with a family in Toronto, through a traveler on that exact flight — handling every document, every milestone, every moment of the journey.</p>
+          <p>We call them Flight Parents. And they change everything.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================
+       5. HOW IT WORKS
+  ================================ -->
+  <section id="process">
+    <div class="container">
+      <div class="process-header">
+        <p class="eyebrow reveal">The Process</p>
+        <h2 class="reveal" style="transition-delay:.1s">Six stages. One new life.</h2>
+      </div>
+
+      <div class="stages-grid">
+        <div class="stage-card reveal">
+          <span class="stage-ghost-num">01</span>
+          <span class="stage-badge">Stage 01</span>
+          <h3 class="stage-title">The Profile</h3>
+          <p class="stage-desc">Give the cat an identity. Photos, video, GPS tag, and a beautiful shareable adoption card.</p>
+        </div>
+        <div class="stage-card reveal" style="transition-delay:.08s">
+          <span class="stage-ghost-num">02</span>
+          <span class="stage-badge">Stage 02</span>
+          <h3 class="stage-title">The Match</h3>
+          <p class="stage-desc">Confirm an adopter. Auto-generate document requirements based on origin and destination country.</p>
+        </div>
+        <div class="stage-card reveal" style="transition-delay:.12s">
+          <span class="stage-ghost-num">03</span>
+          <span class="stage-badge">Stage 03</span>
+          <h3 class="stage-title">The Fund</h3>
+          <p class="stage-desc">Track vet and flight costs in real-time. Link out to GoFundMe or PayPal — fully transparent.</p>
+        </div>
+        <div class="stage-card reveal" style="transition-delay:.16s">
+          <span class="stage-ghost-num">04</span>
+          <span class="stage-badge">Stage 04</span>
+          <h3 class="stage-title">The Flight Parent</h3>
+          <p class="stage-desc">A traveler posts their itinerary. The system matches them to a rescue cat. A 3-way chat opens.</p>
+        </div>
+        <div class="stage-card reveal" style="transition-delay:.2s">
+          <span class="stage-ghost-num">05</span>
+          <span class="stage-badge">Stage 05</span>
+          <h3 class="stage-title">The Journey</h3>
+          <p class="stage-desc">Four live milestones with required photo proof: Prep → Handover → Landing → Home.</p>
+        </div>
+        <div class="stage-card reveal" style="transition-delay:.24s">
+          <span class="stage-ghost-num">06</span>
+          <span class="stage-badge">Stage 06</span>
+          <h3 class="stage-title">The Happy Tail</h3>
+          <p class="stage-desc">Profile moves to the global gallery. Before & After. A wall of second chances.</p>
+        </div>
+      </div>
+
+      <p class="stages-note reveal">
+        <em>"Flights cannot be arranged until documents and funding are fully verified. This is enforced by the app."</em>
+      </p>
+    </div>
+  </section>
+
+  <!-- ================================
+       6. WINTER'S STORY
+  ================================ -->
+  <section id="winter">
+
+    <div class="winter-left">
+      <!-- Real photos as background grid -->
+      <div class="winter-photos-bg">
+        <img src="winter-rescue-1.jpg" alt="Winter recovering with cone" />
+        <img src="winter-rescue-2.jpg" alt="Winter with cone, looking at camera" />
+        <img src="winter-recovery-2.jpg" alt="Winter curled up on sofa, recovered" />
+      </div>
+
+      <span class="winter-badge">Featured Rescue</span>
+
+      <!-- Adoption Card -->
+      <div class="adoption-card">
+        <div class="ac-stage-row">
+          <span class="ac-stage-pill">Stage 4 of 6</span>
+          <div class="ac-progress-bar">
+            <div class="ac-progress-fill"></div>
+          </div>
+        </div>
+        <div class="ac-name">Winter</div>
+        <div class="ac-meta">~6 months · Male · Deaf</div>
+        <div class="ac-route">
+          📍 Amman, Jordan<br>
+          ✈️ → Anywhere, World
+        </div>
+        <div class="ac-checks">
+          <span class="ac-check">Vaccinated</span>
+          <span class="ac-check">Health Cert Ready</span>
+          <span class="ac-check">Fully Funded</span>
+        </div>
+        <a href="#cta" class="ac-btn">Apply to Adopt</a>
+      </div>
+    </div>
+
+    <div class="winter-right">
+      <p class="eyebrow reveal">Winter's Story</p>
+      <h2 class="winter-headline reveal" style="transition-delay:.1s">
+        "He appeared on a windowsill in November. Wounded. Deaf. Purring."
+      </h2>
+      <div class="winter-body reveal" style="transition-delay:.2s">
+        <p>On a cold November morning, he appeared — perched silently on a windowsill like he'd been waiting to be found. His name became <strong>Winter</strong>, and it suited him perfectly: quiet, striking, and carrying something heavy beneath the surface.</p>
+        <p>Winter arrived with deep wounds across his back, almost certainly from a surprise attack by another stray — a cruel fate for a deaf cat who never heard it coming. Despite the pain, he purred. Despite the fear, he leaned in for cuddles. His wounds had turned severely infected by the time he was found, requiring weeks of treatment, careful medication, and delicate sutures.</p>
+        <p>But Winter fought. And Winter won.</p>
+        <p>Today, at around six months old, this silky, soulful boy has made a full recovery. He loves nothing more than curling into someone's lap — though he's equally happy charming other cats in the room before quietly slipping away to reclaim his throne on the sofa. Gentle. Loving. Entirely unaware of how extraordinary he is.</p>
+      </div>
+      <p class="winter-closing reveal" style="transition-delay:.28s">
+        "Winter is ready for his flight home. Is that home yours?"
+      </p>
+      <a href="#cta" class="btn btn-ember reveal" style="transition-delay:.34s">Apply to Adopt Winter</a>
+    </div>
+
+  </section>
+
+  <!-- ================================
+       7. THREE ROLES
+  ================================ -->
+  <section id="roles">
+    <div class="container">
+      <div class="roles-header reveal">
+        <h2>Everyone has a part to play.</h2>
+      </div>
+      <div class="roles-grid">
+
+        <div class="role-card reveal">
+          <div class="role-stripe" style="background: var(--ember)"></div>
+          <div class="role-body">
+            <h3 class="role-title">Rescuers &amp; Volunteers</h3>
+            <p class="role-desc">You found them — now find them a home. Create profiles, coordinate documents, manage every stage of the journey.</p>
+            <a href="#cta" class="role-link" style="color: var(--ember)">Learn more →</a>
+          </div>
+        </div>
+
+        <div class="role-card reveal" style="transition-delay:.1s">
+          <div class="role-stripe" style="background: var(--sage)"></div>
+          <div class="role-body">
+            <h3 class="role-title">Adopters</h3>
+            <p class="role-desc">Your forever family is waiting somewhere in the world. Apply, follow the journey live, and welcome them through your door.</p>
+            <a href="#cta" class="role-link" style="color: var(--sage)">Learn more →</a>
+          </div>
+        </div>
+
+        <div class="role-card reveal" style="transition-delay:.2s">
+          <div class="role-stripe" style="background: var(--sky-mist)"></div>
+          <div class="role-body">
+            <h3 class="role-title">Flight Parents</h3>
+            <p class="role-desc">Your next trip could save a life. Post your itinerary, get matched with a rescue cat, and become someone's hero at 35,000 feet.</p>
+            <a href="#cta" class="role-link" style="color: var(--sky-mist)">Learn more →</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================
+       8. HAPPY TAILS GALLERY
+  ================================ -->
+  <section id="gallery">
+    <div class="container">
+      <div class="gallery-header">
+        <p class="eyebrow reveal">The Gallery</p>
+        <h2 class="reveal" style="transition-delay:.08s">The wall of second chances.</h2>
+        <p class="reveal" style="transition-delay:.16s">Every face here has a story. Every story started with someone who chose to act.</p>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="gallery-grid">
+
+        <!-- Card 1: Winter (real photos) -->
+        <div class="gallery-card reveal">
+          <div class="ba-before"><img src="winter-rescue-2.jpg" alt="Winter before" /></div>
+          <div class="ba-after"><img src="winter-recovery-2.jpg" alt="Winter after" /></div>
+          <div class="ba-divider"></div>
+          <div class="ba-paw">🐾</div>
+          <div class="gallery-card-info">
+            <div class="gallery-cat-name">Winter</div>
+            <div class="gallery-route">Amman 🇯🇴 → Forever Home 🏠</div>
+          </div>
+        </div>
+
+        <!-- Card 2: Luna — stray on rock → cozy on bed -->
+        <div class="gallery-card reveal" style="transition-delay:.06s">
+          <div class="ba-before"><img src="https://images.unsplash.com/photo-1533743983669-94fa5c4338ec?auto=format&fit=crop&w=600&q=80" alt="Stray cat" /></div>
+          <div class="ba-after"><img src="https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?auto=format&fit=crop&w=600&q=80" alt="Cat at home" /></div>
+          <div class="ba-divider"></div>
+          <div class="ba-paw">🐾</div>
+          <div class="gallery-card-info">
+            <div class="gallery-cat-name">Luna</div>
+            <div class="gallery-route">Istanbul 🇹🇷 → Amsterdam 🇳🇱</div>
+          </div>
+        </div>
+
+        <!-- Card 3: Mochi — cat behind bars → portrait -->
+        <div class="gallery-card reveal" style="transition-delay:.12s">
+          <div class="ba-before"><img src="https://images.unsplash.com/photo-1548247416-ec66f4900b2e?auto=format&fit=crop&w=600&q=80" alt="Stray cat" /></div>
+          <div class="ba-after"><img src="https://images.unsplash.com/photo-1596854407944-bf87f6fdd49e?auto=format&fit=crop&w=600&q=80" alt="Cat at home" /></div>
+          <div class="ba-divider"></div>
+          <div class="ba-paw">🐾</div>
+          <div class="gallery-card-info">
+            <div class="gallery-cat-name">Mochi</div>
+            <div class="gallery-route">Beirut 🇱🇧 → London 🇬🇧</div>
+          </div>
+        </div>
+
+        <!-- Card 4: Saffron — cat in bush → kitten portrait -->
+        <div class="gallery-card reveal" style="transition-delay:.18s">
+          <div class="ba-before"><img src="https://images.unsplash.com/photo-1513360371669-4adf46c40558?auto=format&fit=crop&w=600&q=80" alt="Stray cat" /></div>
+          <div class="ba-after"><img src="https://images.unsplash.com/photo-1555685812-4b943f1cb0eb?auto=format&fit=crop&w=600&q=80" alt="Cat at home" /></div>
+          <div class="ba-divider"></div>
+          <div class="ba-paw">🐾</div>
+          <div class="gallery-card-info">
+            <div class="gallery-cat-name">Saffron</div>
+            <div class="gallery-route">Cairo 🇪🇬 → Berlin 🇩🇪</div>
+          </div>
+        </div>
+
+        <!-- Cards 5–8 hidden on mobile -->
+        <!-- Card 5: Nala — cat on ground → relaxing -->
+        <div class="gallery-card reveal" style="transition-delay:.22s">
+          <div class="ba-before"><img src="https://images.unsplash.com/photo-1518791841217-8f162f1912da?auto=format&fit=crop&w=600&q=80" alt="Stray cat" /></div>
+          <div class="ba-after"><img src="https://images.unsplash.com/photo-1526336024174-e58f5cdd8e13?auto=format&fit=crop&w=600&q=80" alt="Cat at home" /></div>
+          <div class="ba-divider"></div>
+          <div class="ba-paw">🐾</div>
+          <div class="gallery-card-info">
+            <div class="gallery-cat-name">Nala</div>
+            <div class="gallery-route">Dubai 🇦🇪 → Melbourne 🇦🇺</div>
+          </div>
+        </div>
+
+        <!-- Card 6: Olive — cat in nest → black cat -->
+        <div class="gallery-card reveal" style="transition-delay:.26s">
+          <div class="ba-before"><img src="https://images.unsplash.com/photo-1561948955-570b270e7c36?auto=format&fit=crop&w=600&q=80" alt="Stray cat" /></div>
+          <div class="ba-after"><img src="https://images.unsplash.com/photo-1478098711619-5ab0b478d6e6?auto=format&fit=crop&w=600&q=80" alt="Cat at home" /></div>
+          <div class="ba-divider"></div>
+          <div class="ba-paw">🐾</div>
+          <div class="gallery-card-info">
+            <div class="gallery-cat-name">Olive</div>
+            <div class="gallery-route">Athens 🇬🇷 → New York 🇺🇸</div>
+          </div>
+        </div>
+
+        <!-- Card 7: Kiko -->
+        <div class="gallery-card reveal" style="transition-delay:.28s">
+          <div class="ba-before"><img src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=600&q=80" alt="Stray cat" /></div>
+          <div class="ba-after"><img src="https://images.unsplash.com/photo-1511275539165-cc46b1ee89bf?auto=format&fit=crop&w=600&q=80" alt="Cat at home" /></div>
+          <div class="ba-divider"></div>
+          <div class="ba-paw">🐾</div>
+          <div class="gallery-card-info">
+            <div class="gallery-cat-name">Kiko</div>
+            <div class="gallery-route">Seoul 🇰🇷 → Toronto 🇨🇦</div>
+          </div>
+        </div>
+
+        <!-- Card 8: Rumi -->
+        <div class="gallery-card reveal" style="transition-delay:.3s">
+          <div class="ba-before"><img src="https://images.unsplash.com/photo-1529778873920-4da4926a72c2?auto=format&fit=crop&w=600&q=80" alt="Stray cat" /></div>
+          <div class="ba-after"><img src="https://images.unsplash.com/photo-1494256997604-768d1f608cac?auto=format&fit=crop&w=600&q=80" alt="Cat at home" /></div>
+          <div class="ba-divider"></div>
+          <div class="ba-paw">🐾</div>
+          <div class="gallery-card-info">
+            <div class="gallery-cat-name">Rumi</div>
+            <div class="gallery-route">Tehran 🇮🇷 → Paris 🇫🇷</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="gallery-footer reveal">
+        <a href="#cta">View all Happy Tails →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================
+       9. DOWNLOAD CTA
+  ================================ -->
+  <section id="cta">
+    <div class="container">
+      <div class="cta-inner">
+        <p class="eyebrow reveal">Coming Soon</p>
+        <h2 class="cta-headline reveal" style="transition-delay:.1s">
+          Every rescue<br>needs a<br><em>Flight Parent.</em>
+        </h2>
+        <p class="cta-sub reveal" style="transition-delay:.2s">
+          Join our early access list. Be the first to know when HopeTails launches.
+        </p>
+        <form class="cta-form reveal" style="transition-delay:.3s" id="ctaForm">
+          <input type="email" placeholder="your@email.com" required autocomplete="email" />
+          <button type="submit" class="btn btn-ember">Notify Me</button>
+        </form>
+        <p class="cta-fine reveal" style="transition-delay:.38s">
+          No spam. No noise. Just the moment we go live.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================
+       10. FOOTER
+  ================================ -->
+  <footer id="footer">
+    <div class="container">
+
+      <div class="footer-top">
+        <div class="footer-logo">
+          <svg viewBox="0 0 28 28" fill="none" style="width:24px;height:24px">
+            <ellipse cx="9" cy="7" rx="3" ry="4" fill="#E8622A"/>
+            <ellipse cx="19" cy="7" rx="3" ry="4" fill="#E8622A"/>
+            <ellipse cx="4.5" cy="14" rx="2.5" ry="3.5" fill="#E8622A"/>
+            <ellipse cx="23.5" cy="14" rx="2.5" ry="3.5" fill="#E8622A"/>
+            <path d="M14 11c-5 0-8.5 3.5-8.5 7.5C5.5 23.5 8.5 27 14 27s8.5-3.5 8.5-8.5C22.5 14.5 19 11 14 11z" fill="#C9B99A"/>
+          </svg>
+          HopeTails
+        </div>
+        <div class="footer-socials">
+          <a href="#" class="footer-social" aria-label="Instagram">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          </a>
+          <a href="#" class="footer-social" aria-label="TikTok">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.77a4.85 4.85 0 0 1-1.01-.08z"/></svg>
+          </a>
+          <a href="#" class="footer-social" aria-label="X / Twitter">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="footer-mid">
+        <div class="footer-col">
+          <h5>App</h5>
+          <ul>
+            <li><a href="#process">How It Works</a></li>
+            <li><a href="#cta">Download</a></li>
+            <li><a href="#gallery">Flight Board</a></li>
+            <li><a href="#manifesto">Global Map</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Community</h5>
+          <ul>
+            <li><a href="#roles">Rescuers</a></li>
+            <li><a href="#roles">Adopters</a></li>
+            <li><a href="#roles">Flight Parents</a></li>
+            <li><a href="#roles">Route Experts</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Info</h5>
+          <ul>
+            <li><a href="#manifesto">About</a></li>
+            <li><a href="#cta">Privacy</a></li>
+            <li><a href="#cta">Terms</a></li>
+            <li><a href="#cta">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <p class="footer-text">HopeTails is a volunteer-powered platform. We believe every cat deserves a second chance, no matter where in the world they were born.</p>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2025 HopeTails</span>
+        <span>Built with love. 🐾</span>
+      </div>
+
+    </div>
+  </footer>
+
+  <script>
+    // ================================
+    // NAV: scroll style
+    // ================================
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 60);
+    }, { passive: true });
+
+    // ================================
+    // NAV: mobile hamburger
+    // ================================
+    const hamburger = document.getElementById('hamburgerBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const mobileClose = document.getElementById('mobileClose');
+
+    hamburger.addEventListener('click', () => {
+      mobileMenu.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+    const closeMenu = () => {
+      mobileMenu.classList.remove('open');
+      document.body.style.overflow = '';
+    };
+    mobileClose.addEventListener('click', closeMenu);
+    document.querySelectorAll('.mm-link, .mobile-menu .btn').forEach(l => l.addEventListener('click', closeMenu));
+
+    // ================================
+    // SCROLL REVEALS
+    // ================================
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+    // ================================
+    // STATS: count-up
+    // ================================
+    const countObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const el = entry.target;
+        const target = parseInt(el.dataset.target);
+        if (!target) return;
+        const suffix = target >= 2400 ? '+' : (target === 38 ? '' : '+');
+        let start = 0;
+        const step = target / 60;
+        const timer = setInterval(() => {
+          start += step;
+          if (start >= target) {
+            el.textContent = target.toLocaleString() + suffix;
+            clearInterval(timer);
+          } else {
+            el.textContent = Math.floor(start).toLocaleString() + suffix;
+          }
+        }, 16);
+        countObserver.unobserve(el);
+      });
+    }, { threshold: 0.5 });
+
+    document.querySelectorAll('.stat-num[data-target]').forEach(el => countObserver.observe(el));
+
+    // ================================
+    // FORM: submission
+    // ================================
+    document.getElementById('ctaForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const input = e.target.querySelector('input');
+      const btn   = e.target.querySelector('button');
+      btn.textContent = 'You\'re on the list ✓';
+      btn.disabled = true;
+      input.value = '';
+      input.placeholder = 'See you at launch.';
+      input.disabled = true;
+    });
+  </script>
+</body>
+</html>
