@@ -167,7 +167,22 @@
       font-size: 22px;
       color: var(--paper);
     }
-    .nav-logo svg { width: 28px; height: 28px; flex-shrink: 0; }
+    .nav-logo svg {
+      width: 28px;
+      height: 28px;
+      flex-shrink: 0;
+      animation: paw-jump 3.2s ease-in-out infinite;
+      transform-origin: center bottom;
+    }
+
+    @keyframes paw-jump {
+      /* Long rest, then a quick double-bounce */
+      0%, 65%       { transform: translateY(0) scaleX(1) scaleY(1); }
+      72%           { transform: translateY(-7px) scaleX(0.92) scaleY(1.08); }
+      78%           { transform: translateY(0) scaleX(1.06) scaleY(0.94); }
+      83%           { transform: translateY(-4px) scaleX(0.96) scaleY(1.04); }
+      88%, 100%     { transform: translateY(0) scaleX(1) scaleY(1); }
+    }
 
     .nav-links {
       display: flex;
