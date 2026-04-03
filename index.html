@@ -277,37 +277,34 @@
     }
 
     /* Right photo zone */
-    .hero-photo {
+    .hero-phone {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 80px 40px 60px;
       position: relative;
-      overflow: hidden;
     }
-    .hero-photo img {
+    .phone-frame {
+      position: relative;
+      width: 248px;
+      background: #111110;
+      border-radius: 42px;
+      padding: 10px;
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,0.10),
+        0 48px 96px rgba(0,0,0,0.7),
+        0 0 80px rgba(232,98,42,0.07);
+      animation: float 4s ease-in-out infinite;
+    }
+    .phone-frame img {
       width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center;
+      border-radius: 34px;
       display: block;
     }
-    .hero-photo::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(105deg, var(--ink) 0%, rgba(13,13,11,0.4) 50%, rgba(13,13,11,0.15) 100%);
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-12px); }
     }
-    /* Subtle ember tint on photo */
-    .hero-photo::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: rgba(232,98,42,0.08);
-      z-index: 1;
-      animation: pulse-shape 6s ease-in-out infinite;
-    }
-    @keyframes pulse-shape {
-      0%, 100% { opacity: 0.6; }
-      50%       { opacity: 1; }
-    }
-
     .hero-headline {
       font-family: 'Playfair Display', serif;
       font-weight: 900;
@@ -879,164 +876,102 @@
     }
 
     /* ================================
-       7. THREE ROLES — Magazine Spread
+       7. THREE ROLES
     ================================ */
     #roles {
       background: var(--ink);
       padding: 128px 0;
     }
 
-    .roles-magazine {
+    .roles-header {
+      text-align: center;
+      margin-bottom: 72px;
+    }
+    .roles-header h2 { color: var(--paper); }
+    .roles-header p  { color: var(--sand); max-width: 480px; margin: 16px auto 0; font-weight: 300; }
+
+    .roles-grid {
       display: grid;
-      grid-template-columns: 2fr 1fr;
-      grid-template-rows: 1fr 1fr;
-      height: 600px;
-      gap: 4px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
     }
 
-    /* Feature card — left column, full height */
-    .rm-feature {
-      grid-column: 1;
-      grid-row: 1 / 3;
-      position: relative;
+    .role-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 16px;
       overflow: hidden;
-    }
-
-    /* Sidebar cards — right column */
-    .rm-sidebar {
-      grid-column: 2;
-      position: relative;
-      overflow: hidden;
-      cursor: pointer;
-    }
-    .rm-sidebar:first-of-type  { grid-row: 1; }
-    .rm-sidebar:last-of-type   { grid-row: 2; }
-
-    /* Shared: photo background */
-    .rm-photo {
-      position: absolute;
-      inset: 0;
-      background-size: cover;
-      background-position: center;
-      transition: transform 0.65s ease;
-    }
-    .rm-feature .rm-photo { transform: scale(1.02); }
-    .rm-sidebar:hover .rm-photo { transform: scale(1.05); }
-
-    /* Overlays */
-    .rm-overlay {
-      position: absolute;
-      inset: 0;
-      transition: background 0.35s ease;
-    }
-    .rm-feature .rm-overlay {
-      background: linear-gradient(135deg, rgba(13,13,11,0.88) 0%, rgba(13,13,11,0.35) 100%);
-    }
-    .rm-sidebar .rm-overlay {
-      background: rgba(13,13,11,0.62);
-    }
-    .rm-sidebar:hover .rm-overlay { background: rgba(13,13,11,0.42); }
-
-    /* Ghost number on feature */
-    .rm-ghost-num {
-      position: absolute;
-      bottom: -24px;
-      right: 20px;
-      font-family: 'Playfair Display', serif;
-      font-size: 200px;
-      font-weight: 900;
-      line-height: 1;
-      color: transparent;
-      -webkit-text-stroke: 1px rgba(255,255,255,0.07);
-      pointer-events: none;
-      user-select: none;
-      z-index: 1;
-    }
-
-    /* Content layers */
-    .rm-content {
-      position: absolute;
-      inset: 0;
-      z-index: 2;
       display: flex;
       flex-direction: column;
-      justify-content: flex-end;
-      transition: opacity 0.22s ease;
+      transition: border-color 0.3s, transform 0.3s;
     }
-    .rm-feature .rm-content { padding: 52px 48px; }
-    .rm-sidebar .rm-content { padding: 24px 24px; }
+    .role-card:hover {
+      border-color: rgba(255,255,255,0.16);
+      transform: translateY(-4px);
+    }
 
-    .rm-content.is-swapping { opacity: 0; }
+    .role-phone-zone {
+      background: rgba(255,255,255,0.02);
+      padding: 36px 36px 0;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      min-height: 280px;
+    }
+    .role-phone-zone .phone-frame {
+      width: 160px;
+      animation: none;
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,0.10),
+        0 24px 48px rgba(0,0,0,0.5);
+    }
+    .role-phone-zone .phone-frame img {
+      border-radius: 24px;
+    }
 
-    .rm-eyebrow {
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.14em;
+    .role-info {
+      padding: 28px 28px 32px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .role-num {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
       color: var(--ember);
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
-    .rm-name {
+    .role-title {
       font-family: 'Playfair Display', serif;
+      font-size: 24px;
       font-weight: 700;
       color: var(--paper);
-      line-height: 1.0;
+      line-height: 1.2;
+      margin-bottom: 12px;
     }
-    .rm-feature .rm-name { font-size: clamp(44px, 4.5vw, 68px); margin-bottom: 18px; }
-    .rm-sidebar .rm-name  { font-size: clamp(20px, 2vw, 26px);  margin-bottom: 0; }
-
-    .rm-desc {
+    .role-desc {
+      font-size: 14px;
       font-weight: 300;
-      font-size: 15px;
       line-height: 1.7;
-      color: rgba(250,247,242,0.72);
-      max-width: 400px;
-      margin-bottom: 28px;
+      color: var(--sand);
+      flex: 1;
+      margin-bottom: 20px;
     }
-    .rm-cta {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
+    .role-cta {
       font-size: 12px;
-      font-weight: 500;
-      letter-spacing: 0.1em;
+      font-weight: 600;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
-      color: var(--paper);
-      border-bottom: 1px solid rgba(255,255,255,0.35);
-      padding-bottom: 2px;
-      align-self: flex-start;
-      transition: color 0.2s, border-color 0.2s;
-    }
-    .rm-cta:hover { color: var(--ember); border-color: var(--ember); }
-
-    /* Sidebar subtle tag */
-    .rm-tag {
-      font-size: 10px;
-      font-weight: 500;
-      letter-spacing: 0.13em;
-      text-transform: uppercase;
-      color: rgba(250,247,242,0.45);
-      margin-bottom: 6px;
-    }
-
-    /* Promote arrow — appears on sidebar hover */
-    .rm-arrow {
-      position: absolute;
-      top: 18px;
-      right: 18px;
-      z-index: 3;
-      width: 30px;
-      height: 30px;
-      border: 1px solid rgba(255,255,255,0.22);
-      border-radius: 50%;
+      color: var(--ember);
+      text-decoration: none;
       display: flex;
       align-items: center;
-      justify-content: center;
-      opacity: 0;
-      transform: scale(0.85);
-      transition: opacity 0.3s ease, transform 0.3s ease;
+      gap: 6px;
     }
-    .rm-sidebar:hover .rm-arrow { opacity: 1; transform: scale(1); }
+    .role-cta::after { content: '→'; transition: transform 0.2s; }
+    .role-cta:hover::after { transform: translateX(4px); }
 
     /* ================================
        8. GALLERY — Polaroid Scatter
@@ -1359,29 +1294,19 @@
       /* Hero — photo becomes full-bleed background, text overlaid */
       #hero { min-height: 100svh; }
       .hero-inner {
-        display: block;
-        position: relative;
-        min-height: 100svh;
-      }
-      .hero-photo {
-        display: block;
-        position: absolute;
-        inset: 0;
-      }
-      /* Stronger gradient so text is always readable on mobile */
-      .hero-photo::after {
-        background: linear-gradient(180deg, rgba(13,13,11,0.72) 0%, rgba(13,13,11,0.55) 100%);
+        grid-template-columns: 1fr;
+        min-height: auto;
       }
       .hero-content {
-        position: relative;
-        z-index: 2;
-        padding: 110px 24px 80px;
+        padding: 100px 24px 60px;
       }
       .hero-headline { font-size: 64px; }
       .hero-sub { font-size: 16px; max-width: 100%; }
       .hero-ctas { flex-direction: column; gap: 12px; }
       .hero-ctas .btn { width: 100%; justify-content: center; }
       .hero-proof { font-size: 12px; }
+      .hero-phone { padding: 40px 24px 60px; }
+      .phone-frame { width: 200px; }
 
       /* Stats */
       .stats-grid { grid-template-columns: repeat(2, 1fr); }
@@ -1414,21 +1339,12 @@
       .w-card-widget-accent { width: auto; height: 4px; }
       .w-footer-text { padding: 40px 0 72px; }
 
+
       /* Roles */
       #roles { padding: 72px 0; }
-      .roles-magazine {
-        grid-template-columns: 1fr 1fr;
-        grid-template-rows: 300px 150px;
-        height: auto;
-      }
-      .rm-feature { grid-column: 1 / 3; grid-row: 1; }
-      .rm-sidebar:first-of-type { grid-column: 1; grid-row: 2; }
-      .rm-sidebar:last-of-type  { grid-column: 2; grid-row: 2; }
-      .rm-feature .rm-name { font-size: 36px; }
-      .rm-feature .rm-content { padding: 28px 24px; }
-      .rm-ghost-num { font-size: 110px; }
-      .rm-desc { font-size: 13px; margin-bottom: 16px; }
-      .rm-sidebar .rm-content { padding: 16px; }
+      .roles-grid { grid-template-columns: 1fr; gap: 16px; }
+      .role-phone-zone { min-height: 220px; padding: 28px 28px 0; }
+      .role-phone-zone .phone-frame { width: 140px; }
 
       /* Gallery */
       #gallery { padding: 72px 0; }
@@ -1530,12 +1446,11 @@
         </p>
       </div>
 
-      <!-- Right: cat photo -->
-      <div class="hero-photo">
-        <img
-          src="https://images.unsplash.com/photo-1574158622682-e40e69881006?auto=format&fit=crop&w=900&q=85"
-          alt="Cat portrait"
-        />
+      <!-- Right: app screenshot in phone frame -->
+      <div class="hero-phone">
+        <div class="phone-frame">
+          <img src="app2.jpeg" alt="HopeTails app — Discover screen" />
+        </div>
       </div>
 
     </div><!-- /hero-inner -->
@@ -1837,50 +1752,64 @@
   ================================ -->
   <section id="roles">
     <div class="container">
-      <div class="roles-magazine reveal">
 
-        <!-- Feature card (left, full height) -->
-        <div class="rm-feature" id="rmFeature">
-          <div class="rm-photo"></div>
-          <div class="rm-overlay"></div>
-          <div class="rm-ghost-num" id="rmGhost"></div>
-          <div class="rm-content" id="rmFeatureContent">
-            <p class="rm-eyebrow" id="rmEyebrow"></p>
-            <h3 class="rm-name"  id="rmFName"></h3>
-            <p class="rm-desc"   id="rmDesc"></p>
-            <a href="#cta" class="rm-cta" id="rmCta"></a>
+      <div class="roles-header reveal">
+        <p class="eyebrow">Everyone has a role</p>
+        <h2>Find yours.</h2>
+        <p>Rescuers, adopters, and travelers — three people who have never met, united by one cat.</p>
+      </div>
+
+      <div class="roles-grid">
+
+        <!-- Rescuers -->
+        <div class="role-card reveal">
+          <div class="role-phone-zone">
+            <div class="phone-frame">
+              <img src="app2.jpeg" alt="HopeTails Discover screen" />
+            </div>
+          </div>
+          <div class="role-info">
+            <span class="role-num">01</span>
+            <h3 class="role-title">Rescuers &amp; Volunteers</h3>
+            <p class="role-desc">You found them in the cold. Now give them a future — create profiles, coordinate documents, and manage every stage of the journey.</p>
+            <a href="#cta" class="role-cta">Start rescuing</a>
           </div>
         </div>
 
-        <!-- Sidebar top -->
-        <div class="rm-sidebar" id="rmSidebarA">
-          <div class="rm-photo"></div>
-          <div class="rm-overlay"></div>
-          <div class="rm-arrow">
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.8)" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        <!-- Flight Parents -->
+        <div class="role-card reveal" style="transition-delay:.08s">
+          <div class="role-phone-zone">
+            <div class="phone-frame">
+              <img src="app1.jpeg" alt="HopeTails Flights screen" />
+            </div>
           </div>
-          <div class="rm-content" id="rmSidebarAContent">
-            <p class="rm-tag"  id="rmATag"></p>
-            <h3 class="rm-name" id="rmAName"></h3>
+          <div class="role-info">
+            <span class="role-num">02</span>
+            <h3 class="role-title">Flight Parents</h3>
+            <p class="role-desc">You're already boarding. Post your itinerary, get matched with a rescue cat that needs a seat, and land as someone's hero.</p>
+            <a href="#cta" class="role-cta">Post a flight</a>
           </div>
         </div>
 
-        <!-- Sidebar bottom -->
-        <div class="rm-sidebar" id="rmSidebarB">
-          <div class="rm-photo"></div>
-          <div class="rm-overlay"></div>
-          <div class="rm-arrow">
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.8)" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        <!-- Adopters -->
+        <div class="role-card reveal" style="transition-delay:.16s">
+          <div class="role-phone-zone">
+            <div class="phone-frame">
+              <img src="app3.jpeg" alt="HopeTails Journeys screen" />
+            </div>
           </div>
-          <div class="rm-content" id="rmSidebarBContent">
-            <p class="rm-tag"  id="rmBTag"></p>
-            <h3 class="rm-name" id="rmBName"></h3>
+          <div class="role-info">
+            <span class="role-num">03</span>
+            <h3 class="role-title">Adopters</h3>
+            <p class="role-desc">Your family is waiting on the other side of the world. Apply, follow the live journey, and open the door to the one meant to be yours.</p>
+            <a href="#cta" class="role-cta">Find your cat</a>
           </div>
         </div>
 
       </div>
     </div>
   </section>
+
 
   <!-- ================================
        8. HAPPY TAILS GALLERY
@@ -2194,74 +2123,6 @@
       goTo(0);
     })();
 
-    // ================================
-    // ROLES MAGAZINE: click to promote
-    // ================================
-    (function () {
-      const roles = [
-        {
-          num: '01', name: 'Rescuers', tag: '& Volunteers',
-          desc: 'You found them in the cold. Now give them a future — create profiles, coordinate documents, and manage every stage of the journey.',
-          cta: 'Start rescuing →',
-          photo: 'https://images.unsplash.com/photo-1685464258330-d2ba70d8e06e?w=1400&q=80',
-        },
-        {
-          num: '02', name: 'Adopters', tag: 'Forever Families',
-          desc: 'Your family is waiting on the other side of the world. Apply, follow the live journey, and open the door to the one meant to be yours.',
-          cta: 'Find your cat →',
-          photo: 'https://images.unsplash.com/photo-1719752585472-ddc1cc7edbf6?w=1400&q=80',
-        },
-        {
-          num: '03', name: 'Flight Parents', tag: 'Travelers',
-          desc: "You're already boarding. Post your itinerary, get matched with a rescue cat that needs a seat, and land as someone's hero.",
-          cta: 'Post a flight →',
-          photo: 'https://images.unsplash.com/photo-1476157808914-828d68f0f401?w=1400&q=80',
-        },
-      ];
-
-      // slots[0]=feature, slots[1]=sidebar-top, slots[2]=sidebar-bottom
-      let slots = [0, 1, 2];
-
-      const featurePhoto  = document.querySelector('#rmFeature .rm-photo');
-      const sidebarAPhoto = document.querySelector('#rmSidebarA .rm-photo');
-      const sidebarBPhoto = document.querySelector('#rmSidebarB .rm-photo');
-      const featureContent = document.getElementById('rmFeatureContent');
-
-      function render() {
-        const f = roles[slots[0]], a = roles[slots[1]], b = roles[slots[2]];
-
-        // Feature
-        featurePhoto.style.backgroundImage = `url('${f.photo}')`;
-        document.getElementById('rmGhost').textContent  = f.num;
-        document.getElementById('rmEyebrow').textContent = f.tag;
-        document.getElementById('rmFName').textContent   = f.name;
-        document.getElementById('rmDesc').textContent    = f.desc;
-        document.getElementById('rmCta').textContent     = f.cta;
-
-        // Sidebars
-        sidebarAPhoto.style.backgroundImage = `url('${a.photo}')`;
-        document.getElementById('rmATag').textContent  = a.tag;
-        document.getElementById('rmAName').textContent = a.name;
-
-        sidebarBPhoto.style.backgroundImage = `url('${b.photo}')`;
-        document.getElementById('rmBTag').textContent  = b.tag;
-        document.getElementById('rmBName').textContent = b.name;
-      }
-
-      function promote(slotIdx) {
-        [slots[0], slots[slotIdx]] = [slots[slotIdx], slots[0]];
-        featureContent.classList.add('is-swapping');
-        setTimeout(() => {
-          render();
-          featureContent.classList.remove('is-swapping');
-        }, 230);
-      }
-
-      document.getElementById('rmSidebarA').addEventListener('click', () => promote(1));
-      document.getElementById('rmSidebarB').addEventListener('click', () => promote(2));
-
-      render();
-    })();
 
     // ================================
     // FORM: submission
