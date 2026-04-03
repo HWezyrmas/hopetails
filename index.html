@@ -759,13 +759,47 @@
       position: relative;
       z-index: 2;
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr 168px 260px;
       width: 100%;
-      max-width: 1200px;
+      max-width: 1240px;
       margin: 0 auto;
       padding: 140px 40px 100px;
       align-items: end;
-      gap: 64px;
+      gap: 28px;
+    }
+
+    .w-photos {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      align-self: stretch;
+      min-height: 0;
+    }
+    .w-photo-wrap {
+      position: relative;
+      flex: 1;
+      min-height: 0;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .w-photo-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .w-photo-label {
+      position: absolute;
+      bottom: 8px;
+      left: 10px;
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.8);
+      background: rgba(0,0,0,0.45);
+      padding: 3px 8px;
+      border-radius: 3px;
     }
 
     .w-text .eyebrow { color: var(--sand); margin-bottom: 20px; }
@@ -1445,6 +1479,7 @@
         gap: 28px;
       }
 
+      .w-photos { display: none; }
       .w-card-col { display: none; }
       .w-badge { left: 20px; top: 28px; }
       .w-headline { font-size: 22px; }
@@ -1805,6 +1840,18 @@
           "Winter is ready for his flight home. Is that home yours?"
         </span>
         <a href="#cta" class="btn btn-ember reveal" style="transition-delay:.32s">Apply to Adopt Winter</a>
+      </div>
+
+      <!-- Middle: stacked rescue photos -->
+      <div class="w-photos reveal" style="transition-delay:.14s">
+        <div class="w-photo-wrap">
+          <img src="winter-rescue-1.jpg" alt="Winter when first found" />
+          <span class="w-photo-label">Day 1</span>
+        </div>
+        <div class="w-photo-wrap">
+          <img src="winter-rescue-2.jpg" alt="Winter early in recovery" />
+          <span class="w-photo-label">Week 2</span>
+        </div>
       </div>
 
       <!-- Right: floating adoption card over photo -->
