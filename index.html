@@ -456,9 +456,10 @@
        5. HOW IT WORKS
     ================================ */
     #process {
-      background: var(--ink);
-      padding: 128px 0;
+      background: var(--paper);
+      padding: 120px 0;
     }
+
     .process-header {
       margin-bottom: 64px;
     }
@@ -467,82 +468,164 @@
       font-family: 'Playfair Display', serif;
       font-weight: 700;
       font-size: clamp(36px, 4vw, 52px);
-      color: var(--paper);
+      color: var(--ink);
     }
 
+    /* ── Boarding pass grid ── */
     .stages-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 20px;
     }
 
-    .stage-card {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 4px;
-      padding: 32px;
+    /* Each ticket */
+    .pass {
+      display: flex;
+      border-radius: 12px;
+      overflow: visible;
+      box-shadow: 0 6px 28px rgba(0,0,0,0.09);
       position: relative;
-      overflow: hidden;
-      transition: background 0.3s;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
     }
-    .stage-card:hover { background: rgba(255,255,255,0.07); }
+    .pass:hover {
+      transform: translateY(-5px) rotate(-0.4deg);
+      box-shadow: 0 18px 48px rgba(0,0,0,0.14);
+    }
 
-    .stage-ghost-num {
+    /* Colored stub (left) */
+    .pass-stub {
+      width: 80px;
+      flex-shrink: 0;
+      border-radius: 12px 0 0 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 20px 8px;
+      position: relative;
+    }
+    /* Tab cutout on right edge of stub */
+    .pass-stub::before,
+    .pass-stub::after {
+      content: '';
       position: absolute;
-      top: -16px; right: 20px;
+      right: -10px;
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      background: var(--paper);
+      z-index: 2;
+    }
+    .pass-stub::before { top: -10px; }
+    .pass-stub::after  { bottom: -10px; }
+
+    .pass-emoji {
+      font-size: 28px;
+      line-height: 1;
+    }
+    .pass-num {
       font-family: 'Playfair Display', serif;
       font-weight: 900;
-      font-size: 96px;
-      color: rgba(255,255,255,0.05);
+      font-size: 22px;
+      color: rgba(255,255,255,0.9);
       line-height: 1;
-      user-select: none;
-      pointer-events: none;
     }
 
-    .stage-badge {
-      display: inline-block;
-      background: var(--ember);
-      color: var(--paper);
-      font-family: 'Instrument Sans', sans-serif;
-      font-weight: 500;
-      font-size: 10px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      padding: 4px 10px;
-      border-radius: 2px;
-      margin-bottom: 16px;
+    /* Dashed perforation line */
+    .pass-perf {
+      width: 1px;
+      flex-shrink: 0;
+      background: repeating-linear-gradient(
+        to bottom,
+        rgba(0,0,0,0.12) 0px, rgba(0,0,0,0.12) 5px,
+        transparent 5px, transparent 10px
+      );
       position: relative;
       z-index: 1;
     }
 
-    .stage-title {
+    /* White main body */
+    .pass-main {
+      flex: 1;
+      background: var(--pure);
+      border-radius: 0 12px 12px 0;
+      padding: 20px 20px 16px;
+      display: flex;
+      flex-direction: column;
+    }
+    .pass-stage-label {
+      font-weight: 500;
+      font-size: 9px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+    .pass-title {
       font-family: 'Playfair Display', serif;
       font-weight: 700;
-      font-size: 22px;
-      color: var(--paper);
-      margin-bottom: 10px;
-      position: relative;
-      z-index: 1;
+      font-size: 17px;
+      color: var(--ink);
+      margin-bottom: 8px;
+      line-height: 1.2;
     }
-
-    .stage-desc {
+    .pass-desc {
       font-weight: 300;
-      font-size: 14px;
-      color: var(--sand);
-      line-height: 1.65;
-      position: relative;
-      z-index: 1;
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      flex: 1;
+    }
+    .pass-footer {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px dashed rgba(0,0,0,0.1);
+      font-weight: 500;
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .pass-footer-arrow { font-size: 12px; }
+
+    /* Stage accent colours */
+    .pass-s1 .pass-stub { background: #E8622A; }
+    .pass-s2 .pass-stub { background: #5A8A70; }
+    .pass-s3 .pass-stub { background: #C4943A; }
+    .pass-s4 .pass-stub { background: #4A7FA0; }
+    .pass-s5 .pass-stub { background: #7B6BAE; }
+    .pass-s6 .pass-stub { background: #2A7A4E; }
+
+    /* Lock badge on Stage 5 */
+    .pass-lock {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: #FFF3E0;
+      color: #C4943A;
+      font-weight: 500;
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 4px;
+      margin-top: 8px;
+      width: fit-content;
     }
 
     .stages-note {
       margin-top: 40px;
-      padding-top: 28px;
-      border-top: 1px solid rgba(255,255,255,0.08);
+      padding: 16px 24px;
+      background: #FFF8F0;
+      border-left: 3px solid var(--ember);
+      border-radius: 0 4px 4px 0;
       font-weight: 300;
       font-size: 13px;
       font-style: italic;
-      color: var(--text-muted);
-      text-align: center;
+      color: var(--text-secondary);
     }
 
     /* ================================
@@ -1146,8 +1229,9 @@
 
       /* Process */
       #process { padding: 72px 0; }
-      .stages-grid { grid-template-columns: 1fr; gap: 12px; }
-      .stage-ghost-num { font-size: 72px; }
+      .stages-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+      .pass-title { font-size: 15px; }
+      .pass-desc { font-size: 12px; }
 
       /* Winter */
       #winter { grid-template-columns: 1fr; }
@@ -1211,6 +1295,7 @@
     @media (max-width: 480px) {
       .hero-content { padding: 96px 20px 72px; }
       .hero-headline { font-size: 34px; }
+      .stages-grid { grid-template-columns: 1fr; }
       .stats-grid { grid-template-columns: repeat(2, 1fr); }
       .gallery-grid { grid-template-columns: 1fr; }
       .gallery-card:nth-child(n+4) { display: none; }
@@ -1361,46 +1446,115 @@
       </div>
 
       <div class="stages-grid">
-        <div class="stage-card reveal">
-          <span class="stage-ghost-num">01</span>
-          <span class="stage-badge">Stage 01</span>
-          <h3 class="stage-title">The Profile</h3>
-          <p class="stage-desc">Give the cat an identity. Photos, video, GPS tag, and a beautiful shareable adoption card.</p>
+
+        <div class="pass pass-s1 reveal">
+          <div class="pass-stub">
+            <span class="pass-emoji">🐱</span>
+            <span class="pass-num">01</span>
+          </div>
+          <div class="pass-perf"></div>
+          <div class="pass-main">
+            <div class="pass-stage-label">Stage 01</div>
+            <h3 class="pass-title">The Profile</h3>
+            <p class="pass-desc">Give the cat an identity. Photos, video, GPS tag, and a shareable adoption card.</p>
+            <div class="pass-footer">
+              <span>Found</span>
+              <span class="pass-footer-arrow">✈</span>
+              <span>Discovered</span>
+            </div>
+          </div>
         </div>
-        <div class="stage-card reveal" style="transition-delay:.08s">
-          <span class="stage-ghost-num">02</span>
-          <span class="stage-badge">Stage 02</span>
-          <h3 class="stage-title">The Match</h3>
-          <p class="stage-desc">Confirm an adopter. Auto-generate document requirements based on origin and destination country.</p>
+
+        <div class="pass pass-s2 reveal" style="transition-delay:.07s">
+          <div class="pass-stub">
+            <span class="pass-emoji">📋</span>
+            <span class="pass-num">02</span>
+          </div>
+          <div class="pass-perf"></div>
+          <div class="pass-main">
+            <div class="pass-stage-label">Stage 02</div>
+            <h3 class="pass-title">The Match</h3>
+            <p class="pass-desc">Confirm an adopter. Auto-generate country-specific document requirements.</p>
+            <div class="pass-footer">
+              <span>Stray</span>
+              <span class="pass-footer-arrow">✈</span>
+              <span>Claimed</span>
+            </div>
+          </div>
         </div>
-        <div class="stage-card reveal" style="transition-delay:.12s">
-          <span class="stage-ghost-num">03</span>
-          <span class="stage-badge">Stage 03</span>
-          <h3 class="stage-title">The Fund</h3>
-          <p class="stage-desc">Track vet and flight costs in real-time. Link out to GoFundMe or PayPal — fully transparent.</p>
+
+        <div class="pass pass-s3 reveal" style="transition-delay:.14s">
+          <div class="pass-stub">
+            <span class="pass-emoji">💛</span>
+            <span class="pass-num">03</span>
+          </div>
+          <div class="pass-perf"></div>
+          <div class="pass-main">
+            <div class="pass-stage-label">Stage 03</div>
+            <h3 class="pass-title">The Fund</h3>
+            <p class="pass-desc">Track vet and flight costs in real-time. Linked to GoFundMe or PayPal.</p>
+            <div class="pass-footer">
+              <span>0%</span>
+              <span class="pass-footer-arrow">✈</span>
+              <span>Funded</span>
+            </div>
+          </div>
         </div>
-        <div class="stage-card reveal" style="transition-delay:.16s">
-          <span class="stage-ghost-num">04</span>
-          <span class="stage-badge">Stage 04</span>
-          <h3 class="stage-title">The Flight Parent</h3>
-          <p class="stage-desc">A traveler posts their itinerary. The system matches them to a rescue cat. A 3-way chat opens.</p>
+
+        <div class="pass pass-s4 reveal" style="transition-delay:.21s">
+          <div class="pass-stub">
+            <span class="pass-emoji">✈️</span>
+            <span class="pass-num">04</span>
+          </div>
+          <div class="pass-perf"></div>
+          <div class="pass-main">
+            <div class="pass-stage-label">Stage 04</div>
+            <h3 class="pass-title">The Flight Parent</h3>
+            <p class="pass-desc">A traveler posts their itinerary. A match is made. A 3-way chat opens.</p>
+            <div class="pass-footer">
+              <span>Origin</span>
+              <span class="pass-footer-arrow">✈</span>
+              <span>Destination</span>
+            </div>
+          </div>
         </div>
-        <div class="stage-card reveal" style="transition-delay:.2s">
-          <span class="stage-ghost-num">05</span>
-          <span class="stage-badge">Stage 05</span>
-          <h3 class="stage-title">The Journey</h3>
-          <p class="stage-desc">Four live milestones with required photo proof: Prep → Handover → Landing → Home.</p>
+
+        <div class="pass pass-s5 reveal" style="transition-delay:.28s">
+          <div class="pass-stub">
+            <span class="pass-emoji">📍</span>
+            <span class="pass-num">05</span>
+          </div>
+          <div class="pass-perf"></div>
+          <div class="pass-main">
+            <div class="pass-stage-label">Stage 05</div>
+            <h3 class="pass-title">The Journey</h3>
+            <p class="pass-desc">Four live checkpoints with photo proof: Prep → Handover → Landing → Home.</p>
+            <span class="pass-lock">🔒 Requires stages 2 &amp; 3</span>
+          </div>
         </div>
-        <div class="stage-card reveal" style="transition-delay:.24s">
-          <span class="stage-ghost-num">06</span>
-          <span class="stage-badge">Stage 06</span>
-          <h3 class="stage-title">The Happy Tail</h3>
-          <p class="stage-desc">Profile moves to the global gallery. Before & After. A wall of second chances.</p>
+
+        <div class="pass pass-s6 reveal" style="transition-delay:.35s">
+          <div class="pass-stub">
+            <span class="pass-emoji">🌟</span>
+            <span class="pass-num">06</span>
+          </div>
+          <div class="pass-perf"></div>
+          <div class="pass-main">
+            <div class="pass-stage-label">Stage 06</div>
+            <h3 class="pass-title">The Happy Tail</h3>
+            <p class="pass-desc">Profile moves to the global gallery. Before &amp; After. A wall of second chances.</p>
+            <div class="pass-footer">
+              <span>Rescue</span>
+              <span class="pass-footer-arrow">✈</span>
+              <span>Forever home</span>
+            </div>
+          </div>
         </div>
+
       </div>
 
       <p class="stages-note reveal">
-        <em>"Flights cannot be arranged until documents and funding are fully verified. This is enforced by the app."</em>
+        <em>Flights cannot be arranged until documents and funding are fully verified. This is enforced by the app.</em>
       </p>
     </div>
   </section>
