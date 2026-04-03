@@ -1136,15 +1136,41 @@
 
       /* Winter */
       #winter { grid-template-columns: 1fr; }
-      .winter-left { min-height: 420px; }
-      .adoption-card {
-        width: calc(100% - 48px);
-        transform: none;
-        bottom: 24px;
-        left: 24px;
+
+      /* Tall enough to see all 3 photos clearly */
+      .winter-left { height: 65vw; min-height: 340px; max-height: 520px; }
+
+      /* Lighten the overlay so photos are visible */
+      .winter-photos-bg::after {
+        background: rgba(13,13,11,0.28);
       }
-      .winter-right { padding: 52px 24px; }
-      .winter-headline { font-size: 26px; }
+
+      /* Compact adoption card pinned to bottom */
+      .adoption-card {
+        position: absolute;
+        bottom: 16px;
+        left: 16px;
+        right: 16px;
+        width: auto;
+        transform: none;
+        padding: 16px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px 16px;
+        align-items: center;
+      }
+      .ac-stage-row   { grid-column: span 2; margin-bottom: 0; }
+      .ac-name        { font-size: 17px; }
+      .ac-meta        { margin-bottom: 0; }
+      .ac-route       { grid-column: span 2; margin-bottom: 0; font-size: 11px; }
+      /* Hide checklist on mobile — keep it clean */
+      .ac-checks      { display: none; }
+      .ac-btn         { grid-column: span 2; padding: 10px; font-size: 10px; }
+
+      .winter-right { padding: 40px 20px 52px; }
+      .winter-headline { font-size: 24px; }
+      .winter-body p { font-size: 15px; }
+      .winter-closing { font-size: 17px; }
 
       /* Roles */
       #roles { padding: 72px 0; }
