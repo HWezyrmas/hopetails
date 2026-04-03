@@ -812,6 +812,94 @@
       align-items: flex-end;
       justify-content: flex-end;
     }
+    .adoption-card {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 22px 20px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .ac-stage-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 4px;
+    }
+    .ac-stage-pill {
+      background: var(--ember-soft);
+      color: var(--ember);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 3px 9px;
+      border-radius: 50px;
+      white-space: nowrap;
+    }
+    .ac-progress-bar {
+      flex: 1;
+      height: 4px;
+      background: rgba(0,0,0,0.08);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .ac-progress-fill {
+      width: 60%;
+      height: 100%;
+      background: var(--ember);
+      border-radius: 2px;
+    }
+
+    .ac-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.1;
+    }
+    .ac-meta {
+      font-size: 12px;
+      color: var(--mid-gray, #6B6B7A);
+    }
+    .ac-route {
+      font-size: 12px;
+      color: var(--ink);
+      line-height: 1.7;
+    }
+    .ac-checks {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 2px;
+    }
+    .ac-check {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      padding: 3px 8px;
+      border-radius: 50px;
+      background: rgba(140,184,168,0.18);
+      color: #3a7a65;
+    }
+    .ac-btn {
+      display: block;
+      text-align: center;
+      background: var(--ember);
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 11px 16px;
+      border-radius: 8px;
+      margin-top: 4px;
+      transition: opacity 0.2s;
+    }
+    .ac-btn:hover { opacity: 0.88; }
+
     .w-card-col .adoption-card {
       position: relative;
       bottom: auto; left: auto;
