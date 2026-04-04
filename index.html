@@ -881,6 +881,87 @@
       width: auto;
     }
 
+    /* Adoption card sub-elements */
+    .ac-stage-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .ac-stage-pill {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ember);
+      background: rgba(232,98,42,0.08);
+      padding: 4px 10px;
+      white-space: nowrap;
+    }
+    .ac-progress-bar {
+      flex: 1;
+      height: 3px;
+      background: rgba(0,0,0,0.08);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .ac-progress-fill {
+      width: 66%;   /* Stage 4 of 6 */
+      height: 100%;
+      background: var(--ember);
+      border-radius: 2px;
+    }
+    .ac-name {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 22px;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+    .ac-meta {
+      font-size: 12px;
+      font-weight: 400;
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+    }
+    .ac-route {
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--text-secondary);
+      margin-bottom: 16px;
+    }
+    .ac-checks {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    .ac-check {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #5A8A70;
+      background: rgba(90,138,112,0.1);
+      padding: 4px 10px;
+    }
+    .ac-check::before {
+      content: '✓ ';
+    }
+    .ac-btn {
+      display: inline-block;
+      background: var(--ember);
+      color: var(--pure);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 13px 28px;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .ac-btn:hover { background: #d4561f; }
+
     /* Closing row */
     .w-footer-text {
       padding: 52px 0 96px;
