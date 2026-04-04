@@ -478,248 +478,125 @@
        5. HOW IT WORKS
     ================================ */
     #process {
-      background: var(--paper);
+      background: var(--ink);
       padding: 120px 0;
     }
 
     .process-header {
-      margin-bottom: 64px;
+      text-align: center;
+      margin-bottom: 80px;
     }
-    .process-header .eyebrow { margin-bottom: 16px; }
+    .process-header .eyebrow { color: var(--ember); margin-bottom: 16px; }
     .process-header h2 {
       font-family: 'Playfair Display', serif;
       font-weight: 700;
       font-size: clamp(36px, 4vw, 52px);
-      color: var(--ink);
-    }
-
-    /* ── Carousel ── */
-    .carousel {
-      position: relative;
-    }
-
-    .carousel-viewport {
-      overflow: hidden;
-      padding: 48px 0;
-      margin: 0 -40px;
-    }
-
-    .carousel-track {
-      display: flex;
-      gap: 24px;
-      will-change: transform;
-      transition: transform 0.52s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    }
-
-    /* Nav buttons */
-    .carousel-btn {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      z-index: 10;
-      width: 48px; height: 48px;
-      border-radius: 50%;
-      background: var(--pure);
-      border: 1px solid rgba(0,0,0,0.1);
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-      display: flex; align-items: center; justify-content: center;
-      cursor: pointer;
-      color: var(--ink);
-      transition: background 0.2s, color 0.2s, box-shadow 0.2s;
-    }
-    .carousel-btn:hover {
-      background: var(--ember);
       color: var(--pure);
-      border-color: var(--ember);
-      box-shadow: 0 8px 28px rgba(232,98,42,0.3);
-    }
-    .carousel-btn:disabled { opacity: 0.3; pointer-events: none; }
-    .carousel-btn-prev { left: -8px; }
-    .carousel-btn-next { right: -8px; }
-
-    /* Stage dots */
-    .carousel-dots {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 8px;
-      margin-top: 8px;
-    }
-    .c-dot {
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      background: rgba(0,0,0,0.15);
-      cursor: pointer;
-      transition: all 0.35s ease;
-      border: none;
-      padding: 0;
-    }
-    .c-dot.active {
-      width: 28px;
-      border-radius: 4px;
-      background: var(--ember);
+      line-height: 1.1;
     }
 
-    /* Each ticket */
-    .pass {
-      flex: 0 0 520px;
-      display: flex;
-      border-radius: 12px;
-      overflow: visible;
-      box-shadow: 0 6px 28px rgba(0,0,0,0.09);
+    /* Bento grid — Apple MacBook Pro style */
+    .stages-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .stage-tile {
+      padding: 52px 48px 48px;
       position: relative;
-      opacity: 0.4;
-      transform: scale(0.88);
-      transition: opacity 0.45s ease, transform 0.45s ease, box-shadow 0.45s ease;
-      pointer-events: none;
+      overflow: hidden;
+      border-right: 1px solid rgba(255,255,255,0.08);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      transition: background 0.3s ease;
     }
-    .pass.is-active {
-      opacity: 1;
-      transform: scale(1);
-      box-shadow: 0 16px 56px rgba(0,0,0,0.14);
-      pointer-events: auto;
-    }
-    .pass.is-adjacent {
-      opacity: 0.65;
-      transform: scale(0.93);
-    }
+    .stage-tile:nth-child(even) { border-right: none; }
+    .stage-tile:nth-child(5),
+    .stage-tile:nth-child(6)   { border-bottom: none; }
+    .stage-tile:hover { background: rgba(255,255,255,0.04); }
 
-    /* Colored stub (left) */
-    .pass-stub {
-      width: 80px;
-      flex-shrink: 0;
-      border-radius: 12px 0 0 12px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      padding: 20px 8px;
-      position: relative;
-    }
-    /* Tab cutout on right edge of stub */
-    .pass-stub::before,
-    .pass-stub::after {
+    /* Colored top accent bar */
+    .stage-tile::before {
       content: '';
       position: absolute;
-      right: -10px;
-      width: 20px; height: 20px;
-      border-radius: 50%;
-      background: var(--paper);
-      z-index: 2;
+      top: 0; left: 0; right: 0;
+      height: 3px;
     }
-    .pass-stub::before { top: -10px; }
-    .pass-stub::after  { bottom: -10px; }
+    .stage-tile.s1::before { background: #E8622A; }
+    .stage-tile.s2::before { background: #5A8A70; }
+    .stage-tile.s3::before { background: #C4943A; }
+    .stage-tile.s4::before { background: #4A7FA0; }
+    .stage-tile.s5::before { background: #7B6BAE; }
+    .stage-tile.s6::before { background: #2A7A4E; }
 
-    .pass-emoji {
-      font-size: 28px;
-      line-height: 1;
-    }
-    .pass-num {
+    /* Ghost number — large, top-right */
+    .stage-ghost-num {
+      position: absolute;
+      top: 20px; right: 28px;
       font-family: 'Playfair Display', serif;
+      font-size: 96px;
       font-weight: 900;
-      font-size: 22px;
-      color: rgba(255,255,255,0.9);
       line-height: 1;
+      letter-spacing: -0.03em;
+      color: rgba(255,255,255,0.06);
+      pointer-events: none;
+      user-select: none;
     }
 
-    /* Dashed perforation line */
-    .pass-perf {
-      width: 1px;
-      flex-shrink: 0;
-      background: repeating-linear-gradient(
-        to bottom,
-        rgba(0,0,0,0.12) 0px, rgba(0,0,0,0.12) 5px,
-        transparent 5px, transparent 10px
-      );
-      position: relative;
-      z-index: 1;
-    }
-
-    /* White main body */
-    .pass-main {
-      flex: 1;
-      background: var(--pure);
-      border-radius: 0 12px 12px 0;
-      padding: 20px 20px 16px;
-      display: flex;
-      flex-direction: column;
-    }
-    .pass-stage-label {
-      font-weight: 500;
-      font-size: 9px;
+    /* Stage label */
+    .stage-eyebrow {
+      font-size: 10px;
+      font-weight: 600;
       letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: var(--text-muted);
-      margin-bottom: 6px;
+      margin-bottom: 20px;
     }
-    .pass-title {
-      font-family: 'Playfair Display', serif;
-      font-weight: 700;
-      font-size: 17px;
-      color: var(--ink);
-      margin-bottom: 8px;
-      line-height: 1.2;
-    }
-    .pass-desc {
-      font-weight: 300;
-      font-size: 13px;
-      color: var(--text-secondary);
-      line-height: 1.6;
-      flex: 1;
-    }
-    .pass-footer {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      margin-top: 14px;
-      padding-top: 12px;
-      border-top: 1px dashed rgba(0,0,0,0.1);
-      font-weight: 500;
-      font-size: 10px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-    }
-    .pass-footer-arrow { font-size: 12px; }
+    .stage-tile.s1 .stage-eyebrow { color: #E8622A; }
+    .stage-tile.s2 .stage-eyebrow { color: #5A8A70; }
+    .stage-tile.s3 .stage-eyebrow { color: #C4943A; }
+    .stage-tile.s4 .stage-eyebrow { color: #4A7FA0; }
+    .stage-tile.s5 .stage-eyebrow { color: #7B6BAE; }
+    .stage-tile.s6 .stage-eyebrow { color: #2A7A4E; }
 
-    /* Stage accent colours */
-    .pass-s1 .pass-stub { background: #E8622A; }
-    .pass-s2 .pass-stub { background: #5A8A70; }
-    .pass-s3 .pass-stub { background: #C4943A; }
-    .pass-s4 .pass-stub { background: #4A7FA0; }
-    .pass-s5 .pass-stub { background: #7B6BAE; }
-    .pass-s6 .pass-stub { background: #2A7A4E; }
+    .stage-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(22px, 2vw, 28px);
+      font-weight: 700;
+      color: var(--pure);
+      margin-bottom: 16px;
+      line-height: 1.15;
+    }
+    .stage-desc {
+      font-size: 15px;
+      font-weight: 300;
+      color: rgba(250,247,242,0.60);
+      line-height: 1.75;
+    }
 
     /* Lock badge on Stage 5 */
-    .pass-lock {
+    .stage-lock {
       display: inline-flex;
       align-items: center;
-      gap: 4px;
-      background: #FFF3E0;
-      color: #C4943A;
-      font-weight: 500;
+      gap: 5px;
+      background: rgba(123,107,174,0.18);
+      color: rgba(183,167,214,0.9);
       font-size: 9px;
-      letter-spacing: 0.1em;
+      font-weight: 600;
+      letter-spacing: 0.10em;
       text-transform: uppercase;
-      padding: 3px 8px;
-      border-radius: 4px;
-      margin-top: 8px;
+      padding: 4px 10px;
+      margin-top: 16px;
       width: fit-content;
     }
 
     .stages-note {
-      margin-top: 40px;
-      padding: 16px 24px;
-      background: #FFF8F0;
-      border-left: 3px solid var(--ember);
-      border-radius: 0 4px 4px 0;
-      font-weight: 300;
+      margin-top: 48px;
+      text-align: center;
       font-size: 13px;
+      font-weight: 300;
       font-style: italic;
-      color: var(--text-secondary);
+      color: rgba(250,247,242,0.38);
     }
-
     /* ================================
        6. WINTER'S STORY — Editorial
     ================================ */
@@ -1476,6 +1353,16 @@
       .pass-title { font-size: 15px; }
       .pass-desc { font-size: 12px; }
 
+      /* Process bento grid — mobile: single column */
+      #process { padding: 72px 0; }
+      .stages-grid { grid-template-columns: 1fr; }
+      .stage-tile { border-right: none !important; }
+      .stage-tile:nth-child(5),
+      .stage-tile:nth-child(6) { border-bottom: 1px solid rgba(255,255,255,0.08); }
+      .stage-tile:last-child { border-bottom: none; }
+      .stage-ghost-num { font-size: 64px; }
+      .process-header { margin-bottom: 52px; }
+
       /* Winter banner — mobile: stack vertically */
       #winter { padding: 64px 0; }
       .winter-banner { grid-template-columns: 1fr; }
@@ -1676,148 +1563,67 @@
   </section>
 
   <!-- ================================
-       5. HOW IT WORKS
+       5. SIX STAGES
   ================================ -->
   <section id="process">
     <div class="container">
-      <div class="process-header">
-        <p class="eyebrow reveal">The Process</p>
-        <h2 class="reveal" style="transition-delay:.1s">Six stages. One new life.</h2>
+      <div class="process-header reveal">
+        <p class="eyebrow">The Process</p>
+        <h2>Six stages.<br>One new life.</h2>
       </div>
 
-      <div class="carousel" id="stageCarousel">
-        <button class="carousel-btn carousel-btn-prev" id="stagePrev" aria-label="Previous stage">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
-        </button>
-        <button class="carousel-btn carousel-btn-next" id="stageNext" aria-label="Next stage">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
-        </button>
+      <div class="stages-grid">
 
-        <div class="carousel-viewport">
-          <div class="carousel-track" id="stageTrack">
-
-        <div class="pass pass-s1">
-          <div class="pass-stub">
-            <span class="pass-emoji">🐱</span>
-            <span class="pass-num">01</span>
-          </div>
-          <div class="pass-perf"></div>
-          <div class="pass-main">
-            <div class="pass-stage-label">Stage 01</div>
-            <h3 class="pass-title">The Profile</h3>
-            <p class="pass-desc">Give the cat an identity. Photos, video, GPS tag, and a shareable adoption card.</p>
-            <div class="pass-footer">
-              <span>Found</span>
-              <span class="pass-footer-arrow">✈</span>
-              <span>Discovered</span>
-            </div>
-          </div>
+        <div class="stage-tile s1 reveal">
+          <span class="stage-ghost-num">01</span>
+          <p class="stage-eyebrow">Stage 01</p>
+          <h3 class="stage-title">The Profile</h3>
+          <p class="stage-desc">Give the cat an identity. Photos, video, GPS tag, and a shareable adoption card that travels with them.</p>
         </div>
 
-        <div class="pass pass-s2">
-          <div class="pass-stub">
-            <span class="pass-emoji">📋</span>
-            <span class="pass-num">02</span>
-          </div>
-          <div class="pass-perf"></div>
-          <div class="pass-main">
-            <div class="pass-stage-label">Stage 02</div>
-            <h3 class="pass-title">The Match</h3>
-            <p class="pass-desc">Confirm an adopter. Auto-generate country-specific document requirements.</p>
-            <div class="pass-footer">
-              <span>Stray</span>
-              <span class="pass-footer-arrow">✈</span>
-              <span>Claimed</span>
-            </div>
-          </div>
+        <div class="stage-tile s2 reveal" style="transition-delay:.07s">
+          <span class="stage-ghost-num">02</span>
+          <p class="stage-eyebrow">Stage 02</p>
+          <h3 class="stage-title">The Match</h3>
+          <p class="stage-desc">Confirm an adopter. The app auto-generates country-specific document requirements for the destination.</p>
         </div>
 
-        <div class="pass pass-s3">
-          <div class="pass-stub">
-            <span class="pass-emoji">💛</span>
-            <span class="pass-num">03</span>
-          </div>
-          <div class="pass-perf"></div>
-          <div class="pass-main">
-            <div class="pass-stage-label">Stage 03</div>
-            <h3 class="pass-title">The Fund</h3>
-            <p class="pass-desc">Track vet and flight costs in real-time. Linked to GoFundMe or PayPal.</p>
-            <div class="pass-footer">
-              <span>0%</span>
-              <span class="pass-footer-arrow">✈</span>
-              <span>Funded</span>
-            </div>
-          </div>
+        <div class="stage-tile s3 reveal" style="transition-delay:.14s">
+          <span class="stage-ghost-num">03</span>
+          <p class="stage-eyebrow">Stage 03</p>
+          <h3 class="stage-title">The Fund</h3>
+          <p class="stage-desc">Track vet bills and flight costs in real-time. Linked to GoFundMe or PayPal — fully transparent to the community.</p>
         </div>
 
-        <div class="pass pass-s4">
-          <div class="pass-stub">
-            <span class="pass-emoji">✈️</span>
-            <span class="pass-num">04</span>
-          </div>
-          <div class="pass-perf"></div>
-          <div class="pass-main">
-            <div class="pass-stage-label">Stage 04</div>
-            <h3 class="pass-title">The Flight Parent</h3>
-            <p class="pass-desc">A traveler posts their itinerary. A match is made. A 3-way chat opens.</p>
-            <div class="pass-footer">
-              <span>Origin</span>
-              <span class="pass-footer-arrow">✈</span>
-              <span>Destination</span>
-            </div>
-          </div>
+        <div class="stage-tile s4 reveal" style="transition-delay:.21s">
+          <span class="stage-ghost-num">04</span>
+          <p class="stage-eyebrow">Stage 04</p>
+          <h3 class="stage-title">The Flight Parent</h3>
+          <p class="stage-desc">A traveler posts their itinerary. A match is made. A three-way chat opens between volunteer, traveler, and adopter.</p>
         </div>
 
-        <div class="pass pass-s5">
-          <div class="pass-stub">
-            <span class="pass-emoji">📍</span>
-            <span class="pass-num">05</span>
-          </div>
-          <div class="pass-perf"></div>
-          <div class="pass-main">
-            <div class="pass-stage-label">Stage 05</div>
-            <h3 class="pass-title">The Journey</h3>
-            <p class="pass-desc">Four live checkpoints with photo proof: Prep → Handover → Landing → Home.</p>
-            <span class="pass-lock">🔒 Requires stages 2 &amp; 3</span>
-          </div>
+        <div class="stage-tile s5 reveal" style="transition-delay:.28s">
+          <span class="stage-ghost-num">05</span>
+          <p class="stage-eyebrow">Stage 05</p>
+          <h3 class="stage-title">The Journey</h3>
+          <p class="stage-desc">Four live checkpoints with photo proof: Prep → Handover → Landing → Home. The whole community watches.</p>
+          <span class="stage-lock">&#128274; Requires stages 2 &amp; 3</span>
         </div>
 
-        <div class="pass pass-s6">
-          <div class="pass-stub">
-            <span class="pass-emoji">🌟</span>
-            <span class="pass-num">06</span>
-          </div>
-          <div class="pass-perf"></div>
-          <div class="pass-main">
-            <div class="pass-stage-label">Stage 06</div>
-            <h3 class="pass-title">The Happy Tail</h3>
-            <p class="pass-desc">Profile moves to the global gallery. Before &amp; After. A wall of second chances.</p>
-            <div class="pass-footer">
-              <span>Rescue</span>
-              <span class="pass-footer-arrow">✈</span>
-              <span>Forever home</span>
-            </div>
-          </div>
+        <div class="stage-tile s6 reveal" style="transition-delay:.35s">
+          <span class="stage-ghost-num">06</span>
+          <p class="stage-eyebrow">Stage 06</p>
+          <h3 class="stage-title">The Happy Tail</h3>
+          <p class="stage-desc">The profile moves to the global gallery. Rescue photo vs. new-life photo. A wall of second chances, forever.</p>
         </div>
 
-          </div><!-- /carousel-track -->
-        </div><!-- /carousel-viewport -->
+      </div><!-- /stages-grid -->
 
-        <div class="carousel-dots" id="stageDots">
-          <button class="c-dot" data-idx="0"></button>
-          <button class="c-dot" data-idx="1"></button>
-          <button class="c-dot" data-idx="2"></button>
-          <button class="c-dot" data-idx="3"></button>
-          <button class="c-dot" data-idx="4"></button>
-          <button class="c-dot" data-idx="5"></button>
-        </div>
-      </div><!-- /carousel -->
+      <p class="stages-note reveal">Flights cannot be arranged until documents and funding are fully verified. Enforced by the app.</p>
 
-      <p class="stages-note reveal">
-        <em>Flights cannot be arranged until documents and funding are fully verified. This is enforced by the app.</em>
-      </p>
     </div>
   </section>
+
 
   <!-- ================================
        6. WINTER'S STORY — Banner + Modal
@@ -2274,61 +2080,6 @@
     document.querySelectorAll('.stat-num[data-target]').forEach(el => countObserver.observe(el));
 
     // ================================
-    // STAGE CAROUSEL
-    // ================================
-    (function () {
-      const track   = document.getElementById('stageTrack');
-      const passes  = [...track.querySelectorAll('.pass')];
-      const dots    = [...document.querySelectorAll('#stageDots .c-dot')];
-      const btnPrev = document.getElementById('stagePrev');
-      const btnNext = document.getElementById('stageNext');
-      let current   = 0;
-
-      function goTo(idx) {
-        current = Math.max(0, Math.min(idx, passes.length - 1));
-
-        // Active / adjacent classes
-        passes.forEach((p, i) => {
-          p.classList.remove('is-active', 'is-adjacent');
-          if (i === current)                    p.classList.add('is-active');
-          else if (Math.abs(i - current) === 1) p.classList.add('is-adjacent');
-        });
-        dots.forEach((d, i) => d.classList.toggle('active', i === current));
-
-        btnPrev.disabled = current === 0;
-        btnNext.disabled = current === passes.length - 1;
-
-        // Center the active card in the viewport
-        const vw  = track.parentElement.offsetWidth;
-        const cw  = passes[0].offsetWidth;
-        const gap = 24;
-        const tx  = -( current * (cw + gap) - (vw - cw) / 2 );
-        track.style.transform = `translateX(${tx}px)`;
-      }
-
-      btnPrev.addEventListener('click', () => goTo(current - 1));
-      btnNext.addEventListener('click', () => goTo(current + 1));
-      dots.forEach((d, i) => d.addEventListener('click', () => goTo(i)));
-
-      // Swipe support
-      let touchStartX = 0;
-      track.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
-      track.addEventListener('touchend',   e => {
-        const diff = touchStartX - e.changedTouches[0].clientX;
-        if (Math.abs(diff) > 40) goTo(current + (diff > 0 ? 1 : -1));
-      });
-
-      // Keyboard support
-      document.addEventListener('keydown', e => {
-        if (e.key === 'ArrowRight') goTo(current + 1);
-        if (e.key === 'ArrowLeft')  goTo(current - 1);
-      });
-
-      // Recalculate on resize
-      window.addEventListener('resize', () => goTo(current), { passive: true });
-
-      goTo(0);
-    })();
 
 
     // ================================
