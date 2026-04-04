@@ -1271,7 +1271,9 @@
       height: 180px;
       position: relative;
       overflow: hidden;
-      border-top: 1px solid rgba(255,255,255,0.06);
+      border-top: none;
+      -webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+      mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
     }
     .fa-tagline {
       position: absolute;
@@ -1286,11 +1288,12 @@
       font-family: 'Playfair Display', serif;
       font-style: italic;
       font-weight: 700;
-      font-size: clamp(28px, 4vw, 52px);
-      color: rgba(255,255,255,0.10);
-      line-height: 1.2;
-      letter-spacing: -0.01em;
+      font-size: clamp(40px, 6vw, 88px);
+      color: rgba(255,255,255,0.08);
+      line-height: 1;
+      letter-spacing: -0.02em;
       text-align: center;
+      white-space: nowrap;
     }
     .fa-ground {
       position: absolute;
