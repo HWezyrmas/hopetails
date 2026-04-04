@@ -1278,6 +1278,114 @@
       color: var(--sand);
     }
 
+    /* Cat animation strip */
+    .footer-animation {
+      width: 100%;
+      height: 120px;
+      position: relative;
+      overflow: hidden;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .fa-ground {
+      position: absolute;
+      bottom: 26px; left: 0;
+      width: 100%; height: 1px;
+      background: rgba(201,185,154,0.18);
+    }
+    .fa-cat-wrapper {
+      position: absolute;
+      bottom: 24px;
+      animation: faCatWalk 9s linear infinite, faCatJump 9s ease-in-out infinite;
+    }
+    @keyframes faCatWalk {
+      0%   { left: -140px; }
+      100% { left: calc(100% + 160px); }
+    }
+    @keyframes faCatJump {
+      0%,  60% { bottom: 24px; }
+      68%      { bottom: 66px; }
+      76%      { bottom: 24px; }
+      100%     { bottom: 24px; }
+    }
+    .fa-cat-svg { animation: faCatBob 0.4s ease-in-out infinite alternate; }
+    @keyframes faCatBob {
+      0%   { transform: translateY(0px) rotate(-1.5deg); }
+      100% { transform: translateY(-5px) rotate(1.5deg); }
+    }
+    .fa-tail {
+      transform-origin: 2px 0px;
+      animation: faTailWag 0.5s ease-in-out infinite alternate;
+    }
+    @keyframes faTailWag {
+      0%   { transform: rotate(-15deg); }
+      100% { transform: rotate(20deg); }
+    }
+    .fa-leg-fl {
+      transform-origin: 2px 0px;
+      animation: faLegSwingF 0.4s ease-in-out infinite alternate;
+    }
+    .fa-leg-fr {
+      transform-origin: 2px 0px;
+      animation: faLegSwingF 0.4s ease-in-out infinite alternate-reverse;
+    }
+    @keyframes faLegSwingF {
+      0%   { transform: rotate(-22deg); }
+      100% { transform: rotate(22deg); }
+    }
+    .fa-leg-bl {
+      transform-origin: 2px 0px;
+      animation: faLegSwingB 0.4s ease-in-out infinite alternate-reverse;
+    }
+    .fa-leg-br {
+      transform-origin: 2px 0px;
+      animation: faLegSwingB 0.4s ease-in-out infinite alternate;
+    }
+    @keyframes faLegSwingB {
+      0%   { transform: rotate(-22deg); }
+      100% { transform: rotate(22deg); }
+    }
+    /* Butterfly */
+    .fa-bfly-wrapper {
+      position: absolute;
+      animation: faBflyPath 9s linear infinite;
+    }
+    @keyframes faBflyPath {
+      0%   { left: -30px;              bottom: 78px; }
+      15%  {                           bottom: 106px; }
+      30%  {                           bottom: 82px; }
+      50%  {                           bottom: 112px; }
+      70%  {                           bottom: 88px; }
+      85%  {                           bottom: 104px; }
+      100% { left: calc(100% + 60px); bottom: 78px; }
+    }
+    .fa-wing-left {
+      transform-origin: right center;
+      animation: faWflapL 0.2s ease-in-out infinite alternate;
+    }
+    .fa-wing-right {
+      transform-origin: left center;
+      animation: faWflapR 0.2s ease-in-out infinite alternate;
+    }
+    @keyframes faWflapL {
+      0%   { transform: scaleX(1) rotate(-5deg); }
+      100% { transform: scaleX(0.2) rotate(5deg); }
+    }
+    @keyframes faWflapR {
+      0%   { transform: scaleX(1) rotate(5deg); }
+      100% { transform: scaleX(0.2) rotate(-5deg); }
+    }
+    .fa-motion-lines {
+      position: absolute;
+      right: 28px; top: 6px;
+      opacity: 0;
+      animation: faMotionShow 9s linear infinite;
+    }
+    @keyframes faMotionShow {
+      0%, 10%  { opacity: 0; }
+      20%, 80% { opacity: 0.45; }
+      90%, 100%{ opacity: 0; }
+    }
+
     .footer-bottom {
       display: flex;
       align-items: center;
@@ -1976,6 +2084,80 @@
           <p class="footer-text">HopeTails is a volunteer-powered platform. We believe every cat deserves a second chance, no matter where in the world they were born.</p>
         </div>
       </div>
+
+      <!-- Cat animation strip -->
+      <div class="footer-animation">
+
+        <!-- Butterfly -->
+        <div class="fa-bfly-wrapper">
+          <div class="fa-motion-lines">
+            <svg width="20" height="18" viewBox="0 0 20 18" fill="none">
+              <line x1="18" y1="4"  x2="2"  y2="4"  stroke="#E8622A" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="20" y1="9"  x2="2"  y2="9"  stroke="#E8622A" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="18" y1="14" x2="2"  y2="14" stroke="#E8622A" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <svg width="44" height="36" viewBox="0 0 44 36" fill="none">
+            <g class="fa-wing-left">
+              <path d="M20 14 Q8 2 4 10 Q0 18 12 20 Q16 21 20 18" stroke="#E8622A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            </g>
+            <g class="fa-wing-left">
+              <path d="M20 18 Q10 22 8 28 Q6 34 16 32 Q20 30 20 24" stroke="#E8622A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            </g>
+            <g class="fa-wing-right">
+              <path d="M24 14 Q36 2 40 10 Q44 18 32 20 Q28 21 24 18" stroke="#E8622A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            </g>
+            <g class="fa-wing-right">
+              <path d="M24 18 Q34 22 36 28 Q38 34 28 32 Q24 30 24 24" stroke="#E8622A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            </g>
+            <ellipse cx="22" cy="18" rx="2.5" ry="7" stroke="#E8622A" stroke-width="2" fill="none"/>
+            <path d="M21 12 Q18 7 16 4" stroke="#E8622A" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+            <path d="M23 12 Q26 7 28 4" stroke="#E8622A" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+            <circle cx="16" cy="4" r="2" stroke="#E8622A" stroke-width="1.5" fill="none"/>
+            <circle cx="28" cy="4" r="2" stroke="#E8622A" stroke-width="1.5" fill="none"/>
+          </svg>
+        </div>
+
+        <!-- Cat -->
+        <div class="fa-cat-wrapper">
+          <svg class="fa-cat-svg" width="100" height="90" viewBox="0 0 100 90" fill="none">
+            <g class="fa-tail" style="transform-origin: 30px 38px;">
+              <path d="M30 38 Q10 30 6 18 Q4 8 12 10" stroke="#C9B99A" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+            </g>
+            <ellipse cx="52" cy="42" rx="22" ry="14" stroke="#C9B99A" stroke-width="2.5" fill="none"/>
+            <line x1="52" y1="28" x2="52" y2="38" stroke="#C9B99A" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="52" cy="20" r="13" stroke="#C9B99A" stroke-width="2.5" fill="none"/>
+            <path d="M42 10 L38 2 L46 8" stroke="#C9B99A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <path d="M62 10 L66 2 L58 8" stroke="#C9B99A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <circle cx="47" cy="19" r="2" fill="#C9B99A"/>
+            <circle cx="57" cy="19" r="2" fill="#C9B99A"/>
+            <path d="M50 24 L52 26 L54 24" stroke="#C9B99A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <path d="M49 27 Q52 30 55 27" stroke="#C9B99A" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+            <line x1="36" y1="22" x2="46" y2="23" stroke="#C9B99A" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="36" y1="25" x2="46" y2="25" stroke="#C9B99A" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="58" y1="23" x2="68" y2="22" stroke="#C9B99A" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="58" y1="25" x2="68" y2="25" stroke="#C9B99A" stroke-width="1.5" stroke-linecap="round"/>
+            <g class="fa-leg-bl" style="transform-origin: 36px 52px;">
+              <path d="M36 52 Q32 68 28 72" stroke="#C9B99A" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+              <path d="M24 72 Q28 76 32 72" stroke="#C9B99A" stroke-width="2" stroke-linecap="round" fill="none"/>
+            </g>
+            <g class="fa-leg-br" style="transform-origin: 44px 54px;">
+              <path d="M44 54 Q42 70 40 74" stroke="#C9B99A" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+              <path d="M36 74 Q40 78 44 74" stroke="#C9B99A" stroke-width="2" stroke-linecap="round" fill="none"/>
+            </g>
+            <g class="fa-leg-fl" style="transform-origin: 62px 52px;">
+              <path d="M62 52 Q66 68 70 72" stroke="#C9B99A" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+              <path d="M66 72 Q70 76 74 72" stroke="#C9B99A" stroke-width="2" stroke-linecap="round" fill="none"/>
+            </g>
+            <g class="fa-leg-fr" style="transform-origin: 68px 50px;">
+              <path d="M68 50 Q72 66 76 70" stroke="#C9B99A" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+              <path d="M72 70 Q76 74 80 70" stroke="#C9B99A" stroke-width="2" stroke-linecap="round" fill="none"/>
+            </g>
+          </svg>
+        </div>
+
+        <div class="fa-ground"></div>
+      </div><!-- /footer-animation -->
 
       <div class="footer-bottom">
         <span>© 2025 HopeTails</span>
