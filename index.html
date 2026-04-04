@@ -1047,7 +1047,7 @@
       --ph-h: 578px;
       --ph-offset: 60px;
       gap: 33px;      /* Apple's exact gap */
-      padding-bottom: 96px;
+      padding-bottom: 140px; /* extra room for role labels */
     }
 
     /* Each phone (Apple's .hero-iphone-lockup + .device) */
@@ -1086,6 +1086,30 @@
       background: url('iphone-mockup.png') no-repeat 0 0 / 501px 710px;
       z-index: 2;
       pointer-events: none;
+    }
+
+    /* Role label below each phone */
+    .phone-role {
+      position: absolute;
+      top: calc(var(--ph-h) + 24px);
+      left: 0;
+      width: var(--ph-w);
+      text-align: center;
+      z-index: 3;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      color: #1d1d1f;
+      white-space: nowrap;
+    }
+    .phone-role span {
+      display: block;
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #6e6e73;
+      margin-top: 3px;
     }
 
     /* ================================
@@ -1481,6 +1505,7 @@
       .phone-showcase { --ph-w: 143px; --ph-h: 289px; --ph-offset: 30px; gap: 16px; padding-bottom: 64px; }
       .phone-screen { top: 9px; left: 8px; width: 128px; height: 274px; border-radius: 10px; }
       .phone-hw { width: 250px; height: 355px; background-size: 250px 355px; }
+      .phone-role { display: none; }
       .roles-header { margin-bottom: 52px; padding: 0 24px; }
       .roles-header h2 { font-size: 40px; line-height: 1.025; letter-spacing: 0; }
 
@@ -1922,34 +1947,40 @@
       <div class="roles-header reveal">
         <p class="eyebrow">The App</p>
         <h2>Built for every<br>hero in the story.</h2>
+        <p>Rescuer. Volunteer. Traveler. Adopter.<br>Every role has a home here.</p>
       </div>
     </div>
 
     <div class="phone-showcase">
 
       <figure class="phone-device">
-        <div class="phone-screen"><img src="app1.jpeg" alt="Flights" /></div>
+        <div class="phone-screen"><img src="app1.jpeg" alt="Flights screen" /></div>
         <div class="phone-hw"></div>
+        <figcaption class="phone-role">The Traveler<span>Flight Parent</span></figcaption>
       </figure>
 
       <figure class="phone-device">
-        <div class="phone-screen"><img src="app3.jpeg" alt="Journeys" /></div>
+        <div class="phone-screen"><img src="app3.jpeg" alt="Journeys screen" /></div>
         <div class="phone-hw"></div>
+        <figcaption class="phone-role">The Volunteer<span>Rescue Coordinator</span></figcaption>
       </figure>
 
       <figure class="phone-device">
-        <div class="phone-screen"><img src="app2.jpeg" alt="Discover" /></div>
+        <div class="phone-screen"><img src="app2.jpeg" alt="Discover screen" /></div>
         <div class="phone-hw"></div>
+        <figcaption class="phone-role">The Adopter<span>Forever Home</span></figcaption>
       </figure>
 
       <figure class="phone-device">
-        <div class="phone-screen"><img src="app3.jpeg" alt="Journeys" /></div>
+        <div class="phone-screen"><img src="app3.jpeg" alt="Journeys screen" /></div>
         <div class="phone-hw"></div>
+        <figcaption class="phone-role">The Route Expert<span>Logistics &amp; Docs</span></figcaption>
       </figure>
 
       <figure class="phone-device">
-        <div class="phone-screen"><img src="app1.jpeg" alt="Flights" /></div>
+        <div class="phone-screen"><img src="app1.jpeg" alt="Flights screen" /></div>
         <div class="phone-hw"></div>
+        <figcaption class="phone-role">The Rescuer<span>First Responder</span></figcaption>
       </figure>
 
     </div>
